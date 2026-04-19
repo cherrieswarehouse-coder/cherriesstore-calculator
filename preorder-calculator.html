@@ -153,13 +153,13 @@ input[type=month]:focus,input[type=date]:focus{border-color:var(--navy);box-shad
 
 /* CATALOG TABLE */
 .catalog-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--nb)}
-.catalog-table{border-collapse:collapse;width:100%;min-width:600px;font-size:12px}
+.catalog-table{border-collapse:collapse;width:100%;font-size:12px;table-layout:auto}
 .catalog-table thead tr{background:var(--navy)}
 .catalog-table thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
 .catalog-table tbody tr:nth-child(even){background:#f8f9ff}
 .catalog-table tbody tr:hover{background:var(--navy-light)}
-.catalog-table td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:normal;word-break:break-word}
-.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:80px;white-space:normal;word-break:break-word}
+.catalog-table td{padding:7px 12px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:normal;word-break:break-word;max-width:none}
+.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:140px;white-space:normal;word-break:break-word}
 .catalog-table td input:focus{background:var(--navy-light);border-radius:4px}
 .no-data{text-align:center;padding:30px;color:var(--hint);font-size:13px}
 
@@ -748,6 +748,8 @@ function delSettingItem(type,i){
 
 // ─── CALC TAB PILLS ───────────────────────
 var CLOSE_DATE_KEYWORDS=['วันที่แน่นอน'];
+function closeNeedsDate(cl){return CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});}
+function getCloseDateLabel(cl){return cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';}
 function renderCalcPills(){
   renderChoicePills();renderShipPills();renderDetailPills();renderClosePills();
 }
@@ -781,7 +783,7 @@ function renderDetailPills(){
 function renderClosePills(){
   var c=document.getElementById('close-pills');if(!c)return;c.innerHTML='';
   SD.closes.forEach(function(cl,i){
-    var needsDate=CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});
+    var needsDate=closeNeedsDate(cl);
     var b=document.createElement('button');
     b.className='opt-pill'+(i===0?' active':'');
     b.textContent=cl;
@@ -792,23 +794,16 @@ function renderClosePills(){
       b.classList.add('active');
       var row=document.getElementById('close-date-row');
       row.style.display=needsDate?'block':'none';
-      if(needsDate){
-        document.getElementById('close-date-label').textContent=
-          cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
-      }
+      if(needsDate)document.getElementById('close-date-label').textContent=getCloseDateLabel(cl);
     };
     c.appendChild(b);
   });
-  // sync date-row to whichever pill is active after render
+  // sync on render
   var active=c.querySelector('.opt-pill.active');
   if(active){
     var nd=active.dataset.needsDate==='1';
     document.getElementById('close-date-row').style.display=nd?'block':'none';
-    if(nd){
-      var activeCl=active.dataset.cl||active.textContent;
-      document.getElementById('close-date-label').textContent=
-        activeCl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
-    }
+    if(nd)document.getElementById('close-date-label').textContent=getCloseDateLabel(active.dataset.cl||active.textContent);
   }
 }
 
@@ -869,16 +864,21 @@ function renderTitlesTable(data){
   var tb=document.getElementById('titles-tbody');if(!tb)return;
   if(src.length===0){tb.innerHTML='<tr><td colspan="4" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
   tb.innerHTML='';
+  var widths=['30%','25%','40%'];
   src.forEach(function(t,i){
     var realIdx=CAT.titles.indexOf(t);
     var tr=document.createElement('tr');
-    ['name','kw','hash'].forEach(function(k){
+    ['name','kw','hash'].forEach(function(k,ki){
       var td=document.createElement('td');
-      var inp=document.createElement('input');inp.type='text';inp.value=t[k]||'';
+      td.style.width=widths[ki];
+      var inp=document.createElement('input');
+      inp.type='text';inp.value=t[k]||'';
+      inp.style.cssText='border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:0';
       inp.onchange=function(){t[k]=this.value;saveCatalogToSheet();};
       td.appendChild(inp);tr.appendChild(td);
     });
     var tdDel=document.createElement('td');
+    tdDel.style.width='5%';
     tdDel.innerHTML='<button class="del-btn" onclick="delTitle('+realIdx+')">✕</button>';
     tr.appendChild(tdDel);tb.appendChild(tr);
   });
@@ -900,16 +900,22 @@ function renderProductsTableData(data){
   var tb=document.getElementById('products-tbody');if(!tb)return;
   if(!data||data.length===0){tb.innerHTML='<tr><td colspan="8" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
   tb.innerHTML='';
-  data.forEach(function(p,i){
+  var widths=['15%','15%','15%','10%','20%','8%','8%','5%'];
+  var keys=['cat','mfr','line','size','kw','weight','profit'];
+  data.forEach(function(p){
     var realIdx=CAT.products.indexOf(p);
     var tr=document.createElement('tr');
-    ['cat','mfr','line','size','kw','weight','profit'].forEach(function(k){
+    keys.forEach(function(k,ki){
       var td=document.createElement('td');
-      var inp=document.createElement('input');inp.type='text';inp.value=p[k]||'';
+      td.style.width=widths[ki];
+      var inp=document.createElement('input');
+      inp.type='text';inp.value=p[k]||'';
+      inp.style.cssText='border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:0';
       inp.onchange=function(){p[k]=this.value;saveCatalogToSheet();};
       td.appendChild(inp);tr.appendChild(td);
     });
     var tdDel=document.createElement('td');
+    tdDel.style.width=widths[7];
     tdDel.innerHTML='<button class="del-btn" onclick="delProduct('+realIdx+')">✕</button>';
     tr.appendChild(tdDel);tb.appendChild(tr);
   });
