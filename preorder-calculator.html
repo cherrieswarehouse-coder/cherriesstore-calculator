@@ -158,8 +158,8 @@ input[type=month]:focus,input[type=date]:focus{border-color:var(--navy);box-shad
 .catalog-table thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
 .catalog-table tbody tr:nth-child(even){background:#f8f9ff}
 .catalog-table tbody tr:hover{background:var(--navy-light)}
-.catalog-table td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:nowrap}
-.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:60px}
+.catalog-table td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:normal;word-break:break-word}
+.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:80px;white-space:normal;word-break:break-word}
 .catalog-table td input:focus{background:var(--navy-light);border-radius:4px}
 .no-data{text-align:center;padding:30px;color:var(--hint);font-size:13px}
 
@@ -439,7 +439,6 @@ table.dtable td a{color:var(--navy);text-decoration:none}
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
     <input type="text" class="search-inp" id="catalog-search" placeholder="🔍 ค้นหาจากทั้ง 2 ตาราง — ชื่อเรื่อง, keyword, category..." oninput="filterCatalog()" style="flex:1;min-width:200px">
     <div class="sync-status" id="catalog-sync-status" style="font-size:11.5px;color:var(--muted);white-space:nowrap">—</div>
-    <button class="sync-btn" onclick="loadCatalog()">🔄 โหลด Sheet</button>
   </div>
 </div>
 
@@ -508,7 +507,6 @@ table.dtable td a{color:var(--navy);text-decoration:none}
   <div class="card-header"><div class="card-icon">📊</div><div><div class="card-title">ข้อมูล Orders</div><div class="card-sub">ดึงจาก Google Sheet tab Orders</div></div></div>
   <div class="data-toolbar">
     <input type="text" class="search-inp" id="data-search" placeholder="🔍 ค้นหาชื่อสินค้า, Anime, ราคา..." oninput="filterTable()" style="flex:1">
-    <button class="sync-btn" onclick="loadSheetData()">🔄 โหลดข้อมูล</button>
   </div>
   <!-- STATUS FILTER -->
   <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
@@ -616,8 +614,9 @@ function setStatusFilter(f,btn){
 // ─── BOOT ─────────────────────────────────
 window.onload=function(){
   loadRates();
-  loadSettings();   // from Sheet
-  loadCatalog();    // from Sheet
+  loadSettings();
+  loadCatalog();
+  loadSheetData();
   renderCalcPills();
 };
 
@@ -627,8 +626,8 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  if(id==='data'&&allSheetRows.length===0)loadSheetData();
-  if(id==='catalog'&&CAT.titles.length===0&&CAT.products.length===0)loadCatalog();
+  if(id==='data')loadSheetData();
+  if(id==='catalog')loadCatalog();
   if(id==='settings'&&SD.choices.length===0)loadSettings();
 }
 
