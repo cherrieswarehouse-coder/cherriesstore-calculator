@@ -214,6 +214,13 @@ table.dtable td a{color:var(--navy);text-decoration:none}
 .oc-toggle-closed{background:#fee2e2;color:#dc2626;border:1.5px solid #fca5a5}
 .oc-toggle-closed:hover{background:#dc2626;color:#fff}
 .oc-card-closed{opacity:0.55}
+.sw-wrap{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.sw-track{width:40px;height:22px;border-radius:11px;background:#d1d5db;border:none;position:relative;cursor:pointer;transition:background 0.22s;flex-shrink:0;padding:0;outline:none}
+.sw-track.on{background:#16a34a}
+.sw-track::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.22s;box-shadow:0 1px 3px rgba(0,0,0,0.25)}
+.sw-track.on::after{transform:translateX(18px)}
+.sw-lbl{font-size:11.5px;font-weight:700}
+.sw-lbl.on{color:#166a3d}.sw-lbl.off{color:#9ca3cc}
 @media(max-width:520px){.order-grid{grid-template-columns:1fr}}
 
 @media(max-width:520px){
@@ -1360,12 +1367,15 @@ function renderOrderCards(rows){
       ?'<span class="oc-status-closed">🔴 ปิดรับ</span>'
       :'<span class="oc-status-open">🟢 เปิดรับ</span>';
 
-    // toggle button — escape for onclick
+    // switch toggle
     var rd=escH(String(rawDate)).replace(/'/g,'&#39;');
     var nm=escH(name).replace(/'/g,'&#39;');
-    var toggleBtn=isClosed
-      ?'<button class="oc-toggle-btn oc-toggle-open" onclick="toggleStatus(this,\''+rd+'\',\''+nm+'\')">เปิดรับอีกครั้ง</button>'
-      :'<button class="oc-toggle-btn oc-toggle-closed" onclick="toggleStatus(this,\''+rd+'\',\''+nm+'\')">ปิดรับออเดอร์</button>';
+    var an=escH(anime).replace(/'/g,'&#39;');
+    var isOn=!isClosed;
+    var toggleBtn='<div class="sw-wrap" onclick="toggleStatus(this,\''+rd+'\',\''+nm+'\',\''+an+'\','+isOn+')">'
+      +'<button class="sw-track'+(isOn?' on':'')+'" type="button"></button>'
+      +'<span class="sw-lbl '+(isOn?'on':'off')+'">'+(isOn?'เปิดรับ':'ปิดรับ')+'</span>'
+      +'</div>';
 
     var actHtml='';
     if(url)actHtml+='<a class="oc-btn" href="'+escH(url)+'" target="_blank">🔗 ลิงก์สินค้า</a>';
