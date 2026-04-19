@@ -613,16 +613,6 @@ function setStatusFilter(f,btn){
   filterTable();
 }
 
-function updateOrderStatus(rowDate,rowName,newStatus){
-  if(!sheetOk())return;
-  fetch(SHEET_URL,{
-    method:'POST',
-    body:JSON.stringify({action:'updateStatus',date:rowDate,productName:rowName,status:newStatus}),
-    headers:{'Content-Type':'text/plain'}
-  }).then(function(r){return r.json();})
-  .catch(function(){console.error('update status failed');});
-}
-
 // ─── BOOT ─────────────────────────────────
 window.onload=function(){
   loadRates();
@@ -706,7 +696,7 @@ function saveSettingsToSheet(){
   SD.ships.forEach(function(v){items.push({type:'ship',value:v});});
   SD.details.forEach(function(v){items.push({type:'detail',value:v});});
   SD.closes.forEach(function(v){items.push({type:'closed',value:v});});
-  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveSettings',items:items}),headers:{'Content-Type':'text/plain'}})
+  fetch(SHEET_URL,{method:'POST',redirect:'follow',body:JSON.stringify({action:'saveSettings',items:items}),headers:{'Content-Type':'text/plain'}})
     .then(function(r){return r.json();})
     .then(function(d){
       if(d.status==='ok')setSyncStatus(['choice','ship','detail','closed'],'✅ บันทึกแล้ว');
@@ -848,7 +838,7 @@ function saveCatalogToSheet(){
       category:p.cat||'',manufacturer:p.mfr||'',productLine:p.line||'',
       size:p.size||'',catalogSearchKeyword:p.kw||'',weight:p.weight||'',profit:p.profit||''});
   }
-  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveCatalog',items:items}),headers:{'Content-Type':'text/plain'}})
+  fetch(SHEET_URL,{method:'POST',redirect:'follow',body:JSON.stringify({action:'saveCatalog',items:items}),headers:{'Content-Type':'text/plain'}})
     .then(function(r){return r.json();})
     .then(function(d){
       var msg=d.status==='ok'?'✅ บันทึกแล้ว':'❌ บันทึกไม่สำเร็จ';
@@ -1262,7 +1252,7 @@ function saveToSheet(){
   if(!sheetOk()){st.style.color='#b45309';st.textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL';return;}
   if(!window._lastPost){st.textContent='⚠️ กรุณาสร้างโพสต์ก่อน';return;}
   st.style.color='var(--ok-t)';st.textContent='⏳ กำลังบันทึก...';
-  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
+  fetch(SHEET_URL,{method:'POST',redirect:'follow',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
     .then(function(r){return r.json();})
     .then(function(d){st.textContent=d.status==='ok'?'✅ บันทึกสำเร็จ!':'❌ Error';})
     .catch(function(){st.style.color='var(--err)';st.textContent='❌ บันทึกไม่สำเร็จ';});
@@ -1405,23 +1395,34 @@ function renderOrderCards(rows){
   });
 }
 
-function toggleStatus(btn,rawDate,name){
-  var card=btn.closest('.order-card');
-  var isClosed=card.classList.contains('oc-card-closed');
-  var newStatus=isClosed?'open':'closed';
-  card.classList.toggle('oc-card-closed',newStatus==='closed');
+function toggleStatus(el,rawDate,name,anime,currentOn){
+  var card=el.closest('.order-card');
+  var newOn=!currentOn;
+  var newStatus=newOn?'open':'closed';
+  // update UI
+  card.classList.toggle('oc-card-closed',!newOn);
+  var track=el.querySelector('.sw-track');
+  var lbl=el.querySelector('.sw-lbl');
   var badge=card.querySelector('.oc-status-open,.oc-status-closed');
-  if(newStatus==='closed'){
-    if(badge){badge.className='oc-status-closed';badge.textContent='🔴 ปิดรับ';}
-    btn.className='oc-toggle-btn oc-toggle-open';btn.textContent='เปิดรับอีกครั้ง';
-  } else {
-    if(badge){badge.className='oc-status-open';badge.textContent='🟢 เปิดรับ';}
-    btn.className='oc-toggle-btn oc-toggle-closed';btn.textContent='ปิดรับออเดอร์';
-  }
+  if(track)track.classList.toggle('on',newOn);
+  if(lbl){lbl.className='sw-lbl '+(newOn?'on':'off');lbl.textContent=newOn?'เปิดรับ':'ปิดรับ';}
+  if(badge){badge.className=newOn?'oc-status-open':'oc-status-closed';badge.textContent=newOn?'🟢 เปิดรับ':'🔴 ปิดรับ';}
+  // flip currentOn for next click
+  el.setAttribute('onclick','toggleStatus(this,\''+rawDate+'\',\''+name+'\',\''+anime+'\','+newOn+')');
+  // update allSheetRows
   allSheetRows.forEach(function(row){
-    if(String(row[0])===rawDate&&row[1]===name)row[19]=newStatus;
+    if(row[1]===name&&row[2]===anime)row[19]=newStatus;
   });
-  updateOrderStatus(rawDate,name,newStatus);
+  // sync to Sheet
+  if(!sheetOk())return;
+  fetch(SHEET_URL,{
+    method:'POST',
+    redirect:'follow',
+    body:JSON.stringify({action:'updateStatus',productName:name,animeTitle:anime,status:newStatus}),
+    headers:{'Content-Type':'text/plain'}
+  }).then(function(r){return r.json();})
+  .then(function(d){console.log('status updated:',d.status);})
+  .catch(function(e){console.error('update status failed',e);});
 }
 </script>
 </body>
