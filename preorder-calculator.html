@@ -782,16 +782,34 @@ function renderClosePills(){
   var c=document.getElementById('close-pills');if(!c)return;c.innerHTML='';
   SD.closes.forEach(function(cl,i){
     var needsDate=CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});
-    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');b.textContent=cl;
+    var b=document.createElement('button');
+    b.className='opt-pill'+(i===0?' active':'');
+    b.textContent=cl;
+    b.dataset.needsDate=needsDate?'1':'0';
+    b.dataset.cl=cl;
     b.onclick=function(){
       c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
       b.classList.add('active');
       var row=document.getElementById('close-date-row');
       row.style.display=needsDate?'block':'none';
-      if(needsDate)document.getElementById('close-date-label').textContent=cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
+      if(needsDate){
+        document.getElementById('close-date-label').textContent=
+          cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
+      }
     };
     c.appendChild(b);
   });
+  // sync date-row to whichever pill is active after render
+  var active=c.querySelector('.opt-pill.active');
+  if(active){
+    var nd=active.dataset.needsDate==='1';
+    document.getElementById('close-date-row').style.display=nd?'block':'none';
+    if(nd){
+      var activeCl=active.dataset.cl||active.textContent;
+      document.getElementById('close-date-label').textContent=
+        activeCl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
+    }
+  }
 }
 
 // ─── CATALOG (Sheet) ──────────────────────
