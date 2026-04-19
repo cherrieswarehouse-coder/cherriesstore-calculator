@@ -12,144 +12,204 @@
   --nb:rgba(54,65,137,0.18);--nbs:rgba(54,65,137,0.30);
   --bg:#f5f6fc;--surface:#fff;--text:#1a1f3d;--muted:#5a6299;--hint:#9ca3cc;
   --ok-bg:#edfaf3;--ok-b:#7ecfa5;--ok-t:#166a3d;
+  --err:#dc2626;--err-bg:#fee2e2;--err-b:#fca5a5;
+  --warn-bg:#fff8ed;--warn-b:#f5c97a;--warn-t:#8b5200;
   --r:12px;--rs:8px;
 }
 body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
 
 /* NAV */
 .navbar{background:var(--navy);padding:0 20px;height:58px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(54,65,137,0.3)}
-.nav-logo{font-size:20px}.nav-title{font-size:16px;font-weight:700;color:#fff;flex:1}
-.nav-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px}
-.tab-bar{background:var(--navy-dark);display:flex;padding:0 16px;position:sticky;top:58px;z-index:199;border-bottom:2px solid rgba(255,255,255,0.08)}
-.tab-btn{height:44px;padding:0 18px;font-family:inherit;font-size:13px;font-weight:600;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.nav-logo{font-size:20px}.nav-title{font-size:16px;font-weight:700;color:#fff;flex:1}.nav-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px}
+.tab-bar{background:var(--navy-dark);display:flex;padding:0 12px;position:sticky;top:58px;z-index:199;border-bottom:2px solid rgba(255,255,255,0.08);overflow-x:auto;gap:0}
+.tab-btn{height:44px;padding:0 14px;font-family:inherit;font-size:12px;font-weight:600;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0}
 .tab-btn:hover{color:rgba(255,255,255,0.85)}.tab-btn.active{color:#fff;border-bottom-color:#fff}
 .tab-content{display:none}.tab-content.active{display:block}
 
 /* LAYOUT */
-.container{max-width:680px;margin:0 auto;padding:16px 16px 0}
-.card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);padding:20px;margin-bottom:12px}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--nb)}
+.container{max-width:700px;margin:0 auto;padding:16px 16px 0}
+.card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);padding:18px;margin-bottom:12px}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--nb)}
+.card-icon{font-size:16px;flex-shrink:0}.card-title{font-size:14px;font-weight:700;color:var(--text)}.card-sub{font-size:11px;color:var(--hint);margin-top:1px}
 .step-badge{width:22px;height:22px;background:var(--navy);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card-title{font-size:14px;font-weight:700;color:var(--text)}.card-sub{font-size:11px;color:var(--hint);margin-top:1px}
-.field{margin-bottom:13px}.field:last-child{margin-bottom:0}
-label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:0.02em}
-input[type=text],input[type=number],input[type=url],textarea{width:100%;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;transition:border-color 0.15s,box-shadow 0.15s}
-input[type=text],input[type=number],input[type=url]{height:40px}
-textarea{padding:10px 12px;resize:vertical;min-height:68px;line-height:1.6}
-input:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.field{margin-bottom:12px}.field:last-child{margin-bottom:0}
+label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;letter-spacing:0.02em}
+input[type=text],input[type=number],input[type=url],textarea,select{width:100%;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color 0.15s,box-shadow 0.15s;height:36px}
+textarea{padding:8px 10px;resize:vertical;min-height:60px;height:auto;line-height:1.6}
+input:focus,textarea:focus,select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
 input::placeholder,textarea::placeholder{color:var(--hint)}
 input[readonly]{background:#f8f9ff;color:var(--muted)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.hint{font-size:11.5px;color:var(--hint);margin-top:5px;line-height:1.5}
+input.invalid{border-color:var(--err)!important;box-shadow:0 0 0 3px rgba(220,38,38,0.12)!important}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.hint{font-size:11px;color:var(--hint);margin-top:4px;line-height:1.5}
+.req{color:var(--err);margin-left:2px}
 
 /* IMAGE */
-.img-upload-area{border:2px dashed var(--nbs);border-radius:var(--rs);padding:22px 16px;text-align:center;cursor:pointer;transition:all 0.15s;position:relative;background:var(--navy-light)}
+.img-upload-area{border:2px dashed var(--nbs);border-radius:var(--rs);padding:18px 14px;text-align:center;cursor:pointer;transition:all 0.15s;position:relative;background:var(--navy-light)}
 .img-upload-area:hover{border-color:var(--navy);background:#e4e8fd}
 .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .img-ph{font-size:13px;color:var(--muted);pointer-events:none}
-.img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:var(--rs);display:none;margin-top:10px}
+.img-preview{width:100%;max-height:160px;object-fit:contain;border-radius:var(--rs);display:none;margin-top:8px}
 
-/* SEARCHABLE DROPDOWN */
+/* DROPDOWN */
 .dropdown-wrap{position:relative}
-.dropdown-input{width:100%;height:40px;padding:0 36px 0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.dropdown-input{width:100%;height:36px;padding:0 32px 0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
 .dropdown-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
 .dropdown-input::placeholder{color:var(--hint)}
-.dropdown-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--hint);pointer-events:none;font-size:11px}
-.dropdown-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--nbs);border-radius:var(--rs);box-shadow:0 4px 20px rgba(54,65,137,0.15);z-index:300;max-height:220px;overflow-y:auto;display:none}
+.dropdown-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--hint);pointer-events:none;font-size:10px}
+.dropdown-list{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--surface);border:1px solid var(--nbs);border-radius:var(--rs);box-shadow:0 4px 20px rgba(54,65,137,0.15);z-index:300;max-height:200px;overflow-y:auto;display:none}
 .dropdown-list.open{display:block}
-.dl-item{padding:9px 14px;font-size:13px;cursor:pointer;transition:background 0.1s;color:var(--text)}
-.dl-item:hover,.dl-item.active{background:var(--navy-light);color:var(--navy)}
+.dl-item{padding:8px 12px;font-size:13px;cursor:pointer;transition:background 0.1s;color:var(--text)}
+.dl-item:hover{background:var(--navy-light);color:var(--navy)}
 .dl-item-sub{font-size:11px;color:var(--hint);margin-top:1px}
-.dl-empty{padding:10px 14px;font-size:13px;color:var(--hint)}
+.dl-empty{padding:8px 12px;font-size:13px;color:var(--hint)}
 
 /* MODE TOGGLE */
-.mode-toggle{display:flex;border:1.5px solid var(--nbs);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
-.mt-btn{flex:1;height:36px;font-family:inherit;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;border-right:1px solid var(--nb)}
+.mode-toggle{display:flex;border:1px solid var(--nbs);border-radius:var(--rs);overflow:hidden;margin-bottom:12px}
+.mt-btn{flex:1;height:34px;font-family:inherit;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;border-right:1px solid var(--nb)}
 .mt-btn:last-child{border-right:none}.mt-btn.active{background:var(--navy);color:#fff}
 
-/* PRICE RESULT */
+/* PRICE CARDS */
 .price-result{display:none;margin-top:10px}
 .price-result.show{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pr-card{border-radius:var(--rs);padding:13px 14px;border:1px solid}
+.pr-card{border-radius:var(--rs);padding:12px;border:1.5px solid;cursor:pointer;transition:box-shadow 0.15s}
+.pr-card.selected{box-shadow:0 0 0 2px var(--navy)}
 .pr-sea{background:#eef6ff;border-color:#b8d9f8}.pr-air{background:#fff7ee;border-color:#f8d9b8}
-.pr-icon{font-size:16px;margin-bottom:3px}
-.pr-label{font-size:10.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
-.pr-val{font-size:20px;font-weight:700;letter-spacing:-0.02em}
+.pr-icon{font-size:14px;margin-bottom:2px}.pr-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px}
+.pr-val{font-size:18px;font-weight:700;letter-spacing:-0.02em}
 .pr-sea .pr-val{color:#185fa5}.pr-air .pr-val{color:#b85e00}
-.pr-breakdown{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6}
+.pr-breakdown{font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.5}
 
 /* PILLS */
-.opt-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.opt-pill{padding:6px 13px;border:1.5px solid var(--nbs);border-radius:20px;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;transition:all 0.15s;white-space:nowrap;line-height:1.4}
+.opt-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.opt-pill{padding:5px 11px;border:1.5px solid var(--nbs);border-radius:20px;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .opt-pill:hover{border-color:var(--navy-mid);color:var(--navy)}
 .opt-pill.active{border-color:var(--navy);background:var(--navy);color:#fff}
 
-/* JP SHIP AMOUNT INPUT (inline in detail) */
-.detail-jp-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
-.detail-jp-row label{margin:0;white-space:nowrap;font-size:12px}
-.detail-jp-row input{width:100px;height:32px;font-size:13px}
+/* DATE/MONTH */
+input[type=month],input[type=date]{height:36px;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
+input[type=month]:focus,input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.tba-toggle{display:flex;align-items:center;gap:5px;margin-top:5px;cursor:pointer;user-select:none;font-size:11.5px;color:var(--muted);font-weight:600}
+.tba-toggle input[type=checkbox]{accent-color:var(--navy);width:13px;height:13px;cursor:pointer}
 
-/* DATE MONTH FIELD */
-.month-field{position:relative}
-.month-field input{padding-right:36px}
-.month-field-icon{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--hint);font-size:14px;pointer-events:none}
-input[type=month]{height:40px;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
-input[type=month]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
-input[type=date]{height:40px;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
-input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+/* CLOSE DATE */
+.close-date-row{margin-top:8px;display:none;padding:8px 10px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
 
-/* CLOSE DATE PICKER */
-.close-date-row{margin-top:10px;display:none;padding:10px 12px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
-.close-date-row label{margin-bottom:6px}
+/* DETAIL JP */
+.detail-jp-row{display:flex;align-items:center;gap:6px;margin-top:6px;padding:6px 10px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
+.detail-jp-row label{margin:0;white-space:nowrap;font-size:11.5px}
+.detail-jp-row input{width:80px;height:30px;font-size:13px}
 
-/* GEN BUTTON */
-.gen-btn{width:100%;height:50px;font-size:15px;font-weight:700;font-family:inherit;background:var(--navy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.15s,transform 0.1s;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+/* VALIDATION */
+.val-error{background:var(--err-bg);border:1px solid var(--err-b);border-radius:var(--rs);padding:10px 14px;font-size:12.5px;color:var(--err);margin-bottom:10px;display:none;line-height:1.7}
+.val-error.show{display:block}
+
+/* BUTTONS */
+.gen-btn{width:100%;height:48px;font-size:15px;font-weight:700;font-family:inherit;background:var(--navy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.15s,transform 0.1s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
 .gen-btn:hover{background:var(--navy-dark)}.gen-btn:active{transform:scale(0.99)}
 
 /* OUTPUT */
 .output-section{display:none}.output-section.show{display:block}
-.output-card{background:var(--surface);border:2px solid var(--navy);border-radius:var(--r);padding:20px;margin-bottom:12px}
-.out-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px}
-.post-text{white-space:pre-wrap;font-size:14px;line-height:1.9;color:var(--text);border:1px solid var(--nb);border-radius:var(--rs);padding:14px;background:var(--bg);font-family:'Noto Sans Thai',sans-serif}
-.action-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.copy-btn{height:38px;padding:0 18px;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid var(--navy);border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s}
-.copy-btn:hover{background:var(--navy-dark)}.copy-btn.copied{background:var(--ok-bg);color:var(--ok-t);border-color:var(--ok-b)}
-.sheet-send-btn{height:38px;padding:0 16px;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid #16a34a;border-radius:var(--rs);background:var(--ok-bg);color:#166534;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s}
-.sheet-send-btn:hover{background:#16a34a;color:#fff}
-.post-img-preview{width:100%;max-height:200px;object-fit:contain;border-radius:var(--rs);margin-bottom:12px;display:none}
+.output-card{background:var(--surface);border:2px solid var(--navy);border-radius:var(--r);padding:18px;margin-bottom:12px}
+.out-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px}
+.post-text{white-space:pre-wrap;font-size:14px;line-height:1.9;color:var(--text);border:1px solid var(--nb);border-radius:var(--rs);padding:12px;background:var(--bg);font-family:'Noto Sans Thai',sans-serif}
+.action-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.abtn{height:36px;padding:0 14px;font-size:12px;font-weight:600;font-family:inherit;border-radius:var(--rs);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all 0.15s;white-space:nowrap;border:none}
+.abtn-navy{background:var(--navy);color:#fff;border:1.5px solid var(--navy)}.abtn-navy:hover{background:var(--navy-dark)}
+.abtn-green{background:var(--ok-bg);color:#166534;border:1.5px solid var(--ok-b)}.abtn-green:hover{background:#16a34a;color:#fff}
+.abtn-x{background:#000;color:#fff}.abtn-x:hover{background:#333}
+.abtn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff}.abtn-ig:hover{opacity:0.88}
+.abtn-navy.copied{background:var(--ok-bg);color:var(--ok-t);border-color:var(--ok-b)}
+.post-img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:var(--rs);margin-bottom:10px;display:none}
+.s-status{font-size:11.5px;margin-top:6px;min-height:16px}
 
-/* SETTINGS */
-.settings-stitle{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
-.settings-stitle::after{content:'';flex:1;height:1px;background:var(--nb)}
-.settings-stitle:first-child{margin-top:0}
-.list-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--nb);margin-bottom:6px}
+/* SETTINGS - RATES */
+.rate-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--nb);border-radius:var(--rs);margin-bottom:6px}
+.rate-row-info{flex:1;min-width:0}.rate-row-label{font-size:13px;font-weight:600;color:var(--text)}.rate-row-sub{font-size:11px;color:var(--hint)}
+.rate-inp{width:72px!important;min-width:72px!important;max-width:72px!important;height:30px;padding:0 8px;font-size:13px;font-family:inherit;border:1px solid var(--nbs);border-radius:6px;color:var(--text);background:var(--surface);outline:none;text-align:center;flex-shrink:0}
+.rate-inp:focus{border-color:var(--navy)}.rate-unit{font-size:11.5px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.stitle{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--nb)}.stitle:first-child{margin-top:0}
+
+/* SETTINGS - LISTS */
+.list-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--nb);margin-bottom:5px}
 .list-item-main{flex:1;min-width:0}
 .li-name{font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .li-sub{font-size:11px;color:var(--hint);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.del-btn{width:28px;height:28px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.del-btn{width:26px;height:26px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .del-btn:hover{background:#fee2e2;color:#dc2626}
-.add-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.add-row input{flex:1;min-width:0;height:36px}
-.add-btn{height:36px;padding:0 14px;font-family:inherit;font-size:12px;font-weight:700;border:none;border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
+.add-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.add-row input,.add-row select{flex:1;min-width:0;height:34px;font-size:13px}
+.add-btn{height:34px;padding:0 12px;font-family:inherit;font-size:12px;font-weight:700;border:none;border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
 .add-btn:hover{background:var(--navy-dark)}
-.rate-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--nb);border-radius:var(--rs);margin-bottom:8px}
-.rate-item-info{flex:1}.rate-item-label{font-size:13px;font-weight:600;color:var(--text)}.rate-item-sub{font-size:11px;color:var(--hint);margin-top:1px}
-.rate-item-inp{width:80px;height:32px;padding:0 8px;font-size:13px;font-family:inherit;border:1px solid var(--nbs);border-radius:6px;color:var(--text);background:var(--surface);outline:none;text-align:center;flex-shrink:0}
-.rate-item-inp:focus{border-color:var(--navy)}.rate-item-unit{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
-.sheet-config{background:#f0fdf4;border:1px solid #86efac;border-radius:var(--r);padding:16px;margin-bottom:12px}
-.sheet-title{font-size:12px;font-weight:700;color:#166534;margin-bottom:10px}
-.sheet-inp-row{display:flex;gap:8px}
-.sheet-inp-row input{flex:1;height:38px}
-.save-url-btn{height:38px;padding:0 16px;font-size:12px;font-weight:700;font-family:inherit;border:none;border-radius:var(--rs);background:#16a34a;color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
-.save-url-btn:hover{background:#15803d}
-.s-status{font-size:12px;margin-top:6px;min-height:18px}
+.sync-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.sync-status{font-size:11.5px;color:var(--muted)}
+.sync-btn{height:30px;padding:0 12px;font-size:11.5px;font-weight:600;font-family:inherit;border:1px solid var(--nbs);border-radius:var(--rs);background:var(--surface);color:var(--navy);cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.sync-btn:hover{background:var(--navy-light)}
+.warn-badge{background:var(--warn-bg);border:1px solid var(--warn-b);color:var(--warn-t);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.dup-warn{font-size:11.5px;color:var(--warn-t);margin-top:4px;display:none}
+.dup-warn.show{display:block}
+
+/* CATALOG TABLE */
+.catalog-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--nb)}
+.catalog-table{border-collapse:collapse;width:100%;min-width:600px;font-size:12px}
+.catalog-table thead tr{background:var(--navy)}
+.catalog-table thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
+.catalog-table tbody tr:nth-child(even){background:#f8f9ff}
+.catalog-table tbody tr:hover{background:var(--navy-light)}
+.catalog-table td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:nowrap}
+.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:60px}
+.catalog-table td input:focus{background:var(--navy-light);border-radius:4px}
+.no-data{text-align:center;padding:30px;color:var(--hint);font-size:13px}
+
+/* DATA TABLE */
+.data-toolbar{display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+.search-inp{flex:1;min-width:160px;height:34px;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none}
+.search-inp:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.data-table-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--nb)}
+table.dtable{border-collapse:collapse;width:100%;min-width:700px;font-size:12px}
+table.dtable thead tr{background:var(--navy)}
+table.dtable thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
+table.dtable tbody tr:nth-child(even){background:#f8f9ff}
+table.dtable tbody tr:hover{background:var(--navy-light)}
+table.dtable td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:top;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table.dtable td a{color:var(--navy);text-decoration:none}
+.td-img img{width:36px;height:36px;object-fit:cover;border-radius:4px}
 .code-block{background:#1e293b;color:#94a3b8;border-radius:var(--rs);padding:12px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.7;white-space:pre;overflow-x:auto;margin-top:8px}
 
-@media(max-width:480px){
-  .row2{grid-template-columns:1fr}
+/* ORDER CARDS */
+.order-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.order-card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);overflow:hidden;transition:box-shadow 0.15s}
+.order-card:hover{box-shadow:0 4px 16px rgba(54,65,137,0.12)}
+.oc-img{width:100%;height:130px;object-fit:cover;display:block}
+.oc-img-ph{width:100%;height:130px;background:var(--navy-light);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--hint)}
+.oc-body{padding:12px 14px}
+.oc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:3px}
+.oc-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;flex:1}
+.oc-date{font-size:10px;color:var(--hint);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.oc-anime{font-size:11px;color:var(--navy);font-weight:600;margin-bottom:8px}
+.oc-price-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.oc-price{font-size:19px;font-weight:700;color:var(--navy)}
+.oc-deposit{font-size:11px;color:var(--muted);padding:2px 7px;background:var(--navy-light);border-radius:20px}
+.oc-type-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+.oc-type-sea{background:#eef6ff;color:#185fa5;border:1px solid #b8d9f8}
+.oc-type-air{background:#fff7ee;color:#b85e00;border:1px solid #f8d9b8}
+.oc-type-manual{background:var(--bg);color:var(--muted);border:1px solid var(--nb)}
+.oc-divider{height:1px;background:var(--nb);margin:8px 0}
+.oc-meta{display:flex;flex-wrap:wrap;gap:3px 10px;margin-bottom:4px}
+.oc-meta-item{font-size:11px;color:var(--muted)}.oc-meta-item strong{color:var(--text);font-weight:600}
+.oc-tag{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6}
+.oc-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.oc-btn{height:26px;padding:0 10px;font-size:11px;font-weight:600;font-family:inherit;border-radius:var(--rs);cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-decoration:none;border:1px solid var(--nbs);background:var(--bg);color:var(--muted);transition:all 0.15s}
+.oc-btn:hover{border-color:var(--navy);color:var(--navy);background:var(--navy-light)}
+@media(max-width:520px){.order-grid{grid-template-columns:1fr}}
+
+@media(max-width:520px){
+  .row2,.row3{grid-template-columns:1fr}
   .price-result.show{grid-template-columns:1fr}
-  .container{padding:12px 12px 0}.card{padding:16px}
-  .tab-btn{padding:0 12px;font-size:12px}
+  .container{padding:10px 10px 0}.card{padding:14px}
+  .tab-btn{padding:0 10px;font-size:11px}
   .action-row{flex-direction:column}
 }
 </style>
@@ -158,56 +218,40 @@ input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,
 
 <div class="navbar">
   <div class="nav-logo">🌸</div>
-  <div>
-    <div class="nav-title">Preorder Calculator</div>
-    <div class="nav-sub">คำนวณราคา · สร้างโพสต์ · บันทึกข้อมูล</div>
-  </div>
+  <div><div class="nav-title">Preorder Calculator</div><div class="nav-sub">คำนวณราคา · สร้างโพสต์ · บันทึกข้อมูล</div></div>
 </div>
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('calc',this)">🧮 คำนวณ / โพสต์</button>
+  <button class="tab-btn active" onclick="switchTab('calc',this)">🧮 คำนวณ/โพสต์</button>
+  <button class="tab-btn" onclick="switchTab('catalog',this)">📚 Title & Product</button>
+  <button class="tab-btn" onclick="switchTab('data',this)">📊 ข้อมูล</button>
   <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ ตั้งค่า</button>
 </div>
 
-<!-- ══════════════════════════════════════
-     TAB: CALC
-══════════════════════════════════════ -->
-<div id="tab-calc" class="tab-content active">
-<div class="container">
+<!-- ════════════ TAB: CALC ════════════ -->
+<div id="tab-calc" class="tab-content active"><div class="container">
 
-<!-- รูปภาพ -->
 <div class="card">
-  <div class="card-header"><div class="step-badge">1</div><div><div class="card-title">รูปภาพสินค้า</div></div></div>
-
-  <!-- MODE TOGGLE -->
-  <div class="mode-toggle" style="margin-bottom:14px">
+  <div class="card-header"><div class="step-badge">1</div><div><div class="card-title">รูปภาพสินค้า</div><div class="card-sub">จำเป็นสำหรับบันทึก Sheet</div></div></div>
+  <div class="mode-toggle">
     <button class="mt-btn active" id="img-mode-url-btn" onclick="setImgMode('url',this)">🔗 ใส่ลิงก์รูป</button>
-    <button class="mt-btn" id="img-mode-upload-btn" onclick="setImgMode('upload',this)">📤 อัปโหลดรูป → ImgBB</button>
+    <button class="mt-btn" id="img-mode-upload-btn" onclick="setImgMode('upload',this)">📤 อัปโหลด → ImgBB</button>
   </div>
-
-  <!-- MODE: URL -->
   <div id="img-mode-url">
-    <div class="field" style="margin-bottom:0">
-      <label>🔗 Public URL ของรูป</label>
-      <input type="url" id="img-url-inp" placeholder="https://i.ibb.co/..." oninput="onImgUrlChange()">
-    </div>
-    <img class="img-preview" id="img-preview-url" src="" alt="" style="margin-top:10px">
-    <div class="hint">วาง URL รูปที่เป็น public อยู่แล้ว เช่น จาก ImgBB, Google Drive, Discord</div>
+    <label>🔗 Public URL ของรูป<span class="req">*</span></label>
+    <input type="url" id="img-url-inp" placeholder="https://i.ibb.co/..." oninput="onImgUrlChange()">
+    <img class="img-preview" id="img-preview-url" src="" alt="" style="margin-top:8px">
   </div>
-
-  <!-- MODE: UPLOAD -->
   <div id="img-mode-upload" style="display:none">
     <div class="img-upload-area">
       <input type="file" accept="image/*" id="img-input" onchange="onImgChange(this)">
       <div class="img-ph" id="img-ph">📷 คลิกหรือลากรูปมาวาง</div>
       <img class="img-preview" id="img-preview" src="" alt="">
     </div>
-    <div class="hint" id="img-hint" style="margin-top:6px"></div>
-    <div id="imgbb-status" style="display:none;margin-top:8px;padding:8px 12px;border-radius:var(--rs);font-size:12px;font-weight:600"></div>
-    <div style="margin-top:6px;font-size:11.5px;color:var(--hint)">รูปจะถูกอัปโหลดไป ImgBB อัตโนมัติ เพื่อได้ public link บันทึกลง Google Sheet</div>
+    <div class="hint" id="img-hint" style="margin-top:5px"></div>
+    <div id="imgbb-status" style="display:none;margin-top:6px;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600"></div>
   </div>
 </div>
 
-<!-- ข้อมูลสินค้า -->
 <div class="card">
   <div class="card-header"><div class="step-badge">2</div><div><div class="card-title">ข้อมูลสินค้า</div></div></div>
   <div class="field">
@@ -215,45 +259,34 @@ input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,
     <input type="url" id="product-url" placeholder="https://...">
   </div>
   <div class="field">
-    <label>📦 ชื่อสินค้า</label>
+    <label>📦 ชื่อสินค้า<span class="req">*</span></label>
     <input type="text" id="product-name" placeholder="ชื่อสินค้า (อังกฤษ/ญี่ปุ่น)">
   </div>
-
-  <!-- SEARCHABLE DROPDOWN: Anime -->
   <div class="field">
-    <label>🎌 Anime Title / หมวดหมู่</label>
-    <div class="dropdown-wrap" id="anime-dropdown-wrap">
-      <input type="text" class="dropdown-input" id="anime-search-inp"
-        placeholder="ค้นหาหรือเลือกชื่อเรื่อง..."
-        autocomplete="off"
-        oninput="filterAnimeList()"
-        onfocus="openAnimeDropdown()"
-        onblur="closeAnimeDropdownDelayed()">
+    <label>🎌 Anime Title</label>
+    <div class="dropdown-wrap">
+      <input type="text" class="dropdown-input" id="anime-search-inp" placeholder="ค้นหาหรือเลือกชื่อเรื่อง..." autocomplete="off" oninput="filterAnimeList()" onfocus="openAnimeDropdown()" onblur="closeAnimeDropdownDelayed()">
       <div class="dropdown-arrow">▼</div>
       <div class="dropdown-list" id="anime-dropdown-list"></div>
     </div>
     <div class="hint" id="hashtag-hint"></div>
   </div>
-
   <div class="field">
-    <label>🏷️ Hashtag (อัตโนมัติเมื่อเลือกชื่อเรื่อง)</label>
+    <label>🏷️ Hashtag</label>
     <input type="text" id="hashtags" placeholder="#ตลาดนัด...">
   </div>
-
-  <!-- CHOICE: multi-select pills -->
   <div class="field">
     <label>✨ Choice / ตัวเลือก (เลือกได้หลายข้อ)</label>
     <div class="opt-pills" id="choice-pills"></div>
-    <input type="text" id="choice-custom" placeholder="หรือพิมพ์ตัวเลือกเอง..." style="margin-top:8px">
+    <input type="text" id="choice-custom" placeholder="หรือพิมพ์เอง..." style="margin-top:7px">
   </div>
 </div>
 
-<!-- คำนวณราคา -->
 <div class="card">
-  <div class="card-header"><div class="step-badge">3</div><div><div class="card-title">คำนวณราคา</div><div class="card-sub">แสดงทั้งราคาเรือและแอร์</div></div></div>
+  <div class="card-header"><div class="step-badge">3</div><div><div class="card-title">คำนวณราคา</div><div class="card-sub">เรือ vs แอร์</div></div></div>
   <div class="row2">
     <div class="field">
-      <label>💴 ราคาสินค้า (¥)</label>
+      <label>💴 ราคาสินค้า (¥)<span class="req">*</span></label>
       <input type="number" id="price-jpy" placeholder="เช่น 1650" step="1" min="0" oninput="calcBoth()">
     </div>
     <div class="field">
@@ -272,58 +305,54 @@ input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,
     </div>
   </div>
   <div class="price-result" id="price-result">
-    <div class="pr-card pr-sea">
-      <div class="pr-icon">🚢</div>
-      <div class="pr-label">ราคาแนะนำ (เรือ)</div>
-      <div class="pr-val" id="pr-sea">—</div>
-      <div class="pr-breakdown" id="pr-sea-bd"></div>
+    <div class="pr-card pr-sea" id="pr-card-sea" onclick="selectPriceType('sea')">
+      <div class="pr-icon">🚢</div><div class="pr-label">ราคาแนะนำ (เรือ)</div>
+      <div class="pr-val" id="pr-sea">—</div><div class="pr-breakdown" id="pr-sea-bd"></div>
     </div>
-    <div class="pr-card pr-air">
-      <div class="pr-icon">✈️</div>
-      <div class="pr-label">ราคาแนะนำ (แอร์)</div>
-      <div class="pr-val" id="pr-air">—</div>
-      <div class="pr-breakdown" id="pr-air-bd"></div>
+    <div class="pr-card pr-air" id="pr-card-air" onclick="selectPriceType('air')">
+      <div class="pr-icon">✈️</div><div class="pr-label">ราคาแนะนำ (แอร์)</div>
+      <div class="pr-val" id="pr-air">—</div><div class="pr-breakdown" id="pr-air-bd"></div>
     </div>
   </div>
+  <div class="hint" id="price-type-hint" style="margin-top:6px"></div>
 </div>
 
-<!-- ราคาโพสต์ -->
 <div class="card">
   <div class="card-header"><div class="step-badge">4</div><div><div class="card-title">ราคาที่ใช้ในโพสต์</div></div></div>
-  <div class="mode-toggle">
+  <div class="mode-toggle" id="price-mode-toggle">
     <button class="mt-btn active" onclick="setPriceMode('manual',this)">✏️ ใส่เอง</button>
     <button class="mt-btn" onclick="setPriceMode('sea',this)">🚢 ราคาเรือ</button>
     <button class="mt-btn" onclick="setPriceMode('air',this)">✈️ ราคาแอร์</button>
   </div>
   <div class="row2">
     <div class="field">
-      <label>💰 ราคาเต็ม (฿)</label>
+      <label>💰 ราคาเต็ม (฿)<span class="req">*</span></label>
       <input type="number" id="price-thb" placeholder="เช่น 440" step="10" min="0" oninput="autoDeposit()">
     </div>
     <div class="field">
       <label>📌 มัดจำ (฿) <span style="font-size:10px;color:var(--hint);font-weight:400">อัตโนมัติ 30% ↓10</span></label>
-      <input type="number" id="deposit-thb" placeholder="คำนวณอัตโนมัติ" step="10" min="0">
+      <input type="number" id="deposit-thb" placeholder="อัตโนมัติ" step="10" min="0" oninput="calcRemain()">
     </div>
   </div>
   <div class="hint" id="remain-hint"></div>
 </div>
 
-<!-- กำหนดการ -->
 <div class="card">
   <div class="card-header"><div class="step-badge">5</div><div><div class="card-title">กำหนดการ</div></div></div>
   <div class="row2">
     <div class="field">
       <label>🗓️ เดือนสินค้าออก</label>
       <input type="month" id="release-month" oninput="autoPaymentMonth()">
+      <label class="tba-toggle"><input type="checkbox" id="release-tba" onchange="toggleTba('release')"> TBA (รอประกาศ)</label>
     </div>
     <div class="field">
       <label>💳 เดือนจ่ายส่วนที่เหลือ</label>
       <input type="month" id="payment-month">
+      <label class="tba-toggle"><input type="checkbox" id="payment-tba" onchange="toggleTba('payment')"> TBA (รอประกาศ)</label>
     </div>
   </div>
 </div>
 
-<!-- ค่าส่งญี่ปุ่น -->
 <div class="card">
   <div class="card-header"><div class="step-badge">6</div><div><div class="card-title">ค่าส่งในญี่ปุ่น (ถ้ามี)</div></div></div>
   <div class="row2">
@@ -332,195 +361,233 @@ input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,
       <input type="number" id="jp-ship-yen" placeholder="0 = ฟรี" step="1" min="0" oninput="calcJpShip()">
     </div>
     <div class="field">
-      <label>🇹🇭 คิดเป็นบาท (¥ × 0.25 ↓10)</label>
+      <label>🇹🇭 คิดเป็นบาท (¥×0.25 ↓10)</label>
       <input type="text" id="jp-ship-thb" placeholder="อัตโนมัติ" readonly>
     </div>
   </div>
 </div>
 
-<!-- Shipping Type -->
 <div class="card">
   <div class="card-header"><div class="step-badge">7</div><div><div class="card-title">Shipping Type</div></div></div>
   <div class="opt-pills" id="ship-pills"></div>
 </div>
 
-<!-- Detail -->
 <div class="card">
   <div class="card-header"><div class="step-badge">8</div><div><div class="card-title">Detail</div></div></div>
   <div class="opt-pills" id="detail-pills"></div>
-  <!-- JP ship amount — shows only when "หารค่าส่งในญป" is selected -->
   <div class="detail-jp-row" id="detail-jp-row" style="display:none">
     <label>✶ หารค่าส่งในญป</label>
-    <input type="number" id="detail-jp-amt" placeholder="0" step="1" min="0" style="width:90px;height:32px">
+    <input type="number" id="detail-jp-amt" placeholder="0" step="1" min="0">
     <span style="font-size:13px;color:var(--muted)">฿</span>
   </div>
-  <textarea id="detail-custom" placeholder="รายละเอียดเพิ่มเติม..." style="margin-top:10px"></textarea>
+  <textarea id="detail-custom" placeholder="รายละเอียดเพิ่มเติม..." style="margin-top:8px"></textarea>
 </div>
 
-<!-- Closed -->
 <div class="card">
   <div class="card-header"><div class="step-badge">9</div><div><div class="card-title">Closed</div></div></div>
   <div class="opt-pills" id="close-pills"></div>
   <div class="close-date-row" id="close-date-row">
-    <label id="close-date-label">📅 วันที่</label>
+    <label id="close-date-label" style="margin-bottom:5px">📅 วันที่</label>
     <input type="date" id="close-date" oninput="updateCloseDateDisplay()">
     <div class="hint" id="close-date-display" style="margin-top:4px"></div>
   </div>
 </div>
 
-<!-- Generate -->
+<div class="val-error" id="val-error"></div>
 <button class="gen-btn" onclick="generatePost()">✨ สร้างโพสต์</button>
 
-<!-- Output -->
 <div class="output-section" id="output-section">
   <div class="output-card">
     <div class="out-title">📋 โพสต์สำเร็จรูป</div>
     <img class="post-img-preview" id="post-img" src="" alt="">
     <div class="post-text" id="post-output"></div>
     <div class="action-row">
-      <button class="copy-btn" id="copy-btn" onclick="copyPost()">📋 คัดลอกโพสต์</button>
-      <button class="sheet-send-btn" onclick="saveToSheet()">📊 บันทึกลง Google Sheet</button>
+      <button class="abtn abtn-navy" id="copy-btn" onclick="copyPost()">📋 คัดลอก</button>
+      <button class="abtn abtn-green" onclick="saveToSheet()">📊 บันทึก Sheet</button>
+      <button class="abtn abtn-x" onclick="shareToX()">𝕏 โพสต์บน X</button>
+      <button class="abtn abtn-ig" onclick="shareToIG()">📸 IG/FB</button>
     </div>
     <div class="s-status" id="sheet-status-calc" style="color:var(--ok-t)"></div>
   </div>
 </div>
 
-</div><!-- /container calc -->
-</div><!-- /tab-calc -->
+</div></div>
 
+<!-- ════════════ TAB: CATALOG ════════════ -->
+<div id="tab-catalog" class="tab-content"><div class="container">
 
-<!-- ══════════════════════════════════════
-     TAB: SETTINGS
-══════════════════════════════════════ -->
-<div id="tab-settings" class="tab-content">
-<div class="container">
-
-<div class="card">
-  <div class="card-header"><div style="font-size:18px">💴</div><div><div class="card-title">เรทราคา</div><div class="card-sub">ปรับค่าแล้วจะซิงค์ไปที่แท็บคำนวณอัตโนมัติ</div></div></div>
-  <div class="settings-stitle">ค่าจัดส่ง (฿/กก.)</div>
-  <div class="rate-item">
-    <div class="rate-item-info"><div class="rate-item-label">🚢 เรือ</div><div class="rate-item-sub">ช้า · ถูก</div></div>
-    <input class="rate-item-inp" type="number" id="rate-sea" value="130" step="5" min="1" oninput="saveSettings()">
-    <div class="rate-item-unit">฿/กก.</div>
-  </div>
-  <div class="rate-item">
-    <div class="rate-item-info"><div class="rate-item-label">✈️ แอร์</div><div class="rate-item-sub">เร็ว · แพง</div></div>
-    <input class="rate-item-inp" type="number" id="rate-air" value="400" step="10" min="1" oninput="saveSettings()">
-    <div class="rate-item-unit">฿/กก.</div>
-  </div>
-  <div class="settings-stitle">ค่าเงิน</div>
-  <div class="rate-item">
-    <div class="rate-item-info"><div class="rate-item-label">💴 เรทเยน</div><div class="rate-item-sub">Default ในแท็บคำนวณ</div></div>
-    <input class="rate-item-inp" type="number" id="rate-jpy-s" value="0.24" step="0.001" min="0.001" oninput="saveSettings()">
-    <div class="rate-item-unit">฿/¥</div>
-  </div>
-  <div class="settings-stitle">กำไร</div>
-  <div class="rate-item">
-    <div class="rate-item-info"><div class="rate-item-label">💰 กำไรพื้นฐาน</div><div class="rate-item-sub">ค่า Default</div></div>
-    <input class="rate-item-inp" type="number" id="rate-profit" value="30" step="5" min="0" oninput="saveSettings()">
-    <div class="rate-item-unit">฿</div>
+<!-- SEARCH BAR (searches both tables) -->
+<div class="card" style="padding:12px 16px">
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <input type="text" class="search-inp" id="catalog-search" placeholder="🔍 ค้นหาจากทั้ง 2 ตาราง — ชื่อเรื่อง, keyword, category..." oninput="filterCatalog()" style="flex:1;min-width:200px">
+    <div class="sync-status" id="catalog-sync-status" style="font-size:11.5px;color:var(--muted);white-space:nowrap">—</div>
+    <button class="sync-btn" onclick="loadCatalog()">🔄 โหลด Sheet</button>
   </div>
 </div>
 
+<!-- ANIME TITLES TABLE -->
 <div class="card">
-  <div class="card-header"><div style="font-size:18px">🎌</div><div><div class="card-title">ชื่อเรื่อง & Hashtag</div><div class="card-sub">เลือกชื่อเรื่อง → ขึ้น hashtag อัตโนมัติ</div></div></div>
-  <div id="anime-list"></div>
-  <div class="add-row">
-    <input type="text" id="add-anime-name" placeholder="ชื่อเรื่อง (เช่น Jujutsu Kaisen)">
-    <input type="text" id="add-anime-hash" placeholder="#hashtag ที่ใช้">
-    <button class="add-btn" onclick="addItem('anime')">+ เพิ่ม</button>
+  <div class="card-header"><div class="card-icon">🎌</div><div><div class="card-title">ชื่อเรื่อง & Hashtag</div><div class="card-sub">Anime Title · Search Keyword (ญี่ปุ่น) · Hashtag</div></div></div>
+  <div class="sync-bar">
+    <div class="sync-status" id="titles-sync-status" style="font-size:11.5px;color:var(--muted)">—</div>
+  </div>
+  <div class="catalog-wrap">
+    <table class="catalog-table">
+      <thead><tr><th>Anime Title</th><th>Search Keyword (JP)</th><th>Hashtag</th><th></th></tr></thead>
+      <tbody id="titles-tbody"><tr><td colspan="4" class="no-data">กด "โหลด Sheet" หรือเพิ่มรายการ</td></tr></tbody>
+    </table>
+  </div>
+  <div class="dup-warn" id="titles-dup-warn">⚠️ มีชื่อเรื่องนี้อยู่แล้ว</div>
+  <div style="margin-top:8px">
+    <div class="row3" style="margin-bottom:6px">
+      <div><label style="font-size:11px">Anime Title</label><input type="text" id="add-title-name" placeholder="เช่น Jujutsu Kaisen"></div>
+      <div><label style="font-size:11px">Search Keyword (ญี่ปุ่น)</label><input type="text" id="add-title-kw" placeholder="เช่น 呪術廻戦"></div>
+      <div><label style="font-size:11px">Hashtag</label><input type="text" id="add-title-hash" placeholder="#ตลาดนัดjjk"></div>
+    </div>
+    <button class="add-btn" onclick="addTitle()" style="width:100%">+ เพิ่มชื่อเรื่อง</button>
   </div>
 </div>
 
+<!-- PRODUCT LINES TABLE -->
 <div class="card">
-  <div class="card-header"><div style="font-size:18px">✨</div><div><div class="card-title">Choice / ตัวเลือก</div></div></div>
-  <div id="choice-list"></div>
-  <div class="add-row">
-    <input type="text" id="add-choice" placeholder="เช่น — เลือกตัวละคร">
-    <button class="add-btn" onclick="addItem('choice')">+ เพิ่ม</button>
+  <div class="card-header"><div class="card-icon">📦</div><div><div class="card-title">Weight & Product Line</div><div class="card-sub">Category · Manufacturer · Product Line · Size · Search KW (JP) · Weight · Profit</div></div></div>
+  <div class="sync-bar">
+    <div class="sync-status" id="products-sync-status" style="font-size:11.5px;color:var(--muted)">—</div>
+  </div>
+  <div class="catalog-wrap">
+    <table class="catalog-table">
+      <thead>
+        <tr><th>Category</th><th>Manufacturer</th><th>Product Line</th><th>Size</th><th>Search KW (JP)</th><th>Weight(kg)</th><th>Profit(฿)</th><th></th></tr>
+      </thead>
+      <tbody id="products-tbody"><tr><td colspan="8" class="no-data">กด "โหลด Sheet" หรือเพิ่มรายการ</td></tr></tbody>
+    </table>
+  </div>
+  <div class="dup-warn" id="products-dup-warn">⚠️ มี Product Line นี้ใน Category เดิมอยู่แล้ว</div>
+  <div style="margin-top:8px">
+    <div class="row3" style="margin-bottom:4px">
+      <div><label style="font-size:11px">Category</label><input type="text" id="add-pl-cat" placeholder="เช่น Nendoroid"></div>
+      <div><label style="font-size:11px">Manufacturer</label><input type="text" id="add-pl-mfr" placeholder="เช่น Good Smile"></div>
+      <div><label style="font-size:11px">Product Line</label><input type="text" id="add-pl-line" placeholder="เช่น Standard"></div>
+    </div>
+    <div class="row3">
+      <div><label style="font-size:11px">Size</label><input type="text" id="add-pl-size" placeholder="เช่น 100mm"></div>
+      <div><label style="font-size:11px">Search KW (ญี่ปุ่น)</label><input type="text" id="add-pl-kw" placeholder="เช่น ねんどろいど"></div>
+      <div class="row2" style="gap:6px">
+        <div><label style="font-size:11px">Weight (kg)</label><input type="number" id="add-pl-weight" placeholder="0.2" step="0.01" min="0"></div>
+        <div><label style="font-size:11px">Profit (฿)</label><input type="number" id="add-pl-profit" placeholder="30" step="5" min="0"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addProduct()" style="width:100%;margin-top:6px">+ เพิ่ม Product Line</button>
   </div>
 </div>
-
-<div class="card">
-  <div class="card-header"><div style="font-size:18px">🚢</div><div><div class="card-title">Shipping Type</div></div></div>
-  <div id="ship-list"></div>
-  <div class="add-row">
-    <input type="text" id="add-ship" placeholder="เช่น ✅ รวมค่าส่งมาไทย">
-    <button class="add-btn" onclick="addItem('ship')">+ เพิ่ม</button>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-header"><div style="font-size:18px">📝</div><div><div class="card-title">Detail</div></div></div>
-  <div id="detail-list"></div>
-  <div class="add-row">
-    <input type="text" id="add-detail" placeholder="เช่น ✶ หารค่าส่งในญป ฿">
-    <button class="add-btn" onclick="addItem('detail')">+ เพิ่ม</button>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-header"><div style="font-size:18px">🔒</div><div><div class="card-title">Closed</div></div></div>
-  <div id="close-list"></div>
-  <div class="add-row">
-    <input type="text" id="add-close" placeholder="เช่น ปิดรับตอนกดสินค้าไม่ได้">
-    <button class="add-btn" onclick="addItem('close')">+ เพิ่ม</button>
-  </div>
-</div>
-
-
 
 <div style="height:20px"></div>
 </div></div>
 
-<!-- ══════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════ -->
+<!-- ════════════ TAB: DATA ════════════ -->
+<div id="tab-data" class="tab-content"><div class="container">
+<div class="card">
+  <div class="card-header"><div class="card-icon">📊</div><div><div class="card-title">ข้อมูล Orders</div><div class="card-sub">ดึงจาก Google Sheet tab Orders</div></div></div>
+  <div class="data-toolbar">
+    <input type="text" class="search-inp" id="data-search" placeholder="🔍 ค้นหาชื่อสินค้า, Anime, ราคา..." oninput="filterTable()">
+    <button class="sync-btn" onclick="loadSheetData()">🔄 โหลดข้อมูล</button>
+  </div>
+  <div class="s-status" id="data-status" style="margin-bottom:8px;color:var(--muted)"></div>
+  <div id="order-cards-wrap">
+    <div class="no-data" style="padding:30px;text-align:center;color:var(--hint);font-size:13px">กด "โหลดข้อมูล" เพื่อดึงข้อมูลจาก Sheet</div>
+  </div>
+</div>
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ════════════ TAB: SETTINGS ════════════ -->
+<div id="tab-settings" class="tab-content"><div class="container">
+
+<!-- RATES (localStorage only) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">💴</div><div><div class="card-title">เรทราคา</div><div class="card-sub">เก็บใน browser · ซิงค์แท็บคำนวณอัตโนมัติ</div></div></div>
+  <div class="stitle">ค่าจัดส่ง (฿/กก.)</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">🚢 เรือ</div><div class="rate-row-sub">ช้า · ถูก</div></div><input class="rate-inp" type="number" id="rate-sea" value="130" step="5" min="1" oninput="saveRates()"><div class="rate-unit">฿/กก.</div></div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">✈️ แอร์</div><div class="rate-row-sub">เร็ว · แพง</div></div><input class="rate-inp" type="number" id="rate-air" value="400" step="10" min="1" oninput="saveRates()"><div class="rate-unit">฿/กก.</div></div>
+  <div class="stitle">ค่าเงิน</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">💴 เรทเยน</div><div class="rate-row-sub">Default ในแท็บคำนวณ</div></div><input class="rate-inp" type="number" id="rate-jpy-s" value="0.24" step="0.001" min="0.001" oninput="saveRates()"><div class="rate-unit">฿/¥</div></div>
+  <div class="stitle">กำไร</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">💰 กำไรพื้นฐาน</div><div class="rate-row-sub">Default</div></div><input class="rate-inp" type="number" id="rate-profit" value="30" step="5" min="0" oninput="saveRates()"><div class="rate-unit">฿</div></div>
+</div>
+
+<!-- CHOICES (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">✨</div><div><div class="card-title">Choice / ตัวเลือก</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="choice-sync-status">—</div></div>
+  <div id="choice-list"></div>
+  <div class="dup-warn" id="choice-dup-warn">⚠️ มีตัวเลือกนี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-choice" placeholder="เช่น — เลือกตัวละคร">
+    <button class="add-btn" onclick="addSettingItem('choice')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- SHIPPING (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">🚢</div><div><div class="card-title">Shipping Type</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="ship-sync-status">—</div></div>
+  <div id="ship-list"></div>
+  <div class="dup-warn" id="ship-dup-warn">⚠️ มี Shipping Type นี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-ship" placeholder="เช่น ✅ รวมค่าส่งมาไทย">
+    <button class="add-btn" onclick="addSettingItem('ship')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- DETAIL (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">📝</div><div><div class="card-title">Detail</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="detail-sync-status">—</div></div>
+  <div id="detail-list"></div>
+  <div class="dup-warn" id="detail-dup-warn">⚠️ มี Detail นี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-detail" placeholder="เช่น ✶ หารค่าส่งในญป ฿">
+    <button class="add-btn" onclick="addSettingItem('detail')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- CLOSED (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">🔒</div><div><div class="card-title">Closed</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="closed-sync-status">—</div></div>
+  <div id="closed-list"></div>
+  <div class="dup-warn" id="closed-dup-warn">⚠️ มีเงื่อนไขนี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-closed" placeholder="เช่น ปิดรับตอนกดสินค้าไม่ได้">
+    <button class="add-btn" onclick="addSettingItem('closed')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ════════════ JAVASCRIPT ════════════ -->
 <script>
-// ─── CONFIG (แก้ได้ที่นี่) ────────────────
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyL5fzKOmsXY1yD8H1Y33EwjArWo228_ZUaxq26tJiPH5bYIsJLtUIQj-MPIjB1-Trn/exec';
+// ─── CONFIG ───────────────────────────────
+var SHEET_URL='https://script.google.com/macros/s/AKfycbwo69c99Hqq00IIxsmyZ5TyWWpnEC9eX5wdqFN-U1jdXdaVZH8uV2Gnaw5jaMJM-Iue/exec';
+var IMGBB_KEY='a356d17feea0dd610d21b0e6fc4d96ed';
 
-// ─── STATE ───────────────────────────────
-var S = {
-  rateSea:130, rateAir:400, rateJpy:0.24, rateProfit:30,
-  animes:[
-    {name:'Jujutsu Kaisen', hash:'#ตลาดนัดjjk #ตลาดนัดจจส'},
-    {name:'Demon Slayer', hash:'#ตลาดนัดds #ตลาดนัดkny'},
-    {name:'Haikyuu!!', hash:'#ตลาดนัดhq #ตลาดนัดไฮคิว'}
-  ],
-  choices:['— เลือกตัวละคร','— เลือกตัวแถม','— เลือกของแถม','— ล็อตลดราคา','— มีของแถม'],
-  ships:['✅ รวมค่าส่งมาไทย','❌ ไม่รวมค่าส่งมาไทย 🚢 "ขีดละ 25฿"'],
-  details:['✶ หารค่าส่งในญป ฿','📩 รายการอื่น ๆ สอบถามราคาเพิ่มเติมทาง DM'],
-  closes:['ปิดรับตอนกดสินค้าไม่ได้','กดทุก ๆ ยอดส่งฟรี','คาดว่าเป็นสินค้าแย่งกด เปิดให้กด (วันที่แน่นอน)','ปิดรับ (วันที่แน่นอน)']
+// ─── STATE ────────────────────────────────
+var R={rateSea:130,rateAir:400,rateJpy:0.24,rateProfit:30}; // rates (localStorage)
+var SD={choices:[],ships:[],details:[],closes:[]}; // settings (Sheet)
+var CAT={titles:[],products:[]}; // catalog (Sheet)
+var priceMode='manual',priceType='',calcCache={};
+var imgMode='url',imgDataUrl=null,imgPublicUrl=null;
+var selectedAnime=null;
+var allSheetRows=[];
+
+// ─── BOOT ─────────────────────────────────
+window.onload=function(){
+  loadRates();
+  loadSettings();   // from Sheet
+  loadCatalog();    // from Sheet
+  renderCalcPills();
 };
-var priceMode='manual', calcCache={};
-var selectedAnime=null; // {name, hash}
-
-// ─── INIT ────────────────────────────────
-function loadSettings(){
-  try{var st=localStorage.getItem('po-v3');if(st)S=JSON.parse(st);}catch(e){}
-  syncFormFromS(); renderAll();
-}
-function saveSettings(){
-  S.rateSea=parseFloat(document.getElementById('rate-sea').value)||130;
-  S.rateAir=parseFloat(document.getElementById('rate-air').value)||400;
-  S.rateJpy=parseFloat(document.getElementById('rate-jpy-s').value)||0.24;
-  S.rateProfit=parseFloat(document.getElementById('rate-profit').value)||30;
-  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
-  syncCalcDefaults(); calcBoth();
-}
-function syncFormFromS(){
-  document.getElementById('rate-sea').value=S.rateSea;
-  document.getElementById('rate-air').value=S.rateAir;
-  document.getElementById('rate-jpy-s').value=S.rateJpy;
-  document.getElementById('rate-profit').value=S.rateProfit;
-  syncCalcDefaults();
-}
-function syncCalcDefaults(){
-  document.getElementById('rate-jpy-inp').value=S.rateJpy;
-  document.getElementById('profit-inp').value=S.rateProfit;
-  document.getElementById('rate-from-settings').textContent='(จากตั้งค่า: '+S.rateJpy+')';
-}
 
 // ─── TABS ─────────────────────────────────
 function switchTab(id,btn){
@@ -528,335 +595,472 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
+  if(id==='data')loadSheetData();
 }
 
-// ─── RENDER ───────────────────────────────
-function renderAll(){
-  renderAnimeList();
-  renderList('choice-list',S.choices,'choice');
-  renderList('ship-list',S.ships,'ship');
-  renderList('detail-list',S.details,'detail');
-  renderList('close-list',S.closes,'close');
-  renderChoicePills();
-  renderShipPills();
-  renderDetailPills();
-  renderClosePills();
-  renderAnimeDropdownList('');
+// ─── RATES (localStorage) ─────────────────
+function loadRates(){
+  try{var r=localStorage.getItem('po-rates');if(r)R=JSON.parse(r);}catch(e){}
+  document.getElementById('rate-sea').value=R.rateSea;
+  document.getElementById('rate-air').value=R.rateAir;
+  document.getElementById('rate-jpy-s').value=R.rateJpy;
+  document.getElementById('rate-profit').value=R.rateProfit;
+  document.getElementById('rate-jpy-inp').value=R.rateJpy;
+  document.getElementById('profit-inp').value=R.rateProfit;
+  document.getElementById('rate-from-settings').textContent='('+R.rateJpy+')';
+}
+function saveRates(){
+  R.rateSea=parseFloat(document.getElementById('rate-sea').value)||130;
+  R.rateAir=parseFloat(document.getElementById('rate-air').value)||400;
+  R.rateJpy=parseFloat(document.getElementById('rate-jpy-s').value)||0.24;
+  R.rateProfit=parseFloat(document.getElementById('rate-profit').value)||30;
+  try{localStorage.setItem('po-rates',JSON.stringify(R));}catch(e){}
+  document.getElementById('rate-jpy-inp').value=R.rateJpy;
+  document.getElementById('profit-inp').value=R.rateProfit;
+  document.getElementById('rate-from-settings').textContent='('+R.rateJpy+')';
+  calcBoth();
+}
+
+// ─── SETTINGS (Sheet) ─────────────────────
+function loadSettings(){
+  if(!sheetOk())return;
+  fetch(SHEET_URL+'?action=getSettings')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows&&d.rows.length>1){
+        SD={choices:[],ships:[],details:[],closes:[]};
+        d.rows.slice(1).forEach(function(row){
+          var type=row[0],val=row[1];
+          if(type==='choice')SD.choices.push(val);
+          else if(type==='ship')SD.ships.push(val);
+          else if(type==='detail')SD.details.push(val);
+          else if(type==='closed')SD.closes.push(val);
+        });
+        renderSettingsLists();
+        renderCalcPills();
+        setSyncStatus(['choice','ship','detail','closed'],'✅ sync แล้ว');
+      } else {
+        // fallback defaults
+        SD={
+          choices:['— เลือกตัวละคร','— เลือกตัวแถม','— เลือกของแถม','— ล็อตลดราคา','— มีของแถม'],
+          ships:['✅ รวมค่าส่งมาไทย','❌ ไม่รวมค่าส่งมาไทย 🚢 "ขีดละ 25฿"'],
+          details:['✶ หารค่าส่งในญป ฿','📩 รายการอื่น ๆ สอบถามราคาเพิ่มเติมทาง DM'],
+          closes:['ปิดรับตอนกดสินค้าไม่ได้','กดทุก ๆ ยอดส่งฟรี','คาดว่าเป็นสินค้าแย่งกด เปิดให้กด (วันที่แน่นอน)','ปิดรับ (วันที่แน่นอน)']
+        };
+        renderSettingsLists();renderCalcPills();
+        setSyncStatus(['choice','ship','detail','closed'],'⚠️ ใช้ค่า default');
+      }
+    })
+    .catch(function(){
+      setSyncStatus(['choice','ship','detail','closed'],'❌ โหลดไม่สำเร็จ');
+    });
+}
+function saveSettingsToSheet(){
+  if(!sheetOk())return;
+  var items=[];
+  SD.choices.forEach(function(v){items.push({type:'choice',value:v});});
+  SD.ships.forEach(function(v){items.push({type:'ship',value:v});});
+  SD.details.forEach(function(v){items.push({type:'detail',value:v});});
+  SD.closes.forEach(function(v){items.push({type:'closed',value:v});});
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveSettings',items:items}),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok')setSyncStatus(['choice','ship','detail','closed'],'✅ บันทึกแล้ว');
+    })
+    .catch(function(){setSyncStatus(['choice','ship','detail','closed'],'❌ บันทึกไม่สำเร็จ');});
+}
+function setSyncStatus(types,msg){
+  types.forEach(function(t){
+    var el=document.getElementById(t+'-sync-status');
+    if(el)el.textContent=msg;
+  });
+}
+
+// ─── SETTINGS RENDER ──────────────────────
+function renderSettingsLists(){
+  renderSettingList('choice-list',SD.choices,'choice');
+  renderSettingList('ship-list',SD.ships,'ship');
+  renderSettingList('detail-list',SD.details,'detail');
+  renderSettingList('closed-list',SD.closes,'closed');
 }
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function renderList(elId,arr,type){
+function renderSettingList(elId,arr,type){
   var c=document.getElementById(elId);if(!c)return;c.innerHTML='';
   arr.forEach(function(item,i){
     var row=document.createElement('div');row.className='list-item';
     row.innerHTML='<div class="list-item-main"><div class="li-name">'+escH(item)+'</div></div>'
-      +'<button class="del-btn" onclick="delItem(\''+type+'\','+i+')">✕</button>';
+      +'<button class="del-btn" onclick="delSettingItem(\''+type+'\','+i+')">✕</button>';
     c.appendChild(row);
   });
 }
-function renderAnimeList(){
-  var c=document.getElementById('anime-list');if(!c)return;c.innerHTML='';
-  S.animes.forEach(function(a,i){
-    var row=document.createElement('div');row.className='list-item';
-    row.innerHTML='<div class="list-item-main"><div class="li-name">'+escH(a.name)+'</div><div class="li-sub">'+escH(a.hash)+'</div></div>'
-      +'<button class="del-btn" onclick="delItem(\'anime\','+i+')">✕</button>';
-    c.appendChild(row);
-  });
+function addSettingItem(type){
+  var inp=document.getElementById('add-'+type);
+  var v=inp.value.trim();if(!v)return;
+  var arr=type==='choice'?SD.choices:type==='ship'?SD.ships:type==='detail'?SD.details:SD.closes;
+  var dupEl=document.getElementById(type+'-dup-warn');
+  if(arr.map(function(x){return x.toLowerCase();}).includes(v.toLowerCase())){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  arr.push(v);inp.value='';
+  renderSettingsLists();renderCalcPills();
+  saveSettingsToSheet();
+}
+function delSettingItem(type,i){
+  var arr=type==='choice'?SD.choices:type==='ship'?SD.ships:type==='detail'?SD.details:SD.closes;
+  arr.splice(i,1);
+  renderSettingsLists();renderCalcPills();
+  saveSettingsToSheet();
 }
 
-// ─── ANIME SEARCHABLE DROPDOWN ────────────
-function renderAnimeDropdownList(q){
-  var list=document.getElementById('anime-dropdown-list');
-  if(!list)return;
-  list.innerHTML='';
-  var filtered=q.trim()===''?S.animes:S.animes.filter(function(a){
-    return a.name.toLowerCase().includes(q.toLowerCase());
-  });
-  if(filtered.length===0){
-    list.innerHTML='<div class="dl-empty">ไม่พบชื่อเรื่อง</div>';
-    return;
-  }
-  filtered.forEach(function(a){
-    var item=document.createElement('div');item.className='dl-item';
-    item.innerHTML='<div>'+escH(a.name)+'</div><div class="dl-item-sub">'+escH(a.hash)+'</div>';
-    item.onmousedown=function(){selectAnime(a);}; // mousedown fires before blur
-    list.appendChild(item);
-  });
+// ─── CALC TAB PILLS ───────────────────────
+var CLOSE_DATE_KEYWORDS=['วันที่แน่นอน'];
+function renderCalcPills(){
+  renderChoicePills();renderShipPills();renderDetailPills();renderClosePills();
 }
-function openAnimeDropdown(){
-  renderAnimeDropdownList(document.getElementById('anime-search-inp').value);
-  document.getElementById('anime-dropdown-list').classList.add('open');
-}
-function closeAnimeDropdownDelayed(){
-  setTimeout(function(){
-    document.getElementById('anime-dropdown-list').classList.remove('open');
-  },200);
-}
-function filterAnimeList(){
-  var q=document.getElementById('anime-search-inp').value;
-  renderAnimeDropdownList(q);
-  document.getElementById('anime-dropdown-list').classList.add('open');
-  // Clear selection if user is typing freely
-  if(selectedAnime&&q!==selectedAnime.name){
-    selectedAnime=null;
-    document.getElementById('hashtags').value='';
-    document.getElementById('hashtag-hint').textContent='';
-  }
-}
-function selectAnime(a){
-  selectedAnime=a;
-  document.getElementById('anime-search-inp').value=a.name;
-  document.getElementById('hashtags').value=a.hash;
-  document.getElementById('hashtag-hint').textContent='✅ hashtag: '+a.hash;
-  document.getElementById('anime-dropdown-list').classList.remove('open');
-}
-
-// ─── CHOICE PILLS (multi-select) ──────────
 function renderChoicePills(){
   var c=document.getElementById('choice-pills');if(!c)return;c.innerHTML='';
-  S.choices.forEach(function(ch){
-    var b=document.createElement('button');b.className='opt-pill';
-    b.textContent=ch;
-    b.onclick=function(){b.classList.toggle('active');};
-    c.appendChild(b);
+  SD.choices.forEach(function(ch){
+    var b=document.createElement('button');b.className='opt-pill';b.textContent=ch;
+    b.onclick=function(){b.classList.toggle('active');};c.appendChild(b);
   });
 }
-
-// ─── SHIP PILLS (single) ──────────────────
 function renderShipPills(){
   var c=document.getElementById('ship-pills');if(!c)return;c.innerHTML='';
-  S.ships.forEach(function(sh,i){
-    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');
-    b.textContent=sh;
-    b.onclick=function(){
-      c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
-      b.classList.add('active');
-    };
+  SD.ships.forEach(function(sh,i){
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');b.textContent=sh;
+    b.onclick=function(){c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});b.classList.add('active');};
     c.appendChild(b);
   });
 }
-
-// ─── DETAIL PILLS (multi, jp-ship special) ─
-var JP_SHIP_DETAIL='✶ หารค่าส่งในญป ฿';
 function renderDetailPills(){
   var c=document.getElementById('detail-pills');if(!c)return;c.innerHTML='';
-  S.details.forEach(function(d){
-    var isJp=d===JP_SHIP_DETAIL||d.startsWith('✶ หารค่าส่งในญป');
-    var b=document.createElement('button');b.className='opt-pill';
-    b.textContent=d;
+  SD.details.forEach(function(d){
+    var isJp=d.startsWith('✶ หารค่าส่งในญป');
+    var b=document.createElement('button');b.className='opt-pill';b.textContent=d;
     b.onclick=function(){
       b.classList.toggle('active');
-      if(isJp) document.getElementById('detail-jp-row').style.display=b.classList.contains('active')?'flex':'none';
+      if(isJp)document.getElementById('detail-jp-row').style.display=b.classList.contains('active')?'flex':'none';
     };
     c.appendChild(b);
   });
 }
-
-// ─── CLOSE PILLS ──────────────────────────
-var CLOSE_DATE_KEYWORDS=['วันที่แน่นอน'];
 function renderClosePills(){
   var c=document.getElementById('close-pills');if(!c)return;c.innerHTML='';
-  S.closes.forEach(function(cl,i){
+  SD.closes.forEach(function(cl,i){
     var needsDate=CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});
-    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');
-    b.textContent=cl;
-    b.dataset.needsDate=needsDate?'1':'0';
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');b.textContent=cl;
     b.onclick=function(){
       c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
       b.classList.add('active');
       var row=document.getElementById('close-date-row');
       row.style.display=needsDate?'block':'none';
-      if(needsDate){
-        var label=document.getElementById('close-date-label');
-        if(cl.includes('เปิดให้กด'))label.textContent='📅 วันที่เปิดให้กด';
-        else label.textContent='📅 วันที่ปิดรับ';
-      }
+      if(needsDate)document.getElementById('close-date-label').textContent=cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
     };
     c.appendChild(b);
   });
+}
+
+// ─── CATALOG (Sheet) ──────────────────────
+function loadCatalog(){
+  if(!sheetOk())return;
+  document.getElementById('titles-sync-status').textContent='⏳ กำลังโหลด...';
+  document.getElementById('products-sync-status').textContent='⏳ กำลังโหลด...';
+  fetch(SHEET_URL+'?action=getCatalog')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows&&d.rows.length>1){
+        CAT={titles:[],products:[]};
+        var hdrs=d.rows[0];
+        d.rows.slice(1).forEach(function(row){
+          // cols: animeTitle,searchKeyword,hashtag,category,manufacturer,productLine,size,catalogSearchKeyword,weight,profit
+          var obj={};hdrs.forEach(function(h,i){obj[h]=row[i]||'';});
+          if(obj.animeTitle)CAT.titles.push({name:obj.animeTitle,kw:obj.searchKeyword||'',hash:obj.hashtag||''});
+          if(obj.category||obj.productLine)CAT.products.push({cat:obj.category||'',mfr:obj.manufacturer||'',line:obj.productLine||'',size:obj.size||'',kw:obj.catalogSearchKeyword||'',weight:obj.weight||'',profit:obj.profit||''});
+        });
+        renderTitlesTable();renderProductsTable();renderAnimeDropdownList('');
+        document.getElementById('titles-sync-status').textContent='✅ '+CAT.titles.length+' รายการ';
+        document.getElementById('products-sync-status').textContent='✅ '+CAT.products.length+' รายการ';
+        document.getElementById('catalog-sync-status').textContent='✅ sync แล้ว';
+      } else {
+        document.getElementById('titles-sync-status').textContent='⚠️ ไม่มีข้อมูลใน Sheet';
+        document.getElementById('products-sync-status').textContent='⚠️ ไม่มีข้อมูลใน Sheet';
+        document.getElementById('catalog-sync-status').textContent='⚠️ ไม่มีข้อมูล';
+      }
+    })
+    .catch(function(){
+      document.getElementById('titles-sync-status').textContent='❌ โหลดไม่สำเร็จ';
+      document.getElementById('products-sync-status').textContent='❌ โหลดไม่สำเร็จ';
+    });
+}
+function saveCatalogToSheet(){
+  if(!sheetOk())return;
+  var items=[];
+  // merge titles+products into rows (pad shorter array)
+  var maxLen=Math.max(CAT.titles.length,CAT.products.length);
+  for(var i=0;i<maxLen;i++){
+    var t=CAT.titles[i]||{};var p=CAT.products[i]||{};
+    items.push({animeTitle:t.name||'',searchKeyword:t.kw||'',hashtag:t.hash||'',
+      category:p.cat||'',manufacturer:p.mfr||'',productLine:p.line||'',
+      size:p.size||'',catalogSearchKeyword:p.kw||'',weight:p.weight||'',profit:p.profit||''});
+  }
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveCatalog',items:items}),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var msg=d.status==='ok'?'✅ บันทึกแล้ว':'❌ บันทึกไม่สำเร็จ';
+      document.getElementById('titles-sync-status').textContent=msg;
+      document.getElementById('products-sync-status').textContent=msg;
+      document.getElementById('catalog-sync-status').textContent=msg;
+    });
+}
+function renderTitlesTable(data){
+  var src=data||CAT.titles;
+  var tb=document.getElementById('titles-tbody');if(!tb)return;
+  if(src.length===0){tb.innerHTML='<tr><td colspan="4" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
+  tb.innerHTML='';
+  src.forEach(function(t,i){
+    var realIdx=CAT.titles.indexOf(t);
+    var tr=document.createElement('tr');
+    ['name','kw','hash'].forEach(function(k){
+      var td=document.createElement('td');
+      var inp=document.createElement('input');inp.type='text';inp.value=t[k]||'';
+      inp.onchange=function(){t[k]=this.value;saveCatalogToSheet();};
+      td.appendChild(inp);tr.appendChild(td);
+    });
+    var tdDel=document.createElement('td');
+    tdDel.innerHTML='<button class="del-btn" onclick="delTitle('+realIdx+')">✕</button>';
+    tr.appendChild(tdDel);tb.appendChild(tr);
+  });
+}
+function filterCatalog(){
+  var q=document.getElementById('catalog-search').value.toLowerCase().trim();
+  if(!q){renderTitlesTable();renderProductsTable();return;}
+  var filteredTitles=CAT.titles.filter(function(t){
+    return (t.name+' '+t.kw+' '+t.hash).toLowerCase().includes(q);
+  });
+  var filteredProducts=CAT.products.filter(function(p){
+    return (p.cat+' '+p.mfr+' '+p.line+' '+p.size+' '+p.kw).toLowerCase().includes(q);
+  });
+  renderTitlesTable(filteredTitles);
+  renderProductsTableData(filteredProducts);
+}
+function renderProductsTable(){renderProductsTableData(CAT.products);}
+function renderProductsTableData(data){
+  var tb=document.getElementById('products-tbody');if(!tb)return;
+  if(!data||data.length===0){tb.innerHTML='<tr><td colspan="8" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
+  tb.innerHTML='';
+  data.forEach(function(p,i){
+    var realIdx=CAT.products.indexOf(p);
+    var tr=document.createElement('tr');
+    ['cat','mfr','line','size','kw','weight','profit'].forEach(function(k){
+      var td=document.createElement('td');
+      var inp=document.createElement('input');inp.type='text';inp.value=p[k]||'';
+      inp.onchange=function(){p[k]=this.value;saveCatalogToSheet();};
+      td.appendChild(inp);tr.appendChild(td);
+    });
+    var tdDel=document.createElement('td');
+    tdDel.innerHTML='<button class="del-btn" onclick="delProduct('+realIdx+')">✕</button>';
+    tr.appendChild(tdDel);tb.appendChild(tr);
+  });
+}
+function addTitle(){
+  var name=document.getElementById('add-title-name').value.trim();
+  var kw=document.getElementById('add-title-kw').value.trim();
+  var hash=document.getElementById('add-title-hash').value.trim();
+  if(!name)return;
+  var dupEl=document.getElementById('titles-dup-warn');
+  if(CAT.titles.some(function(t){return t.name.toLowerCase()===name.toLowerCase();})){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  CAT.titles.push({name:name,kw:kw,hash:hash});
+  document.getElementById('add-title-name').value='';
+  document.getElementById('add-title-kw').value='';
+  document.getElementById('add-title-hash').value='';
+  renderTitlesTable();renderAnimeDropdownList('');saveCatalogToSheet();
+  document.getElementById('titles-sync-status').textContent='✅ '+CAT.titles.length+' รายการ';
+  document.getElementById('catalog-sync-status').textContent='⏳ กำลังบันทึก...';
+}
+function delTitle(i){
+  CAT.titles.splice(i,1);
+  renderTitlesTable();renderAnimeDropdownList('');saveCatalogToSheet();
+}
+function addProduct(){
+  var cat=document.getElementById('add-pl-cat').value.trim();
+  var line=document.getElementById('add-pl-line').value.trim();
+  if(!cat&&!line)return;
+  var dupEl=document.getElementById('products-dup-warn');
+  if(CAT.products.some(function(p){return p.cat.toLowerCase()===cat.toLowerCase()&&p.line.toLowerCase()===line.toLowerCase();})){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  CAT.products.push({
+    cat:cat,mfr:document.getElementById('add-pl-mfr').value.trim(),
+    line:line,size:document.getElementById('add-pl-size').value.trim(),
+    kw:document.getElementById('add-pl-kw').value.trim(),
+    weight:document.getElementById('add-pl-weight').value.trim(),
+    profit:document.getElementById('add-pl-profit').value.trim()
+  });
+  ['cat','mfr','line','size','kw','weight','profit'].forEach(function(k){
+    var el=document.getElementById('add-pl-'+k);if(el)el.value='';
+  });
+  renderProductsTable();saveCatalogToSheet();
+  document.getElementById('products-sync-status').textContent='✅ '+CAT.products.length+' รายการ';
+}
+function delProduct(i){
+  CAT.products.splice(i,1);renderProductsTable();saveCatalogToSheet();
+}
+
+// ─── ANIME DROPDOWN (from CAT.titles) ─────
+function renderAnimeDropdownList(q){
+  var list=document.getElementById('anime-dropdown-list');if(!list)return;list.innerHTML='';
+  var src=q.trim()===''?CAT.titles:CAT.titles.filter(function(t){
+    return t.name.toLowerCase().includes(q.toLowerCase())||t.kw.toLowerCase().includes(q.toLowerCase());
+  });
+  if(src.length===0){list.innerHTML='<div class="dl-empty">ไม่พบชื่อเรื่อง</div>';return;}
+  src.forEach(function(t){
+    var item=document.createElement('div');item.className='dl-item';
+    item.innerHTML='<div>'+escH(t.name)+'</div><div class="dl-item-sub">KW: '+escH(t.kw)+' · '+escH(t.hash)+'</div>';
+    item.onmousedown=function(){selectAnime(t);};
+    list.appendChild(item);
+  });
+}
+function openAnimeDropdown(){renderAnimeDropdownList(document.getElementById('anime-search-inp').value);document.getElementById('anime-dropdown-list').classList.add('open');}
+function closeAnimeDropdownDelayed(){setTimeout(function(){document.getElementById('anime-dropdown-list').classList.remove('open');},200);}
+function filterAnimeList(){
+  var q=document.getElementById('anime-search-inp').value;
+  renderAnimeDropdownList(q);document.getElementById('anime-dropdown-list').classList.add('open');
+  if(selectedAnime&&q!==selectedAnime.name){selectedAnime=null;document.getElementById('hashtags').value='';document.getElementById('hashtag-hint').textContent='';}
+}
+function selectAnime(t){
+  selectedAnime=t;
+  document.getElementById('anime-search-inp').value=t.name;
+  document.getElementById('hashtags').value=t.hash;
+  document.getElementById('hashtag-hint').textContent='✅ '+t.hash;
+  document.getElementById('anime-dropdown-list').classList.remove('open');
+}
+
+// ─── IMAGE ────────────────────────────────
+function setImgMode(mode,btn){
+  imgMode=mode;
+  document.getElementById('img-mode-url-btn').classList.toggle('active',mode==='url');
+  document.getElementById('img-mode-upload-btn').classList.toggle('active',mode==='upload');
+  document.getElementById('img-mode-url').style.display=mode==='url'?'block':'none';
+  document.getElementById('img-mode-upload').style.display=mode==='upload'?'block':'none';
+}
+function onImgUrlChange(){
+  var url=document.getElementById('img-url-inp').value.trim();
+  imgPublicUrl=url||null;imgDataUrl=null;
+  var prev=document.getElementById('img-preview-url');
+  if(url){prev.src=url;prev.style.display='block';}else{prev.src='';prev.style.display='none';}
+}
+function onImgChange(inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0];
+  document.getElementById('img-hint').textContent='✅ '+f.name;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    imgDataUrl=e.target.result;imgPublicUrl=null;
+    var p=document.getElementById('img-preview');p.src=e.target.result;p.style.display='block';
+    document.getElementById('img-ph').style.display='none';
+    uploadToImgBB(f);
+  };
+  reader.readAsDataURL(f);
+}
+function uploadToImgBB(file){
+  var st=document.getElementById('imgbb-status');
+  st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:#fef9c3;color:#854d0e;border:1px solid #fde047';
+  st.textContent='⏳ กำลังอัปโหลดไป ImgBB...';imgPublicUrl=null;
+  var b64=imgDataUrl.split(',')[1];var form=new FormData();
+  form.append('key',IMGBB_KEY);form.append('image',b64);
+  fetch('https://api.imgbb.com/1/upload',{method:'POST',body:form})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){imgPublicUrl=d.data.url;st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--ok-bg);color:var(--ok-t);border:1px solid var(--ok-b)';st.textContent='✅ อัปโหลดสำเร็จ';}
+      else{st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--err-bg);color:var(--err);border:1px solid var(--err-b)';st.textContent='❌ อัปโหลดไม่สำเร็จ';}
+    })
+    .catch(function(){st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--err-bg);color:var(--err);border:1px solid var(--err-b)';st.textContent='❌ เชื่อมต่อ ImgBB ไม่ได้';});
+}
+
+// ─── TBA ──────────────────────────────────
+function toggleTba(field){
+  var chk=document.getElementById(field+'-tba');
+  var inp=document.getElementById(field+'-month');
+  inp.disabled=chk.checked;inp.style.opacity=chk.checked?'0.4':'1';
+  if(chk.checked)inp.value='';
+  if(field==='release')autoPaymentMonth();
+}
+
+// ─── DATES ────────────────────────────────
+function fmtMonth(val,isTba){
+  if(isTba)return'TBA';if(!val)return null;
+  var p=val.split('-');return p[1]+'/'+p[0];
+}
+function autoPaymentMonth(){
+  if(document.getElementById('release-tba').checked)return;
+  var rel=document.getElementById('release-month').value;if(!rel)return;
+  var p=rel.split('-');var y=parseInt(p[0]);var m=parseInt(p[1]);
+  m--;if(m<1){m=12;y--;}
+  var payVal=y+'-'+String(m).padStart(2,'0');
+  var now=new Date();var diff=(y-now.getFullYear())*12+(m-(now.getMonth()+1));
+  if(diff<2){document.getElementById('payment-month').value='';document.getElementById('payment-month').dataset.late='1';}
+  else{document.getElementById('payment-month').value=payVal;document.getElementById('payment-month').dataset.late='';}
 }
 function updateCloseDateDisplay(){
   var val=document.getElementById('close-date').value;
   if(!val){document.getElementById('close-date-display').textContent='';return;}
   var d=new Date(val+'T00:00:00');
-  var dd=String(d.getDate()).padStart(2,'0');
-  var mm=String(d.getMonth()+1).padStart(2,'0');
-  var yyyy=d.getFullYear();
-  document.getElementById('close-date-display').textContent='รูปแบบในโพสต์: '+dd+'/'+mm+'/'+yyyy;
+  document.getElementById('close-date-display').textContent='รูปแบบในโพสต์: '+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
 }
-function getCloseDateFormatted(){
-  var val=document.getElementById('close-date').value;
-  if(!val)return null;
+function getCloseDateFull(){
+  var val=document.getElementById('close-date').value;if(!val)return null;
   var d=new Date(val+'T00:00:00');
-  var dd=String(d.getDate()).padStart(2,'0');
-  var mm=String(d.getMonth()+1).padStart(2,'0');
-  var yyyy=d.getFullYear();
-  return dd+'/'+mm+'/'+yyyy;
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
 }
-
-// ─── MONTH FORMAT ─────────────────────────
-function fmtMonth(val){
-  if(!val)return null;
-  var p=val.split('-');
-  return p[1]+'/'+p[0]; // MM/YYYY
-}
-
-// auto-calculate payment month = release - 1 month
-// if result < 2 months from now → use special text flag
-function autoPaymentMonth(){
-  var rel=document.getElementById('release-month').value;
-  if(!rel)return;
-  var p=rel.split('-');
-  var y=parseInt(p[0]); var m=parseInt(p[1]);
-  // subtract 1 month
-  m-=1; if(m<1){m=12;y-=1;}
-  var payVal=y+'-'+String(m).padStart(2,'0');
-  // check if payVal is < 2 months from now
-  var now=new Date(); var nowY=now.getFullYear(); var nowM=now.getMonth()+1;
-  var diffMonths=(y-nowY)*12+(m-nowM);
-  if(diffMonths<2){
-    // mark with special sentinel so generatePost knows to use the text instead
-    document.getElementById('payment-month').value='';
-    document.getElementById('payment-month').dataset.late='1';
-  } else {
-    document.getElementById('payment-month').value=payVal;
-    document.getElementById('payment-month').dataset.late='';
-  }
-}
-
-// ─── ADD / DEL ────────────────────────────
-function addItem(type){
-  if(type==='anime'){
-    var n=document.getElementById('add-anime-name').value.trim();
-    var h=document.getElementById('add-anime-hash').value.trim();
-    if(!n)return;
-    S.animes.push({name:n,hash:h});
-    document.getElementById('add-anime-name').value='';
-    document.getElementById('add-anime-hash').value='';
-  } else {
-    var inp=document.getElementById('add-'+type);
-    var v=inp.value.trim();if(!v)return;
-    if(type==='choice')S.choices.push(v);
-    else if(type==='ship')S.ships.push(v);
-    else if(type==='detail')S.details.push(v);
-    else if(type==='close')S.closes.push(v);
-    inp.value='';
-  }
-  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
-  renderAll();
-}
-function delItem(type,i){
-  if(type==='anime')S.animes.splice(i,1);
-  else if(type==='choice')S.choices.splice(i,1);
-  else if(type==='ship')S.ships.splice(i,1);
-  else if(type==='detail')S.details.splice(i,1);
-  else if(type==='close')S.closes.splice(i,1);
-  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
-  renderAll();
-}
-
-// ─── IMAGE MODE ───────────────────────────
-var IMGBB_KEY='a356d17feea0dd610d21b0e6fc4d96ed';
-var imgDataUrl=null;
-var imgPublicUrl=null;
-var imgMode='url'; // 'url' | 'upload'
-
-function setImgMode(mode, btn){
-  imgMode=mode;
-  document.querySelectorAll('.mt-btn').forEach(function(b){
-    if(b.id&&b.id.startsWith('img-mode'))b.classList.remove('active');
-  });
-  btn.classList.add('active');
-  document.getElementById('img-mode-url').style.display=mode==='url'?'block':'none';
-  document.getElementById('img-mode-upload').style.display=mode==='upload'?'block':'none';
-}
-
-function onImgUrlChange(){
-  var url=document.getElementById('img-url-inp').value.trim();
-  imgPublicUrl=url||null;
-  var prev=document.getElementById('img-preview-url');
-  if(url){prev.src=url;prev.style.display='block';imgDataUrl=null;}
-  else{prev.src='';prev.style.display='none';}
-}
-
-function onImgChange(inp){
-  if(!inp.files||!inp.files[0])return;
-  var f=inp.files[0];
-  document.getElementById('img-hint').textContent='✅ '+f.name;
-  var r=new FileReader();
-  r.onload=function(e){
-    imgDataUrl=e.target.result;
-    imgPublicUrl=null;
-    var p=document.getElementById('img-preview');
-    p.src=e.target.result;p.style.display='block';
-    document.getElementById('img-ph').style.display='none';
-    uploadToImgBB(f);
-  };
-  r.readAsDataURL(f);
-}
-
-function uploadToImgBB(file){
-  var st=document.getElementById('imgbb-status');
-  st.style.display='block';
-  st.style.background='#fef9c3';st.style.color='#854d0e';st.style.border='1px solid #fde047';
-  st.textContent='⏳ กำลังอัปโหลดรูปไป ImgBB...';
-  imgPublicUrl=null;
-  var b64=imgDataUrl.split(',')[1];
-  var form=new FormData();
-  form.append('key',IMGBB_KEY);
-  form.append('image',b64);
-  fetch('https://api.imgbb.com/1/upload',{method:'POST',body:form})
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(d.success){
-        imgPublicUrl=d.data.url;
-        st.style.background='var(--ok-bg)';st.style.color='var(--ok-t)';st.style.border='1px solid var(--ok-b)';
-        st.textContent='✅ อัปโหลดสำเร็จ · public link พร้อมแล้ว';
-      } else {
-        st.style.background='#fee2e2';st.style.color='#dc2626';st.style.border='1px solid #fca5a5';
-        st.textContent='❌ อัปโหลดไม่สำเร็จ: '+(d.error&&d.error.message||'unknown error');
-      }
-    })
-    .catch(function(){
-      st.style.background='#fee2e2';st.style.color='#dc2626';st.style.border='1px solid #fca5a5';
-      st.textContent='❌ อัปโหลดไม่สำเร็จ · ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
-    });
+function getCloseDateShort(){
+  var val=document.getElementById('close-date').value;if(!val)return null;
+  var d=new Date(val+'T00:00:00');
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
 }
 
 // ─── CALC ─────────────────────────────────
 function roundTen(n){return Math.ceil(n/10)*10;}
 function floorTen(n){return Math.floor(n/10)*10;}
-
 function calcBoth(){
   var jpy=parseFloat(document.getElementById('price-jpy').value)||0;
   var kg=parseFloat(document.getElementById('weight-kg').value)||0;
-  var rate=parseFloat(document.getElementById('rate-jpy-inp').value)||S.rateJpy;
-  var profit=parseFloat(document.getElementById('profit-inp').value)||S.rateProfit;
+  var rate=parseFloat(document.getElementById('rate-jpy-inp').value)||R.rateJpy;
+  var profit=parseFloat(document.getElementById('profit-inp').value)||R.rateProfit;
   if(jpy<=0&&kg<=0){document.getElementById('price-result').classList.remove('show');return;}
   var prod=jpy*rate;
-  var seaShip=kg*S.rateSea; var airShip=kg*S.rateAir;
-  var seaTotal=roundTen((prod+seaShip+profit)*1.07);
-  var airTotal=roundTen((prod+airShip+profit)*1.07);
-  document.getElementById('pr-sea').textContent=seaTotal+'฿';
-  document.getElementById('pr-air').textContent=airTotal+'฿';
-  document.getElementById('pr-sea-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+seaShip.toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
-  document.getElementById('pr-air-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+airShip.toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  var sea=roundTen((prod+kg*R.rateSea+profit)*1.07);
+  var air=roundTen((prod+kg*R.rateAir+profit)*1.07);
+  document.getElementById('pr-sea').textContent=sea+'฿';
+  document.getElementById('pr-air').textContent=air+'฿';
+  document.getElementById('pr-sea-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+(kg*R.rateSea).toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  document.getElementById('pr-air-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+(kg*R.rateAir).toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
   document.getElementById('price-result').classList.add('show');
-  calcCache={jpy:jpy,kg:kg,prod:prod.toFixed(0),seaTotal:seaTotal,airTotal:airTotal};
-  if(priceMode==='sea'){document.getElementById('price-thb').value=seaTotal;autoDeposit();}
-  if(priceMode==='air'){document.getElementById('price-thb').value=airTotal;autoDeposit();}
+  calcCache={seaTotal:sea,airTotal:air};
+  if(priceMode==='sea'){document.getElementById('price-thb').value=sea;autoDeposit();}
+  if(priceMode==='air'){document.getElementById('price-thb').value=air;autoDeposit();}
+}
+function selectPriceType(type){
+  priceType=type;
+  document.getElementById('pr-card-sea').classList.toggle('selected',type==='sea');
+  document.getElementById('pr-card-air').classList.toggle('selected',type==='air');
+  document.getElementById('price-type-hint').textContent=type==='sea'?'✅ เลือกราคาเรือแล้ว':'✅ เลือกราคาแอร์แล้ว';
+  var btns=document.querySelectorAll('#price-mode-toggle .mt-btn');
+  setPriceMode(type,btns[type==='sea'?1:2]);
 }
 function setPriceMode(mode,btn){
   priceMode=mode;
-  document.querySelectorAll('.mt-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
+  document.querySelectorAll('#price-mode-toggle .mt-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
   if(mode==='sea'||mode==='air')calcBoth();
 }
 function autoDeposit(){
   var p=parseFloat(document.getElementById('price-thb').value)||0;
-  if(p>0){
-    var dep=floorTen(p*0.3);
-    document.getElementById('deposit-thb').value=dep;
-  }
+  if(p>0)document.getElementById('deposit-thb').value=floorTen(p*0.3);
   calcRemain();
 }
 function calcRemain(){
@@ -869,168 +1073,1535 @@ function calcJpShip(){
   document.getElementById('jp-ship-thb').value=y>0?floorTen(y*0.25)+'฿':'';
 }
 
-// ─── GENERATE POST ────────────────────────
-function getAllActivePills(id){
-  return Array.from(document.querySelectorAll('#'+id+' .opt-pill.active')).map(function(p){return p.textContent.trim();});
-}
-function getActivePill(id){
-  var a=document.querySelector('#'+id+' .opt-pill.active');return a?a.textContent.trim():'';
+// ─── VALIDATE ─────────────────────────────
+function validate(){
+  var errors=[];
+  if(!document.getElementById('product-name').value.trim())errors.push('ชื่อสินค้า');
+  var jpy=document.getElementById('price-jpy').value.trim();
+  if(!jpy||parseFloat(jpy)<=0)errors.push('ราคาสินค้า (¥)');
+  if(!document.getElementById('price-thb').value.trim())errors.push('ราคาเต็ม (฿)');
+  var imgUrl=imgMode==='url'?document.getElementById('img-url-inp').value.trim():imgPublicUrl;
+  if(!imgUrl)errors.push('รูปภาพ (URL หรืออัปโหลด)');
+  var errEl=document.getElementById('val-error');
+  if(errors.length>0){
+    errEl.innerHTML='⚠️ กรุณากรอกข้อมูลที่จำเป็น:<br>• '+errors.join('<br>• ');
+    errEl.classList.add('show');errEl.scrollIntoView({behavior:'smooth',block:'nearest'});return false;
+  }
+  errEl.classList.remove('show');return true;
 }
 
+// ─── GENERATE ─────────────────────────────
+function getAllActivePills(id){return Array.from(document.querySelectorAll('#'+id+' .opt-pill.active')).map(function(p){return p.textContent.trim();});}
+function getActivePill(id){var a=document.querySelector('#'+id+' .opt-pill.active');return a?a.textContent.trim():'';}
+
 function generatePost(){
-  // Collect values
+  if(!validate())return;
   var animeTitle=selectedAnime?selectedAnime.name:document.getElementById('anime-search-inp').value.trim();
   var hashtags=document.getElementById('hashtags').value.trim();
   var productName=document.getElementById('product-name').value.trim();
   var choices=getAllActivePills('choice-pills');
-  var choiceCustom=document.getElementById('choice-custom').value.trim();
-  if(choiceCustom&&!choices.includes(choiceCustom))choices.push(choiceCustom);
-
+  var cc=document.getElementById('choice-custom').value.trim();
+  if(cc&&!choices.includes(cc))choices.push(cc);
   var priceTHB=document.getElementById('price-thb').value.trim();
   var deposit=document.getElementById('deposit-thb').value.trim();
-  var release=fmtMonth(document.getElementById('release-month').value);
+  var releaseTba=document.getElementById('release-tba').checked;
+  var paymentTba=document.getElementById('payment-tba').checked;
+  var release=fmtMonth(document.getElementById('release-month').value,releaseTba);
   var payInp=document.getElementById('payment-month');
-  var paymentLate=payInp.dataset.late==='1';
-  var payment=paymentLate?null:fmtMonth(payInp.value);
-
+  var paymentLate=(!paymentTba)&&payInp.dataset.late==='1';
+  var payment=paymentTba?'TBA':(paymentLate?null:fmtMonth(payInp.value,false));
   var jpYen=parseFloat(document.getElementById('jp-ship-yen').value)||0;
   var shipType=getActivePill('ship-pills');
-
   var detailActive=getAllActivePills('detail-pills');
   var detailCustom=document.getElementById('detail-custom').value.trim();
   var jpAmt=document.getElementById('detail-jp-amt').value.trim();
-
   var closeType=getActivePill('close-pills');
-  var closeDate=getCloseDateFormatted();
+  var closeFull=getCloseDateFull();
+  var closeShort=getCloseDateShort();
 
-  // ─── BUILD POST ───
   var L=[];
-
-  // Line 1: ⋆｡ ꒰ #เชอพรีสตอรี่ ꒱ + hashtags
   var topLine='⋆｡ ꒰ #เชอพรีสตอรี่ ꒱';
   if(hashtags)topLine+=' '+hashtags;
-  L.push(topLine);
-  L.push('');
-
-  // Product name
+  L.push(topLine);L.push('');
   if(productName)L.push(productName);
-
-  // Choices (each on its own line, "—" prefix always)
-  choices.forEach(function(ch){
-    // ensure "—" at front (settings items already have it, custom might not)
-    if(ch.startsWith('—')||ch.startsWith('\u2014'))L.push(ch);
-    else L.push('— '+ch);
-  });
-
+  choices.forEach(function(ch){L.push((ch.startsWith('—')||ch.startsWith('\u2014'))?ch:'— '+ch);});
   L.push('');
-
-  // Price
   if(priceTHB)L.push('ꔛ ราคา '+priceTHB+'฿');
   if(deposit)L.push('ꔛ มัดจำ '+deposit+'฿');
 
-  // Payment line
-  if(paymentLate){
-    var relDisp=release||'—';
-    L.push('🔖 จ่ายส่วนที่เหลือตอนสินค้าถึงไทย (เว็บจัดส่งเดือน '+relDisp+')');
-  } else if(payment||release){
-    var pl='🔖 จ่ายส่วนที่เหลือภายในเดือน '+(payment||'—');
-    if(release)pl+=' (เว็บจัดส่งเดือน '+release+')';
-    L.push(pl);
-  }
+  if(paymentTba&&releaseTba){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน TBA (เว็บจัดส่งเดือน TBA)');}
+  else if(paymentTba){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน TBA'+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
+  else if(paymentLate){L.push('🔖 จ่ายส่วนที่เหลือตอนสินค้าถึงไทย'+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
+  else if(payment||release){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน '+(payment||'—')+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
 
-  // Shipping type
   if(shipType)L.push('꒰ 🚢 ꒱ '+shipType);
-
-  // Detail items — auto-fill jp ship baht from jp-ship-thb field
-  var jpShipBaht='';
-  if(jpYen>0)jpShipBaht=String(floorTen(jpYen*0.25));
-  if(jpAmt)jpShipBaht=jpAmt; // manual override takes priority
+  var jpBaht=jpYen>0?String(floorTen(jpYen*0.25)):'';if(jpAmt)jpBaht=jpAmt;
   var detailLines=[];
   detailActive.forEach(function(d){
-    var isJp=d.startsWith('✶ หารค่าส่งในญป');
-    if(isJp){
-      var amt=jpShipBaht||'—';
-      detailLines.push('✶ หารค่าส่งในญป '+amt+'฿');
-    } else {
-      detailLines.push(d);
-    }
+    if(d.startsWith('✶ หารค่าส่งในญป'))detailLines.push('✶ หารค่าส่งในญป '+(jpBaht||'—')+'฿');
+    else detailLines.push(d);
   });
   if(detailCustom)detailLines.push(detailCustom);
   if(detailLines.length>0){L.push('');detailLines.forEach(function(d){L.push(d);});}
 
-  // Fixed order section
   L.push('');
   L.push('🛒 สั่งซื้อ : DM หรือ LINE');
-  L.push("📦 พื้นที่ห่างไกล +20฿ 'แจ้งตอนสั่งซื้อ");
+  L.push("📦 พื้นที่ห่างไกล +20฿ 'แจ้งตอนสั่งซื้อ'");
 
-  // Close
   if(closeType){
     L.push('');
     var cl=closeType;
-    if(CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);})){
-      var dateStr='';
-      if(closeDate){
-        // show only dd/mm (drop year)
-        var parts=closeDate.split('/');
-        dateStr=parts[0]+'/'+parts[1];
-      }
-      cl=cl.replace('(วันที่แน่นอน)',dateStr?dateStr:'');
-      cl=cl.trim();
-    }
+    if(CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);})){cl=cl.replace('(วันที่แน่นอน)',closeShort||'');cl=cl.trim();}
     L.push('彡 '+cl);
   }
 
   document.getElementById('post-output').textContent=L.join('\n');
-
   var pi=document.getElementById('post-img');
-  var previewSrc=imgMode==='url'
-    ?(document.getElementById('img-url-inp').value.trim()||null)
-    :imgDataUrl;
-  if(previewSrc){pi.src=previewSrc;pi.style.display='block';}
-  else{pi.style.display='none';}
+  var src=imgMode==='url'?(document.getElementById('img-url-inp').value.trim()||null):imgDataUrl;
+  if(src){pi.src=src;pi.style.display='block';}else{pi.style.display='none';}
+  document.getElementById('output-section').classList.add('show');
+  setTimeout(function(){document.getElementById('output-section').scrollIntoView({behavior:'smooth',block:'nearest'});},80);
 
-  var out=document.getElementById('output-section');
-  out.classList.add('show');
-  setTimeout(function(){out.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
-
+  var isOpenDate=closeType&&closeType.includes('เปิดให้กด');
   window._lastPost={
+    action:'saveOrder',
     productName:productName,animeTitle:animeTitle,hashtags:hashtags,
     priceJPY:document.getElementById('price-jpy').value||'',
     weightKg:document.getElementById('weight-kg').value||'',
     priceSea:calcCache.seaTotal||'',priceAir:calcCache.airTotal||'',
-    priceTHB:priceTHB,deposit:deposit,
-    releaseMonth:release||'',paymentMonth:payment||'',
+    priceTHB:priceTHB,priceType:priceMode==='manual'?'manual':(priceMode==='sea'?'เรือ':'แอร์'),
+    deposit:deposit,
+    releaseMonth:releaseTba?'TBA':(release||''),
+    paymentMonth:paymentTba?'TBA':(payment||''),
     shipping:shipType,closeType:closeType,
+    closeDate:isOpenDate?'':(closeFull||''),
+    openDate:isOpenDate?(closeFull||''):'',
     productUrl:document.getElementById('product-url').value.trim(),
     imgUrl:imgPublicUrl||''
   };
 }
 
-// ─── COPY ─────────────────────────────────
+// ─── COPY / SHARE ─────────────────────────
 function copyPost(){
-  var text=document.getElementById('post-output').textContent;
-  var btn=document.getElementById('copy-btn');
-  navigator.clipboard.writeText(text).then(function(){
+  navigator.clipboard.writeText(document.getElementById('post-output').textContent).then(function(){
+    var btn=document.getElementById('copy-btn');
     btn.classList.add('copied');btn.textContent='✅ คัดลอกแล้ว!';
-    setTimeout(function(){btn.classList.remove('copied');btn.textContent='📋 คัดลอกโพสต์';},2500);
+    setTimeout(function(){btn.classList.remove('copied');btn.textContent='📋 คัดลอก';},2500);
+  });
+}
+function shareToX(){
+  var text=document.getElementById('post-output').textContent;
+  var imgUrl=imgPublicUrl||(imgMode==='url'?document.getElementById('img-url-inp').value.trim():'');
+  navigator.clipboard.writeText(text).then(function(){
+    window.open('https://x.com/compose/post','_blank');
+    setTimeout(function(){
+      var msg='📋 คัดลอกข้อความแล้ว วาง Ctrl+V/Cmd+V ในกล่องโพสต์';
+      if(imgUrl)msg+='\n\n📎 ลิงก์รูป:\n'+imgUrl;
+      alert(msg);
+    },600);
+  }).catch(function(){window.open('https://x.com/compose/post','_blank');});
+}
+function shareToIG(){
+  var text=document.getElementById('post-output').textContent;
+  var imgUrl=imgPublicUrl||(imgMode==='url'?document.getElementById('img-url-inp').value.trim():'');
+  navigator.clipboard.writeText(text).then(function(){
+    var msg='📋 คัดลอกข้อความแล้ว\n\n1. เปิด IG หรือ FB\n2. สร้างโพสต์ใหม่\n3. วางข้อความ (Ctrl+V/Cmd+V)\n4. เพิ่มรูปภาพ';
+    if(imgUrl)msg+='\n\nลิงก์รูป:\n'+imgUrl;
+    alert(msg);window.open('https://www.instagram.com/','_blank');
   });
 }
 
-// ─── GOOGLE SHEET ─────────────────────────
+// ─── SHEET: ORDERS ────────────────────────
+function sheetOk(){return SHEET_URL&&SHEET_URL.indexOf('http')===0;}
 function saveToSheet(){
-  var url=SHEET_URL;
   var st=document.getElementById('sheet-status-calc');
-  if(!url||url.indexOf('http')!==0){st.style.color='#b45309';st.textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL ในโค้ด';return;}
+  if(!sheetOk()){st.style.color='#b45309';st.textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL';return;}
   if(!window._lastPost){st.textContent='⚠️ กรุณาสร้างโพสต์ก่อน';return;}
   st.style.color='var(--ok-t)';st.textContent='⏳ กำลังบันทึก...';
-  fetch(url,{method:'POST',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
     .then(function(r){return r.json();})
-    .then(function(d){st.textContent=d.status==='ok'?'✅ บันทึกสำเร็จ!':'❌ Error: '+JSON.stringify(d);})
-    .catch(function(){st.style.color='#dc2626';st.textContent='❌ บันทึกไม่สำเร็จ · ตรวจสอบ URL';});
+    .then(function(d){st.textContent=d.status==='ok'?'✅ บันทึกสำเร็จ!':'❌ Error';})
+    .catch(function(){st.style.color='var(--err)';st.textContent='❌ บันทึกไม่สำเร็จ';});
 }
+function loadSheetData(){
+  if(!sheetOk()){document.getElementById('data-status').textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL';return;}
+  var st=document.getElementById('data-status');st.textContent='⏳ กำลังโหลด...';
+  fetch(SHEET_URL+'?action=getOrders')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows){
+        allSheetRows=d.rows.slice(1);
+        st.textContent='✅ '+allSheetRows.length+' รายการ';
+        renderTable(allSheetRows);
+      } else {st.textContent='❌ ข้อมูลไม่ถูกต้อง';}
+    })
+    .catch(function(){st.textContent='❌ โหลดไม่สำเร็จ';});
+}
+function filterTable(){
+  var q=document.getElementById('data-search').value.toLowerCase();
+  renderOrderCards(allSheetRows.filter(function(row){return row.some(function(v){return String(v).toLowerCase().includes(q);});}));
+}
+function renderTable(rows){renderOrderCards(rows);}
+function renderOrderCards(rows){
+  var wrap=document.getElementById('order-cards-wrap');
+  if(!rows||rows.length===0){
+    wrap.innerHTML='<div class="no-data" style="padding:30px;text-align:center;color:var(--hint);font-size:13px">ไม่พบข้อมูล</div>';
+    return;
+  }
+  wrap.innerHTML='<div class="order-grid" id="order-grid"></div>';
+  var grid=document.getElementById('order-grid');
+  // cols: 0=Date,1=Name,2=Anime,3=Hashtags,4=¥,5=kg,6=Sea,7=Air,8=Post฿,9=PriceType,10=Deposit,11=Release,12=Payment,13=Shipping,14=Close,15=CloseDate,16=OpenDate,17=URL,18=ImgURL
+  rows.forEach(function(row){
+    var date='',name=row[1]||'',anime=row[2]||'',hashtags=row[3]||'';
+    var priceJpy=row[4]||'',sea=row[6]||'',air=row[7]||'',post=row[8]||'',ptype=row[9]||'';
+    var deposit=row[10]||'',release=row[11]||'',payment=row[12]||'';
+    var shipping=row[13]||'',closeType=row[14]||'',closeDate=row[15]||'',openDate=row[16]||'';
+    var url=row[17]||'',imgUrl=row[18]||'';
+    if(row[0]){var d=new Date(row[0]);date=isNaN(d)?String(row[0]):d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();}
+
+    var typeCls=ptype==='เรือ'?'oc-type-sea':ptype==='แอร์'?'oc-type-air':'oc-type-manual';
+    var typeLabel=ptype==='เรือ'?'🚢 เรือ':ptype==='แอร์'?'✈️ แอร์':'manual';
+
+    var card=document.createElement('div');card.className='order-card';
+    var imgHtml=imgUrl
+      ?'<img class="oc-img" src="'+escH(imgUrl)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+       +'<div class="oc-img-ph" style="display:none">📦</div>'
+      :'<div class="oc-img-ph">📦</div>';
+
+    var metaHtml='';
+    if(release)metaHtml+='<div class="oc-meta-item">🗓️ ออก <strong>'+escH(release)+'</strong></div>';
+    if(payment)metaHtml+='<div class="oc-meta-item">💳 จ่าย <strong>'+escH(payment)+'</strong></div>';
+    if(priceJpy)metaHtml+='<div class="oc-meta-item">💴 <strong>'+escH(String(priceJpy))+'¥</strong></div>';
+    if(sea)metaHtml+='<div class="oc-meta-item">🚢 <strong>'+escH(String(sea))+'฿</strong></div>';
+    if(air)metaHtml+='<div class="oc-meta-item">✈️ <strong>'+escH(String(air))+'฿</strong></div>';
+
+    var tagHtml='';
+    if(shipping)tagHtml+='<div>꒰🚢꒱ '+escH(shipping)+'</div>';
+    if(closeType){var cd=closeDate||openDate;tagHtml+='<div>彡 '+escH(closeType)+(cd?' ('+escH(cd)+')':'')+'</div>';}
+
+    var actHtml='';
+    if(url)actHtml+='<a class="oc-btn" href="'+escH(url)+'" target="_blank">🔗 ลิงก์สินค้า</a>';
+    if(imgUrl)actHtml+='<a class="oc-btn" href="'+escH(imgUrl)+'" target="_blank">🖼️ รูป</a>';
+
+    card.innerHTML=imgHtml
+      +'<div class="oc-body">'
+        +'<div class="oc-top"><div class="oc-name">'+escH(name)+'</div><div class="oc-date">'+escH(date)+'</div></div>'
+        +(anime?'<div class="oc-anime">'+escH(anime)+'</div>':'')
+        +'<div class="oc-price-row">'
+          +'<div class="oc-price">'+(post?escH(String(post))+'฿':'—')+'</div>'
+          +(deposit?'<div class="oc-deposit">มัดจำ '+escH(String(deposit))+'฿</div>':'')
+          +(ptype?'<div class="oc-type-pill '+typeCls+'">'+typeLabel+'</div>':'')
+        +'</div>'
+        +(metaHtml?'<div class="oc-divider"></div><div class="oc-meta">'+metaHtml+'</div>':'')
+        +(tagHtml?'<div class="oc-tag">'+tagHtml+'</div>':'')
+        +(actHtml?'<div class="oc-actions">'+actHtml+'</div>':'')
+      +'</div>';
+    grid.appendChild(card);
+  });
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌸 Preorder Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#364189;--navy-dark:#242d63;--navy-mid:#4a5699;--navy-light:#eceffe;
+  --nb:rgba(54,65,137,0.18);--nbs:rgba(54,65,137,0.30);
+  --bg:#f5f6fc;--surface:#fff;--text:#1a1f3d;--muted:#5a6299;--hint:#9ca3cc;
+  --ok-bg:#edfaf3;--ok-b:#7ecfa5;--ok-t:#166a3d;
+  --err:#dc2626;--err-bg:#fee2e2;--err-b:#fca5a5;
+  --warn-bg:#fff8ed;--warn-b:#f5c97a;--warn-t:#8b5200;
+  --r:12px;--rs:8px;
+}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
+
+/* NAV */
+.navbar{background:var(--navy);padding:0 20px;height:58px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(54,65,137,0.3)}
+.nav-logo{font-size:20px}.nav-title{font-size:16px;font-weight:700;color:#fff;flex:1}.nav-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px}
+.tab-bar{background:var(--navy-dark);display:flex;padding:0 12px;position:sticky;top:58px;z-index:199;border-bottom:2px solid rgba(255,255,255,0.08);overflow-x:auto;gap:0}
+.tab-btn{height:44px;padding:0 14px;font-family:inherit;font-size:12px;font-weight:600;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.tab-btn:hover{color:rgba(255,255,255,0.85)}.tab-btn.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* LAYOUT */
+.container{max-width:700px;margin:0 auto;padding:16px 16px 0}
+.card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);padding:18px;margin-bottom:12px}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--nb)}
+.card-icon{font-size:16px;flex-shrink:0}.card-title{font-size:14px;font-weight:700;color:var(--text)}.card-sub{font-size:11px;color:var(--hint);margin-top:1px}
+.step-badge{width:22px;height:22px;background:var(--navy);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.field{margin-bottom:12px}.field:last-child{margin-bottom:0}
+label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;letter-spacing:0.02em}
+input[type=text],input[type=number],input[type=url],textarea,select{width:100%;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color 0.15s,box-shadow 0.15s;height:36px}
+textarea{padding:8px 10px;resize:vertical;min-height:60px;height:auto;line-height:1.6}
+input:focus,textarea:focus,select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+input::placeholder,textarea::placeholder{color:var(--hint)}
+input[readonly]{background:#f8f9ff;color:var(--muted)}
+input.invalid{border-color:var(--err)!important;box-shadow:0 0 0 3px rgba(220,38,38,0.12)!important}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.hint{font-size:11px;color:var(--hint);margin-top:4px;line-height:1.5}
+.req{color:var(--err);margin-left:2px}
+
+/* IMAGE */
+.img-upload-area{border:2px dashed var(--nbs);border-radius:var(--rs);padding:18px 14px;text-align:center;cursor:pointer;transition:all 0.15s;position:relative;background:var(--navy-light)}
+.img-upload-area:hover{border-color:var(--navy);background:#e4e8fd}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-ph{font-size:13px;color:var(--muted);pointer-events:none}
+.img-preview{width:100%;max-height:160px;object-fit:contain;border-radius:var(--rs);display:none;margin-top:8px}
+
+/* DROPDOWN */
+.dropdown-wrap{position:relative}
+.dropdown-input{width:100%;height:36px;padding:0 32px 0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.dropdown-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.dropdown-input::placeholder{color:var(--hint)}
+.dropdown-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--hint);pointer-events:none;font-size:10px}
+.dropdown-list{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--surface);border:1px solid var(--nbs);border-radius:var(--rs);box-shadow:0 4px 20px rgba(54,65,137,0.15);z-index:300;max-height:200px;overflow-y:auto;display:none}
+.dropdown-list.open{display:block}
+.dl-item{padding:8px 12px;font-size:13px;cursor:pointer;transition:background 0.1s;color:var(--text)}
+.dl-item:hover{background:var(--navy-light);color:var(--navy)}
+.dl-item-sub{font-size:11px;color:var(--hint);margin-top:1px}
+.dl-empty{padding:8px 12px;font-size:13px;color:var(--hint)}
+
+/* MODE TOGGLE */
+.mode-toggle{display:flex;border:1px solid var(--nbs);border-radius:var(--rs);overflow:hidden;margin-bottom:12px}
+.mt-btn{flex:1;height:34px;font-family:inherit;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;border-right:1px solid var(--nb)}
+.mt-btn:last-child{border-right:none}.mt-btn.active{background:var(--navy);color:#fff}
+
+/* PRICE CARDS */
+.price-result{display:none;margin-top:10px}
+.price-result.show{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pr-card{border-radius:var(--rs);padding:12px;border:1.5px solid;cursor:pointer;transition:box-shadow 0.15s}
+.pr-card.selected{box-shadow:0 0 0 2px var(--navy)}
+.pr-sea{background:#eef6ff;border-color:#b8d9f8}.pr-air{background:#fff7ee;border-color:#f8d9b8}
+.pr-icon{font-size:14px;margin-bottom:2px}.pr-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px}
+.pr-val{font-size:18px;font-weight:700;letter-spacing:-0.02em}
+.pr-sea .pr-val{color:#185fa5}.pr-air .pr-val{color:#b85e00}
+.pr-breakdown{font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+/* PILLS */
+.opt-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.opt-pill{padding:5px 11px;border:1.5px solid var(--nbs);border-radius:20px;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.opt-pill:hover{border-color:var(--navy-mid);color:var(--navy)}
+.opt-pill.active{border-color:var(--navy);background:var(--navy);color:#fff}
+
+/* DATE/MONTH */
+input[type=month],input[type=date]{height:36px;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
+input[type=month]:focus,input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.tba-toggle{display:flex;align-items:center;gap:5px;margin-top:5px;cursor:pointer;user-select:none;font-size:11.5px;color:var(--muted);font-weight:600}
+.tba-toggle input[type=checkbox]{accent-color:var(--navy);width:13px;height:13px;cursor:pointer}
+
+/* CLOSE DATE */
+.close-date-row{margin-top:8px;display:none;padding:8px 10px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
+
+/* DETAIL JP */
+.detail-jp-row{display:flex;align-items:center;gap:6px;margin-top:6px;padding:6px 10px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
+.detail-jp-row label{margin:0;white-space:nowrap;font-size:11.5px}
+.detail-jp-row input{width:80px;height:30px;font-size:13px}
+
+/* VALIDATION */
+.val-error{background:var(--err-bg);border:1px solid var(--err-b);border-radius:var(--rs);padding:10px 14px;font-size:12.5px;color:var(--err);margin-bottom:10px;display:none;line-height:1.7}
+.val-error.show{display:block}
+
+/* BUTTONS */
+.gen-btn{width:100%;height:48px;font-size:15px;font-weight:700;font-family:inherit;background:var(--navy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.15s,transform 0.1s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:var(--navy-dark)}.gen-btn:active{transform:scale(0.99)}
+
+/* OUTPUT */
+.output-section{display:none}.output-section.show{display:block}
+.output-card{background:var(--surface);border:2px solid var(--navy);border-radius:var(--r);padding:18px;margin-bottom:12px}
+.out-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px}
+.post-text{white-space:pre-wrap;font-size:14px;line-height:1.9;color:var(--text);border:1px solid var(--nb);border-radius:var(--rs);padding:12px;background:var(--bg);font-family:'Noto Sans Thai',sans-serif}
+.action-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.abtn{height:36px;padding:0 14px;font-size:12px;font-weight:600;font-family:inherit;border-radius:var(--rs);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all 0.15s;white-space:nowrap;border:none}
+.abtn-navy{background:var(--navy);color:#fff;border:1.5px solid var(--navy)}.abtn-navy:hover{background:var(--navy-dark)}
+.abtn-green{background:var(--ok-bg);color:#166534;border:1.5px solid var(--ok-b)}.abtn-green:hover{background:#16a34a;color:#fff}
+.abtn-x{background:#000;color:#fff}.abtn-x:hover{background:#333}
+.abtn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff}.abtn-ig:hover{opacity:0.88}
+.abtn-navy.copied{background:var(--ok-bg);color:var(--ok-t);border-color:var(--ok-b)}
+.post-img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:var(--rs);margin-bottom:10px;display:none}
+.s-status{font-size:11.5px;margin-top:6px;min-height:16px}
+
+/* SETTINGS - RATES */
+.rate-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--nb);border-radius:var(--rs);margin-bottom:6px}
+.rate-row-info{flex:1;min-width:0}.rate-row-label{font-size:13px;font-weight:600;color:var(--text)}.rate-row-sub{font-size:11px;color:var(--hint)}
+.rate-inp{width:72px!important;min-width:72px!important;max-width:72px!important;height:30px;padding:0 8px;font-size:13px;font-family:inherit;border:1px solid var(--nbs);border-radius:6px;color:var(--text);background:var(--surface);outline:none;text-align:center;flex-shrink:0}
+.rate-inp:focus{border-color:var(--navy)}.rate-unit{font-size:11.5px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.stitle{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--nb)}.stitle:first-child{margin-top:0}
+
+/* SETTINGS - LISTS */
+.list-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--nb);margin-bottom:5px}
+.list-item-main{flex:1;min-width:0}
+.li-name{font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li-sub{font-size:11px;color:var(--hint);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.del-btn{width:26px;height:26px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.del-btn:hover{background:#fee2e2;color:#dc2626}
+.add-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.add-row input,.add-row select{flex:1;min-width:0;height:34px;font-size:13px}
+.add-btn{height:34px;padding:0 12px;font-family:inherit;font-size:12px;font-weight:700;border:none;border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
+.add-btn:hover{background:var(--navy-dark)}
+.sync-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.sync-status{font-size:11.5px;color:var(--muted)}
+.sync-btn{height:30px;padding:0 12px;font-size:11.5px;font-weight:600;font-family:inherit;border:1px solid var(--nbs);border-radius:var(--rs);background:var(--surface);color:var(--navy);cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.sync-btn:hover{background:var(--navy-light)}
+.warn-badge{background:var(--warn-bg);border:1px solid var(--warn-b);color:var(--warn-t);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.dup-warn{font-size:11.5px;color:var(--warn-t);margin-top:4px;display:none}
+.dup-warn.show{display:block}
+
+/* CATALOG TABLE */
+.catalog-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--nb)}
+.catalog-table{border-collapse:collapse;width:100%;min-width:600px;font-size:12px}
+.catalog-table thead tr{background:var(--navy)}
+.catalog-table thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
+.catalog-table tbody tr:nth-child(even){background:#f8f9ff}
+.catalog-table tbody tr:hover{background:var(--navy-light)}
+.catalog-table td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:middle;white-space:nowrap}
+.catalog-table td input{border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--text);width:100%;outline:none;min-width:60px}
+.catalog-table td input:focus{background:var(--navy-light);border-radius:4px}
+.no-data{text-align:center;padding:30px;color:var(--hint);font-size:13px}
+
+/* DATA TABLE */
+.data-toolbar{display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+.search-inp{flex:1;min-width:160px;height:34px;padding:0 10px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);outline:none}
+.search-inp:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.data-table-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--nb)}
+table.dtable{border-collapse:collapse;width:100%;min-width:700px;font-size:12px}
+table.dtable thead tr{background:var(--navy)}
+table.dtable thead th{color:#fff;font-weight:600;padding:8px 10px;text-align:left;white-space:nowrap;font-size:11px;letter-spacing:0.04em}
+table.dtable tbody tr:nth-child(even){background:#f8f9ff}
+table.dtable tbody tr:hover{background:var(--navy-light)}
+table.dtable td{padding:7px 10px;border-bottom:1px solid var(--nb);color:var(--text);vertical-align:top;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table.dtable td a{color:var(--navy);text-decoration:none}
+.td-img img{width:36px;height:36px;object-fit:cover;border-radius:4px}
+.code-block{background:#1e293b;color:#94a3b8;border-radius:var(--rs);padding:12px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.7;white-space:pre;overflow-x:auto;margin-top:8px}
+
+/* ORDER CARDS */
+.order-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.order-card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);overflow:hidden;transition:box-shadow 0.15s}
+.order-card:hover{box-shadow:0 4px 16px rgba(54,65,137,0.12)}
+.oc-img{width:100%;height:130px;object-fit:cover;display:block}
+.oc-img-ph{width:100%;height:130px;background:var(--navy-light);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--hint)}
+.oc-body{padding:12px 14px}
+.oc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:3px}
+.oc-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;flex:1}
+.oc-date{font-size:10px;color:var(--hint);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.oc-anime{font-size:11px;color:var(--navy);font-weight:600;margin-bottom:8px}
+.oc-price-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.oc-price{font-size:19px;font-weight:700;color:var(--navy)}
+.oc-deposit{font-size:11px;color:var(--muted);padding:2px 7px;background:var(--navy-light);border-radius:20px}
+.oc-type-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+.oc-type-sea{background:#eef6ff;color:#185fa5;border:1px solid #b8d9f8}
+.oc-type-air{background:#fff7ee;color:#b85e00;border:1px solid #f8d9b8}
+.oc-type-manual{background:var(--bg);color:var(--muted);border:1px solid var(--nb)}
+.oc-divider{height:1px;background:var(--nb);margin:8px 0}
+.oc-meta{display:flex;flex-wrap:wrap;gap:3px 10px;margin-bottom:4px}
+.oc-meta-item{font-size:11px;color:var(--muted)}.oc-meta-item strong{color:var(--text);font-weight:600}
+.oc-tag{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6}
+.oc-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.oc-btn{height:26px;padding:0 10px;font-size:11px;font-weight:600;font-family:inherit;border-radius:var(--rs);cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-decoration:none;border:1px solid var(--nbs);background:var(--bg);color:var(--muted);transition:all 0.15s}
+.oc-btn:hover{border-color:var(--navy);color:var(--navy);background:var(--navy-light)}
+@media(max-width:520px){.order-grid{grid-template-columns:1fr}}
+
+@media(max-width:520px){
+  .row2,.row3{grid-template-columns:1fr}
+  .price-result.show{grid-template-columns:1fr}
+  .container{padding:10px 10px 0}.card{padding:14px}
+  .tab-btn{padding:0 10px;font-size:11px}
+  .action-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="nav-logo">🌸</div>
+  <div><div class="nav-title">Preorder Calculator</div><div class="nav-sub">คำนวณราคา · สร้างโพสต์ · บันทึกข้อมูล</div></div>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('calc',this)">🧮 คำนวณ/โพสต์</button>
+  <button class="tab-btn" onclick="switchTab('catalog',this)">📚 Title & Product</button>
+  <button class="tab-btn" onclick="switchTab('data',this)">📊 ข้อมูล</button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ ตั้งค่า</button>
+</div>
+
+<!-- ════════════ TAB: CALC ════════════ -->
+<div id="tab-calc" class="tab-content active"><div class="container">
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">1</div><div><div class="card-title">รูปภาพสินค้า</div><div class="card-sub">จำเป็นสำหรับบันทึก Sheet</div></div></div>
+  <div class="mode-toggle">
+    <button class="mt-btn active" id="img-mode-url-btn" onclick="setImgMode('url',this)">🔗 ใส่ลิงก์รูป</button>
+    <button class="mt-btn" id="img-mode-upload-btn" onclick="setImgMode('upload',this)">📤 อัปโหลด → ImgBB</button>
+  </div>
+  <div id="img-mode-url">
+    <label>🔗 Public URL ของรูป<span class="req">*</span></label>
+    <input type="url" id="img-url-inp" placeholder="https://i.ibb.co/..." oninput="onImgUrlChange()">
+    <img class="img-preview" id="img-preview-url" src="" alt="" style="margin-top:8px">
+  </div>
+  <div id="img-mode-upload" style="display:none">
+    <div class="img-upload-area">
+      <input type="file" accept="image/*" id="img-input" onchange="onImgChange(this)">
+      <div class="img-ph" id="img-ph">📷 คลิกหรือลากรูปมาวาง</div>
+      <img class="img-preview" id="img-preview" src="" alt="">
+    </div>
+    <div class="hint" id="img-hint" style="margin-top:5px"></div>
+    <div id="imgbb-status" style="display:none;margin-top:6px;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">2</div><div><div class="card-title">ข้อมูลสินค้า</div></div></div>
+  <div class="field">
+    <label>🔗 ลิงก์สินค้า</label>
+    <input type="url" id="product-url" placeholder="https://...">
+  </div>
+  <div class="field">
+    <label>📦 ชื่อสินค้า<span class="req">*</span></label>
+    <input type="text" id="product-name" placeholder="ชื่อสินค้า (อังกฤษ/ญี่ปุ่น)">
+  </div>
+  <div class="field">
+    <label>🎌 Anime Title</label>
+    <div class="dropdown-wrap">
+      <input type="text" class="dropdown-input" id="anime-search-inp" placeholder="ค้นหาหรือเลือกชื่อเรื่อง..." autocomplete="off" oninput="filterAnimeList()" onfocus="openAnimeDropdown()" onblur="closeAnimeDropdownDelayed()">
+      <div class="dropdown-arrow">▼</div>
+      <div class="dropdown-list" id="anime-dropdown-list"></div>
+    </div>
+    <div class="hint" id="hashtag-hint"></div>
+  </div>
+  <div class="field">
+    <label>🏷️ Hashtag</label>
+    <input type="text" id="hashtags" placeholder="#ตลาดนัด...">
+  </div>
+  <div class="field">
+    <label>✨ Choice / ตัวเลือก (เลือกได้หลายข้อ)</label>
+    <div class="opt-pills" id="choice-pills"></div>
+    <input type="text" id="choice-custom" placeholder="หรือพิมพ์เอง..." style="margin-top:7px">
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">3</div><div><div class="card-title">คำนวณราคา</div><div class="card-sub">เรือ vs แอร์</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>💴 ราคาสินค้า (¥)<span class="req">*</span></label>
+      <input type="number" id="price-jpy" placeholder="เช่น 1650" step="1" min="0" oninput="calcBoth()">
+    </div>
+    <div class="field">
+      <label>⚖️ น้ำหนัก (กก.)</label>
+      <input type="number" id="weight-kg" placeholder="เช่น 0.1" step="0.01" min="0" oninput="calcBoth()">
+    </div>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>💰 กำไร (฿)</label>
+      <input type="number" id="profit-inp" placeholder="30" step="5" min="0" oninput="calcBoth()">
+    </div>
+    <div class="field">
+      <label>💴 เรทเงิน (฿/¥) <span id="rate-from-settings" style="font-size:10px;color:var(--ok-t);font-weight:500"></span></label>
+      <input type="number" id="rate-jpy-inp" placeholder="0.24" step="0.001" min="0.001" oninput="calcBoth()">
+    </div>
+  </div>
+  <div class="price-result" id="price-result">
+    <div class="pr-card pr-sea" id="pr-card-sea" onclick="selectPriceType('sea')">
+      <div class="pr-icon">🚢</div><div class="pr-label">ราคาแนะนำ (เรือ)</div>
+      <div class="pr-val" id="pr-sea">—</div><div class="pr-breakdown" id="pr-sea-bd"></div>
+    </div>
+    <div class="pr-card pr-air" id="pr-card-air" onclick="selectPriceType('air')">
+      <div class="pr-icon">✈️</div><div class="pr-label">ราคาแนะนำ (แอร์)</div>
+      <div class="pr-val" id="pr-air">—</div><div class="pr-breakdown" id="pr-air-bd"></div>
+    </div>
+  </div>
+  <div class="hint" id="price-type-hint" style="margin-top:6px"></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">4</div><div><div class="card-title">ราคาที่ใช้ในโพสต์</div></div></div>
+  <div class="mode-toggle" id="price-mode-toggle">
+    <button class="mt-btn active" onclick="setPriceMode('manual',this)">✏️ ใส่เอง</button>
+    <button class="mt-btn" onclick="setPriceMode('sea',this)">🚢 ราคาเรือ</button>
+    <button class="mt-btn" onclick="setPriceMode('air',this)">✈️ ราคาแอร์</button>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>💰 ราคาเต็ม (฿)<span class="req">*</span></label>
+      <input type="number" id="price-thb" placeholder="เช่น 440" step="10" min="0" oninput="autoDeposit()">
+    </div>
+    <div class="field">
+      <label>📌 มัดจำ (฿) <span style="font-size:10px;color:var(--hint);font-weight:400">อัตโนมัติ 30% ↓10</span></label>
+      <input type="number" id="deposit-thb" placeholder="อัตโนมัติ" step="10" min="0" oninput="calcRemain()">
+    </div>
+  </div>
+  <div class="hint" id="remain-hint"></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">5</div><div><div class="card-title">กำหนดการ</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>🗓️ เดือนสินค้าออก</label>
+      <input type="month" id="release-month" oninput="autoPaymentMonth()">
+      <label class="tba-toggle"><input type="checkbox" id="release-tba" onchange="toggleTba('release')"> TBA (รอประกาศ)</label>
+    </div>
+    <div class="field">
+      <label>💳 เดือนจ่ายส่วนที่เหลือ</label>
+      <input type="month" id="payment-month">
+      <label class="tba-toggle"><input type="checkbox" id="payment-tba" onchange="toggleTba('payment')"> TBA (รอประกาศ)</label>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">6</div><div><div class="card-title">ค่าส่งในญี่ปุ่น (ถ้ามี)</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>💴 ค่าส่งญี่ปุ่น (¥)</label>
+      <input type="number" id="jp-ship-yen" placeholder="0 = ฟรี" step="1" min="0" oninput="calcJpShip()">
+    </div>
+    <div class="field">
+      <label>🇹🇭 คิดเป็นบาท (¥×0.25 ↓10)</label>
+      <input type="text" id="jp-ship-thb" placeholder="อัตโนมัติ" readonly>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">7</div><div><div class="card-title">Shipping Type</div></div></div>
+  <div class="opt-pills" id="ship-pills"></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">8</div><div><div class="card-title">Detail</div></div></div>
+  <div class="opt-pills" id="detail-pills"></div>
+  <div class="detail-jp-row" id="detail-jp-row" style="display:none">
+    <label>✶ หารค่าส่งในญป</label>
+    <input type="number" id="detail-jp-amt" placeholder="0" step="1" min="0">
+    <span style="font-size:13px;color:var(--muted)">฿</span>
+  </div>
+  <textarea id="detail-custom" placeholder="รายละเอียดเพิ่มเติม..." style="margin-top:8px"></textarea>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="step-badge">9</div><div><div class="card-title">Closed</div></div></div>
+  <div class="opt-pills" id="close-pills"></div>
+  <div class="close-date-row" id="close-date-row">
+    <label id="close-date-label" style="margin-bottom:5px">📅 วันที่</label>
+    <input type="date" id="close-date" oninput="updateCloseDateDisplay()">
+    <div class="hint" id="close-date-display" style="margin-top:4px"></div>
+  </div>
+</div>
+
+<div class="val-error" id="val-error"></div>
+<button class="gen-btn" onclick="generatePost()">✨ สร้างโพสต์</button>
+
+<div class="output-section" id="output-section">
+  <div class="output-card">
+    <div class="out-title">📋 โพสต์สำเร็จรูป</div>
+    <img class="post-img-preview" id="post-img" src="" alt="">
+    <div class="post-text" id="post-output"></div>
+    <div class="action-row">
+      <button class="abtn abtn-navy" id="copy-btn" onclick="copyPost()">📋 คัดลอก</button>
+      <button class="abtn abtn-green" onclick="saveToSheet()">📊 บันทึก Sheet</button>
+      <button class="abtn abtn-x" onclick="shareToX()">𝕏 โพสต์บน X</button>
+      <button class="abtn abtn-ig" onclick="shareToIG()">📸 IG/FB</button>
+    </div>
+    <div class="s-status" id="sheet-status-calc" style="color:var(--ok-t)"></div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- ════════════ TAB: CATALOG ════════════ -->
+<div id="tab-catalog" class="tab-content"><div class="container">
+
+<!-- SEARCH BAR (searches both tables) -->
+<div class="card" style="padding:12px 16px">
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <input type="text" class="search-inp" id="catalog-search" placeholder="🔍 ค้นหาจากทั้ง 2 ตาราง — ชื่อเรื่อง, keyword, category..." oninput="filterCatalog()" style="flex:1;min-width:200px">
+    <div class="sync-status" id="catalog-sync-status" style="font-size:11.5px;color:var(--muted);white-space:nowrap">—</div>
+    <button class="sync-btn" onclick="loadCatalog()">🔄 โหลด Sheet</button>
+  </div>
+</div>
+
+<!-- ANIME TITLES TABLE -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">🎌</div><div><div class="card-title">ชื่อเรื่อง & Hashtag</div><div class="card-sub">Anime Title · Search Keyword (ญี่ปุ่น) · Hashtag</div></div></div>
+  <div class="sync-bar">
+    <div class="sync-status" id="titles-sync-status" style="font-size:11.5px;color:var(--muted)">—</div>
+  </div>
+  <div class="catalog-wrap">
+    <table class="catalog-table">
+      <thead><tr><th>Anime Title</th><th>Search Keyword (JP)</th><th>Hashtag</th><th></th></tr></thead>
+      <tbody id="titles-tbody"><tr><td colspan="4" class="no-data">กด "โหลด Sheet" หรือเพิ่มรายการ</td></tr></tbody>
+    </table>
+  </div>
+  <div class="dup-warn" id="titles-dup-warn">⚠️ มีชื่อเรื่องนี้อยู่แล้ว</div>
+  <div style="margin-top:8px">
+    <div class="row3" style="margin-bottom:6px">
+      <div><label style="font-size:11px">Anime Title</label><input type="text" id="add-title-name" placeholder="เช่น Jujutsu Kaisen"></div>
+      <div><label style="font-size:11px">Search Keyword (ญี่ปุ่น)</label><input type="text" id="add-title-kw" placeholder="เช่น 呪術廻戦"></div>
+      <div><label style="font-size:11px">Hashtag</label><input type="text" id="add-title-hash" placeholder="#ตลาดนัดjjk"></div>
+    </div>
+    <button class="add-btn" onclick="addTitle()" style="width:100%">+ เพิ่มชื่อเรื่อง</button>
+  </div>
+</div>
+
+<!-- PRODUCT LINES TABLE -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">📦</div><div><div class="card-title">Weight & Product Line</div><div class="card-sub">Category · Manufacturer · Product Line · Size · Search KW (JP) · Weight · Profit</div></div></div>
+  <div class="sync-bar">
+    <div class="sync-status" id="products-sync-status" style="font-size:11.5px;color:var(--muted)">—</div>
+  </div>
+  <div class="catalog-wrap">
+    <table class="catalog-table">
+      <thead>
+        <tr><th>Category</th><th>Manufacturer</th><th>Product Line</th><th>Size</th><th>Search KW (JP)</th><th>Weight(kg)</th><th>Profit(฿)</th><th></th></tr>
+      </thead>
+      <tbody id="products-tbody"><tr><td colspan="8" class="no-data">กด "โหลด Sheet" หรือเพิ่มรายการ</td></tr></tbody>
+    </table>
+  </div>
+  <div class="dup-warn" id="products-dup-warn">⚠️ มี Product Line นี้ใน Category เดิมอยู่แล้ว</div>
+  <div style="margin-top:8px">
+    <div class="row3" style="margin-bottom:4px">
+      <div><label style="font-size:11px">Category</label><input type="text" id="add-pl-cat" placeholder="เช่น Nendoroid"></div>
+      <div><label style="font-size:11px">Manufacturer</label><input type="text" id="add-pl-mfr" placeholder="เช่น Good Smile"></div>
+      <div><label style="font-size:11px">Product Line</label><input type="text" id="add-pl-line" placeholder="เช่น Standard"></div>
+    </div>
+    <div class="row3">
+      <div><label style="font-size:11px">Size</label><input type="text" id="add-pl-size" placeholder="เช่น 100mm"></div>
+      <div><label style="font-size:11px">Search KW (ญี่ปุ่น)</label><input type="text" id="add-pl-kw" placeholder="เช่น ねんどろいど"></div>
+      <div class="row2" style="gap:6px">
+        <div><label style="font-size:11px">Weight (kg)</label><input type="number" id="add-pl-weight" placeholder="0.2" step="0.01" min="0"></div>
+        <div><label style="font-size:11px">Profit (฿)</label><input type="number" id="add-pl-profit" placeholder="30" step="5" min="0"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addProduct()" style="width:100%;margin-top:6px">+ เพิ่ม Product Line</button>
+  </div>
+</div>
+
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ════════════ TAB: DATA ════════════ -->
+<div id="tab-data" class="tab-content"><div class="container">
+<div class="card">
+  <div class="card-header"><div class="card-icon">📊</div><div><div class="card-title">ข้อมูล Orders</div><div class="card-sub">ดึงจาก Google Sheet tab Orders</div></div></div>
+  <div class="data-toolbar">
+    <input type="text" class="search-inp" id="data-search" placeholder="🔍 ค้นหาชื่อสินค้า, Anime, ราคา..." oninput="filterTable()">
+    <button class="sync-btn" onclick="loadSheetData()">🔄 โหลดข้อมูล</button>
+  </div>
+  <div class="s-status" id="data-status" style="margin-bottom:8px;color:var(--muted)"></div>
+  <div id="order-cards-wrap">
+    <div class="no-data" style="padding:30px;text-align:center;color:var(--hint);font-size:13px">กด "โหลดข้อมูล" เพื่อดึงข้อมูลจาก Sheet</div>
+  </div>
+</div>
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ════════════ TAB: SETTINGS ════════════ -->
+<div id="tab-settings" class="tab-content"><div class="container">
+
+<!-- RATES (localStorage only) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">💴</div><div><div class="card-title">เรทราคา</div><div class="card-sub">เก็บใน browser · ซิงค์แท็บคำนวณอัตโนมัติ</div></div></div>
+  <div class="stitle">ค่าจัดส่ง (฿/กก.)</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">🚢 เรือ</div><div class="rate-row-sub">ช้า · ถูก</div></div><input class="rate-inp" type="number" id="rate-sea" value="130" step="5" min="1" oninput="saveRates()"><div class="rate-unit">฿/กก.</div></div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">✈️ แอร์</div><div class="rate-row-sub">เร็ว · แพง</div></div><input class="rate-inp" type="number" id="rate-air" value="400" step="10" min="1" oninput="saveRates()"><div class="rate-unit">฿/กก.</div></div>
+  <div class="stitle">ค่าเงิน</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">💴 เรทเยน</div><div class="rate-row-sub">Default ในแท็บคำนวณ</div></div><input class="rate-inp" type="number" id="rate-jpy-s" value="0.24" step="0.001" min="0.001" oninput="saveRates()"><div class="rate-unit">฿/¥</div></div>
+  <div class="stitle">กำไร</div>
+  <div class="rate-row"><div class="rate-row-info"><div class="rate-row-label">💰 กำไรพื้นฐาน</div><div class="rate-row-sub">Default</div></div><input class="rate-inp" type="number" id="rate-profit" value="30" step="5" min="0" oninput="saveRates()"><div class="rate-unit">฿</div></div>
+</div>
+
+<!-- CHOICES (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">✨</div><div><div class="card-title">Choice / ตัวเลือก</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="choice-sync-status">—</div></div>
+  <div id="choice-list"></div>
+  <div class="dup-warn" id="choice-dup-warn">⚠️ มีตัวเลือกนี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-choice" placeholder="เช่น — เลือกตัวละคร">
+    <button class="add-btn" onclick="addSettingItem('choice')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- SHIPPING (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">🚢</div><div><div class="card-title">Shipping Type</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="ship-sync-status">—</div></div>
+  <div id="ship-list"></div>
+  <div class="dup-warn" id="ship-dup-warn">⚠️ มี Shipping Type นี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-ship" placeholder="เช่น ✅ รวมค่าส่งมาไทย">
+    <button class="add-btn" onclick="addSettingItem('ship')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- DETAIL (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">📝</div><div><div class="card-title">Detail</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="detail-sync-status">—</div></div>
+  <div id="detail-list"></div>
+  <div class="dup-warn" id="detail-dup-warn">⚠️ มี Detail นี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-detail" placeholder="เช่น ✶ หารค่าส่งในญป ฿">
+    <button class="add-btn" onclick="addSettingItem('detail')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<!-- CLOSED (Sheet sync) -->
+<div class="card">
+  <div class="card-header"><div class="card-icon">🔒</div><div><div class="card-title">Closed</div><div class="card-sub">sync กับ Google Sheet tab Settings</div></div></div>
+  <div class="sync-bar"><div class="sync-status" id="closed-sync-status">—</div></div>
+  <div id="closed-list"></div>
+  <div class="dup-warn" id="closed-dup-warn">⚠️ มีเงื่อนไขนี้อยู่แล้ว</div>
+  <div class="add-row">
+    <input type="text" id="add-closed" placeholder="เช่น ปิดรับตอนกดสินค้าไม่ได้">
+    <button class="add-btn" onclick="addSettingItem('closed')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ════════════ JAVASCRIPT ════════════ -->
+<script>
+// ─── CONFIG ───────────────────────────────
+var SHEET_URL='วาง Google Apps Script URL ที่นี่';
+var IMGBB_KEY='a356d17feea0dd610d21b0e6fc4d96ed';
+
+// ─── STATE ────────────────────────────────
+var R={rateSea:130,rateAir:400,rateJpy:0.24,rateProfit:30}; // rates (localStorage)
+var SD={choices:[],ships:[],details:[],closes:[]}; // settings (Sheet)
+var CAT={titles:[],products:[]}; // catalog (Sheet)
+var priceMode='manual',priceType='',calcCache={};
+var imgMode='url',imgDataUrl=null,imgPublicUrl=null;
+var selectedAnime=null;
+var allSheetRows=[];
 
 // ─── BOOT ─────────────────────────────────
-window.onload=function(){loadSettings();};
+window.onload=function(){
+  loadRates();
+  loadSettings();   // from Sheet
+  loadCatalog();    // from Sheet
+  renderCalcPills();
+};
+
+// ─── TABS ─────────────────────────────────
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='data')loadSheetData();
+}
+
+// ─── RATES (localStorage) ─────────────────
+function loadRates(){
+  try{var r=localStorage.getItem('po-rates');if(r)R=JSON.parse(r);}catch(e){}
+  document.getElementById('rate-sea').value=R.rateSea;
+  document.getElementById('rate-air').value=R.rateAir;
+  document.getElementById('rate-jpy-s').value=R.rateJpy;
+  document.getElementById('rate-profit').value=R.rateProfit;
+  document.getElementById('rate-jpy-inp').value=R.rateJpy;
+  document.getElementById('profit-inp').value=R.rateProfit;
+  document.getElementById('rate-from-settings').textContent='('+R.rateJpy+')';
+}
+function saveRates(){
+  R.rateSea=parseFloat(document.getElementById('rate-sea').value)||130;
+  R.rateAir=parseFloat(document.getElementById('rate-air').value)||400;
+  R.rateJpy=parseFloat(document.getElementById('rate-jpy-s').value)||0.24;
+  R.rateProfit=parseFloat(document.getElementById('rate-profit').value)||30;
+  try{localStorage.setItem('po-rates',JSON.stringify(R));}catch(e){}
+  document.getElementById('rate-jpy-inp').value=R.rateJpy;
+  document.getElementById('profit-inp').value=R.rateProfit;
+  document.getElementById('rate-from-settings').textContent='('+R.rateJpy+')';
+  calcBoth();
+}
+
+// ─── SETTINGS (Sheet) ─────────────────────
+function loadSettings(){
+  if(!sheetOk())return;
+  fetch(SHEET_URL+'?action=getSettings')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows&&d.rows.length>1){
+        SD={choices:[],ships:[],details:[],closes:[]};
+        d.rows.slice(1).forEach(function(row){
+          var type=row[0],val=row[1];
+          if(type==='choice')SD.choices.push(val);
+          else if(type==='ship')SD.ships.push(val);
+          else if(type==='detail')SD.details.push(val);
+          else if(type==='closed')SD.closes.push(val);
+        });
+        renderSettingsLists();
+        renderCalcPills();
+        setSyncStatus(['choice','ship','detail','closed'],'✅ sync แล้ว');
+      } else {
+        // fallback defaults
+        SD={
+          choices:['— เลือกตัวละคร','— เลือกตัวแถม','— เลือกของแถม','— ล็อตลดราคา','— มีของแถม'],
+          ships:['✅ รวมค่าส่งมาไทย','❌ ไม่รวมค่าส่งมาไทย 🚢 "ขีดละ 25฿"'],
+          details:['✶ หารค่าส่งในญป ฿','📩 รายการอื่น ๆ สอบถามราคาเพิ่มเติมทาง DM'],
+          closes:['ปิดรับตอนกดสินค้าไม่ได้','กดทุก ๆ ยอดส่งฟรี','คาดว่าเป็นสินค้าแย่งกด เปิดให้กด (วันที่แน่นอน)','ปิดรับ (วันที่แน่นอน)']
+        };
+        renderSettingsLists();renderCalcPills();
+        setSyncStatus(['choice','ship','detail','closed'],'⚠️ ใช้ค่า default');
+      }
+    })
+    .catch(function(){
+      setSyncStatus(['choice','ship','detail','closed'],'❌ โหลดไม่สำเร็จ');
+    });
+}
+function saveSettingsToSheet(){
+  if(!sheetOk())return;
+  var items=[];
+  SD.choices.forEach(function(v){items.push({type:'choice',value:v});});
+  SD.ships.forEach(function(v){items.push({type:'ship',value:v});});
+  SD.details.forEach(function(v){items.push({type:'detail',value:v});});
+  SD.closes.forEach(function(v){items.push({type:'closed',value:v});});
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveSettings',items:items}),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok')setSyncStatus(['choice','ship','detail','closed'],'✅ บันทึกแล้ว');
+    })
+    .catch(function(){setSyncStatus(['choice','ship','detail','closed'],'❌ บันทึกไม่สำเร็จ');});
+}
+function setSyncStatus(types,msg){
+  types.forEach(function(t){
+    var el=document.getElementById(t+'-sync-status');
+    if(el)el.textContent=msg;
+  });
+}
+
+// ─── SETTINGS RENDER ──────────────────────
+function renderSettingsLists(){
+  renderSettingList('choice-list',SD.choices,'choice');
+  renderSettingList('ship-list',SD.ships,'ship');
+  renderSettingList('detail-list',SD.details,'detail');
+  renderSettingList('closed-list',SD.closes,'closed');
+}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderSettingList(elId,arr,type){
+  var c=document.getElementById(elId);if(!c)return;c.innerHTML='';
+  arr.forEach(function(item,i){
+    var row=document.createElement('div');row.className='list-item';
+    row.innerHTML='<div class="list-item-main"><div class="li-name">'+escH(item)+'</div></div>'
+      +'<button class="del-btn" onclick="delSettingItem(\''+type+'\','+i+')">✕</button>';
+    c.appendChild(row);
+  });
+}
+function addSettingItem(type){
+  var inp=document.getElementById('add-'+type);
+  var v=inp.value.trim();if(!v)return;
+  var arr=type==='choice'?SD.choices:type==='ship'?SD.ships:type==='detail'?SD.details:SD.closes;
+  var dupEl=document.getElementById(type+'-dup-warn');
+  if(arr.map(function(x){return x.toLowerCase();}).includes(v.toLowerCase())){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  arr.push(v);inp.value='';
+  renderSettingsLists();renderCalcPills();
+  saveSettingsToSheet();
+}
+function delSettingItem(type,i){
+  var arr=type==='choice'?SD.choices:type==='ship'?SD.ships:type==='detail'?SD.details:SD.closes;
+  arr.splice(i,1);
+  renderSettingsLists();renderCalcPills();
+  saveSettingsToSheet();
+}
+
+// ─── CALC TAB PILLS ───────────────────────
+var CLOSE_DATE_KEYWORDS=['วันที่แน่นอน'];
+function renderCalcPills(){
+  renderChoicePills();renderShipPills();renderDetailPills();renderClosePills();
+}
+function renderChoicePills(){
+  var c=document.getElementById('choice-pills');if(!c)return;c.innerHTML='';
+  SD.choices.forEach(function(ch){
+    var b=document.createElement('button');b.className='opt-pill';b.textContent=ch;
+    b.onclick=function(){b.classList.toggle('active');};c.appendChild(b);
+  });
+}
+function renderShipPills(){
+  var c=document.getElementById('ship-pills');if(!c)return;c.innerHTML='';
+  SD.ships.forEach(function(sh,i){
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');b.textContent=sh;
+    b.onclick=function(){c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});b.classList.add('active');};
+    c.appendChild(b);
+  });
+}
+function renderDetailPills(){
+  var c=document.getElementById('detail-pills');if(!c)return;c.innerHTML='';
+  SD.details.forEach(function(d){
+    var isJp=d.startsWith('✶ หารค่าส่งในญป');
+    var b=document.createElement('button');b.className='opt-pill';b.textContent=d;
+    b.onclick=function(){
+      b.classList.toggle('active');
+      if(isJp)document.getElementById('detail-jp-row').style.display=b.classList.contains('active')?'flex':'none';
+    };
+    c.appendChild(b);
+  });
+}
+function renderClosePills(){
+  var c=document.getElementById('close-pills');if(!c)return;c.innerHTML='';
+  SD.closes.forEach(function(cl,i){
+    var needsDate=CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');b.textContent=cl;
+    b.onclick=function(){
+      c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
+      b.classList.add('active');
+      var row=document.getElementById('close-date-row');
+      row.style.display=needsDate?'block':'none';
+      if(needsDate)document.getElementById('close-date-label').textContent=cl.includes('เปิดให้กด')?'📅 วันที่เปิดให้กด':'📅 วันที่ปิดรับ';
+    };
+    c.appendChild(b);
+  });
+}
+
+// ─── CATALOG (Sheet) ──────────────────────
+function loadCatalog(){
+  if(!sheetOk())return;
+  document.getElementById('titles-sync-status').textContent='⏳ กำลังโหลด...';
+  document.getElementById('products-sync-status').textContent='⏳ กำลังโหลด...';
+  fetch(SHEET_URL+'?action=getCatalog')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows&&d.rows.length>1){
+        CAT={titles:[],products:[]};
+        var hdrs=d.rows[0];
+        d.rows.slice(1).forEach(function(row){
+          // cols: animeTitle,searchKeyword,hashtag,category,manufacturer,productLine,size,catalogSearchKeyword,weight,profit
+          var obj={};hdrs.forEach(function(h,i){obj[h]=row[i]||'';});
+          if(obj.animeTitle)CAT.titles.push({name:obj.animeTitle,kw:obj.searchKeyword||'',hash:obj.hashtag||''});
+          if(obj.category||obj.productLine)CAT.products.push({cat:obj.category||'',mfr:obj.manufacturer||'',line:obj.productLine||'',size:obj.size||'',kw:obj.catalogSearchKeyword||'',weight:obj.weight||'',profit:obj.profit||''});
+        });
+        renderTitlesTable();renderProductsTable();renderAnimeDropdownList('');
+        document.getElementById('titles-sync-status').textContent='✅ '+CAT.titles.length+' รายการ';
+        document.getElementById('products-sync-status').textContent='✅ '+CAT.products.length+' รายการ';
+        document.getElementById('catalog-sync-status').textContent='✅ sync แล้ว';
+      } else {
+        document.getElementById('titles-sync-status').textContent='⚠️ ไม่มีข้อมูลใน Sheet';
+        document.getElementById('products-sync-status').textContent='⚠️ ไม่มีข้อมูลใน Sheet';
+        document.getElementById('catalog-sync-status').textContent='⚠️ ไม่มีข้อมูล';
+      }
+    })
+    .catch(function(){
+      document.getElementById('titles-sync-status').textContent='❌ โหลดไม่สำเร็จ';
+      document.getElementById('products-sync-status').textContent='❌ โหลดไม่สำเร็จ';
+    });
+}
+function saveCatalogToSheet(){
+  if(!sheetOk())return;
+  var items=[];
+  // merge titles+products into rows (pad shorter array)
+  var maxLen=Math.max(CAT.titles.length,CAT.products.length);
+  for(var i=0;i<maxLen;i++){
+    var t=CAT.titles[i]||{};var p=CAT.products[i]||{};
+    items.push({animeTitle:t.name||'',searchKeyword:t.kw||'',hashtag:t.hash||'',
+      category:p.cat||'',manufacturer:p.mfr||'',productLine:p.line||'',
+      size:p.size||'',catalogSearchKeyword:p.kw||'',weight:p.weight||'',profit:p.profit||''});
+  }
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'saveCatalog',items:items}),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var msg=d.status==='ok'?'✅ บันทึกแล้ว':'❌ บันทึกไม่สำเร็จ';
+      document.getElementById('titles-sync-status').textContent=msg;
+      document.getElementById('products-sync-status').textContent=msg;
+      document.getElementById('catalog-sync-status').textContent=msg;
+    });
+}
+function renderTitlesTable(data){
+  var src=data||CAT.titles;
+  var tb=document.getElementById('titles-tbody');if(!tb)return;
+  if(src.length===0){tb.innerHTML='<tr><td colspan="4" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
+  tb.innerHTML='';
+  src.forEach(function(t,i){
+    var realIdx=CAT.titles.indexOf(t);
+    var tr=document.createElement('tr');
+    ['name','kw','hash'].forEach(function(k){
+      var td=document.createElement('td');
+      var inp=document.createElement('input');inp.type='text';inp.value=t[k]||'';
+      inp.onchange=function(){t[k]=this.value;saveCatalogToSheet();};
+      td.appendChild(inp);tr.appendChild(td);
+    });
+    var tdDel=document.createElement('td');
+    tdDel.innerHTML='<button class="del-btn" onclick="delTitle('+realIdx+')">✕</button>';
+    tr.appendChild(tdDel);tb.appendChild(tr);
+  });
+}
+function filterCatalog(){
+  var q=document.getElementById('catalog-search').value.toLowerCase().trim();
+  if(!q){renderTitlesTable();renderProductsTable();return;}
+  var filteredTitles=CAT.titles.filter(function(t){
+    return (t.name+' '+t.kw+' '+t.hash).toLowerCase().includes(q);
+  });
+  var filteredProducts=CAT.products.filter(function(p){
+    return (p.cat+' '+p.mfr+' '+p.line+' '+p.size+' '+p.kw).toLowerCase().includes(q);
+  });
+  renderTitlesTable(filteredTitles);
+  renderProductsTableData(filteredProducts);
+}
+function renderProductsTable(){renderProductsTableData(CAT.products);}
+function renderProductsTableData(data){
+  var tb=document.getElementById('products-tbody');if(!tb)return;
+  if(!data||data.length===0){tb.innerHTML='<tr><td colspan="8" class="no-data">ยังไม่มีข้อมูล</td></tr>';return;}
+  tb.innerHTML='';
+  data.forEach(function(p,i){
+    var realIdx=CAT.products.indexOf(p);
+    var tr=document.createElement('tr');
+    ['cat','mfr','line','size','kw','weight','profit'].forEach(function(k){
+      var td=document.createElement('td');
+      var inp=document.createElement('input');inp.type='text';inp.value=p[k]||'';
+      inp.onchange=function(){p[k]=this.value;saveCatalogToSheet();};
+      td.appendChild(inp);tr.appendChild(td);
+    });
+    var tdDel=document.createElement('td');
+    tdDel.innerHTML='<button class="del-btn" onclick="delProduct('+realIdx+')">✕</button>';
+    tr.appendChild(tdDel);tb.appendChild(tr);
+  });
+}
+function addTitle(){
+  var name=document.getElementById('add-title-name').value.trim();
+  var kw=document.getElementById('add-title-kw').value.trim();
+  var hash=document.getElementById('add-title-hash').value.trim();
+  if(!name)return;
+  var dupEl=document.getElementById('titles-dup-warn');
+  if(CAT.titles.some(function(t){return t.name.toLowerCase()===name.toLowerCase();})){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  CAT.titles.push({name:name,kw:kw,hash:hash});
+  document.getElementById('add-title-name').value='';
+  document.getElementById('add-title-kw').value='';
+  document.getElementById('add-title-hash').value='';
+  renderTitlesTable();renderAnimeDropdownList('');saveCatalogToSheet();
+  document.getElementById('titles-sync-status').textContent='✅ '+CAT.titles.length+' รายการ';
+  document.getElementById('catalog-sync-status').textContent='⏳ กำลังบันทึก...';
+}
+function delTitle(i){
+  CAT.titles.splice(i,1);
+  renderTitlesTable();renderAnimeDropdownList('');saveCatalogToSheet();
+}
+function addProduct(){
+  var cat=document.getElementById('add-pl-cat').value.trim();
+  var line=document.getElementById('add-pl-line').value.trim();
+  if(!cat&&!line)return;
+  var dupEl=document.getElementById('products-dup-warn');
+  if(CAT.products.some(function(p){return p.cat.toLowerCase()===cat.toLowerCase()&&p.line.toLowerCase()===line.toLowerCase();})){
+    dupEl.classList.add('show');setTimeout(function(){dupEl.classList.remove('show');},3000);return;
+  }
+  dupEl.classList.remove('show');
+  CAT.products.push({
+    cat:cat,mfr:document.getElementById('add-pl-mfr').value.trim(),
+    line:line,size:document.getElementById('add-pl-size').value.trim(),
+    kw:document.getElementById('add-pl-kw').value.trim(),
+    weight:document.getElementById('add-pl-weight').value.trim(),
+    profit:document.getElementById('add-pl-profit').value.trim()
+  });
+  ['cat','mfr','line','size','kw','weight','profit'].forEach(function(k){
+    var el=document.getElementById('add-pl-'+k);if(el)el.value='';
+  });
+  renderProductsTable();saveCatalogToSheet();
+  document.getElementById('products-sync-status').textContent='✅ '+CAT.products.length+' รายการ';
+}
+function delProduct(i){
+  CAT.products.splice(i,1);renderProductsTable();saveCatalogToSheet();
+}
+
+// ─── ANIME DROPDOWN (from CAT.titles) ─────
+function renderAnimeDropdownList(q){
+  var list=document.getElementById('anime-dropdown-list');if(!list)return;list.innerHTML='';
+  var src=q.trim()===''?CAT.titles:CAT.titles.filter(function(t){
+    return t.name.toLowerCase().includes(q.toLowerCase())||t.kw.toLowerCase().includes(q.toLowerCase());
+  });
+  if(src.length===0){list.innerHTML='<div class="dl-empty">ไม่พบชื่อเรื่อง</div>';return;}
+  src.forEach(function(t){
+    var item=document.createElement('div');item.className='dl-item';
+    item.innerHTML='<div>'+escH(t.name)+'</div><div class="dl-item-sub">KW: '+escH(t.kw)+' · '+escH(t.hash)+'</div>';
+    item.onmousedown=function(){selectAnime(t);};
+    list.appendChild(item);
+  });
+}
+function openAnimeDropdown(){renderAnimeDropdownList(document.getElementById('anime-search-inp').value);document.getElementById('anime-dropdown-list').classList.add('open');}
+function closeAnimeDropdownDelayed(){setTimeout(function(){document.getElementById('anime-dropdown-list').classList.remove('open');},200);}
+function filterAnimeList(){
+  var q=document.getElementById('anime-search-inp').value;
+  renderAnimeDropdownList(q);document.getElementById('anime-dropdown-list').classList.add('open');
+  if(selectedAnime&&q!==selectedAnime.name){selectedAnime=null;document.getElementById('hashtags').value='';document.getElementById('hashtag-hint').textContent='';}
+}
+function selectAnime(t){
+  selectedAnime=t;
+  document.getElementById('anime-search-inp').value=t.name;
+  document.getElementById('hashtags').value=t.hash;
+  document.getElementById('hashtag-hint').textContent='✅ '+t.hash;
+  document.getElementById('anime-dropdown-list').classList.remove('open');
+}
+
+// ─── IMAGE ────────────────────────────────
+function setImgMode(mode,btn){
+  imgMode=mode;
+  document.getElementById('img-mode-url-btn').classList.toggle('active',mode==='url');
+  document.getElementById('img-mode-upload-btn').classList.toggle('active',mode==='upload');
+  document.getElementById('img-mode-url').style.display=mode==='url'?'block':'none';
+  document.getElementById('img-mode-upload').style.display=mode==='upload'?'block':'none';
+}
+function onImgUrlChange(){
+  var url=document.getElementById('img-url-inp').value.trim();
+  imgPublicUrl=url||null;imgDataUrl=null;
+  var prev=document.getElementById('img-preview-url');
+  if(url){prev.src=url;prev.style.display='block';}else{prev.src='';prev.style.display='none';}
+}
+function onImgChange(inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0];
+  document.getElementById('img-hint').textContent='✅ '+f.name;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    imgDataUrl=e.target.result;imgPublicUrl=null;
+    var p=document.getElementById('img-preview');p.src=e.target.result;p.style.display='block';
+    document.getElementById('img-ph').style.display='none';
+    uploadToImgBB(f);
+  };
+  reader.readAsDataURL(f);
+}
+function uploadToImgBB(file){
+  var st=document.getElementById('imgbb-status');
+  st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:#fef9c3;color:#854d0e;border:1px solid #fde047';
+  st.textContent='⏳ กำลังอัปโหลดไป ImgBB...';imgPublicUrl=null;
+  var b64=imgDataUrl.split(',')[1];var form=new FormData();
+  form.append('key',IMGBB_KEY);form.append('image',b64);
+  fetch('https://api.imgbb.com/1/upload',{method:'POST',body:form})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){imgPublicUrl=d.data.url;st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--ok-bg);color:var(--ok-t);border:1px solid var(--ok-b)';st.textContent='✅ อัปโหลดสำเร็จ';}
+      else{st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--err-bg);color:var(--err);border:1px solid var(--err-b)';st.textContent='❌ อัปโหลดไม่สำเร็จ';}
+    })
+    .catch(function(){st.style.cssText='display:block;padding:7px 10px;border-radius:var(--rs);font-size:12px;font-weight:600;background:var(--err-bg);color:var(--err);border:1px solid var(--err-b)';st.textContent='❌ เชื่อมต่อ ImgBB ไม่ได้';});
+}
+
+// ─── TBA ──────────────────────────────────
+function toggleTba(field){
+  var chk=document.getElementById(field+'-tba');
+  var inp=document.getElementById(field+'-month');
+  inp.disabled=chk.checked;inp.style.opacity=chk.checked?'0.4':'1';
+  if(chk.checked)inp.value='';
+  if(field==='release')autoPaymentMonth();
+}
+
+// ─── DATES ────────────────────────────────
+function fmtMonth(val,isTba){
+  if(isTba)return'TBA';if(!val)return null;
+  var p=val.split('-');return p[1]+'/'+p[0];
+}
+function autoPaymentMonth(){
+  if(document.getElementById('release-tba').checked)return;
+  var rel=document.getElementById('release-month').value;if(!rel)return;
+  var p=rel.split('-');var y=parseInt(p[0]);var m=parseInt(p[1]);
+  m--;if(m<1){m=12;y--;}
+  var payVal=y+'-'+String(m).padStart(2,'0');
+  var now=new Date();var diff=(y-now.getFullYear())*12+(m-(now.getMonth()+1));
+  if(diff<2){document.getElementById('payment-month').value='';document.getElementById('payment-month').dataset.late='1';}
+  else{document.getElementById('payment-month').value=payVal;document.getElementById('payment-month').dataset.late='';}
+}
+function updateCloseDateDisplay(){
+  var val=document.getElementById('close-date').value;
+  if(!val){document.getElementById('close-date-display').textContent='';return;}
+  var d=new Date(val+'T00:00:00');
+  document.getElementById('close-date-display').textContent='รูปแบบในโพสต์: '+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+}
+function getCloseDateFull(){
+  var val=document.getElementById('close-date').value;if(!val)return null;
+  var d=new Date(val+'T00:00:00');
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+}
+function getCloseDateShort(){
+  var val=document.getElementById('close-date').value;if(!val)return null;
+  var d=new Date(val+'T00:00:00');
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+}
+
+// ─── CALC ─────────────────────────────────
+function roundTen(n){return Math.ceil(n/10)*10;}
+function floorTen(n){return Math.floor(n/10)*10;}
+function calcBoth(){
+  var jpy=parseFloat(document.getElementById('price-jpy').value)||0;
+  var kg=parseFloat(document.getElementById('weight-kg').value)||0;
+  var rate=parseFloat(document.getElementById('rate-jpy-inp').value)||R.rateJpy;
+  var profit=parseFloat(document.getElementById('profit-inp').value)||R.rateProfit;
+  if(jpy<=0&&kg<=0){document.getElementById('price-result').classList.remove('show');return;}
+  var prod=jpy*rate;
+  var sea=roundTen((prod+kg*R.rateSea+profit)*1.07);
+  var air=roundTen((prod+kg*R.rateAir+profit)*1.07);
+  document.getElementById('pr-sea').textContent=sea+'฿';
+  document.getElementById('pr-air').textContent=air+'฿';
+  document.getElementById('pr-sea-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+(kg*R.rateSea).toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  document.getElementById('pr-air-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+(kg*R.rateAir).toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  document.getElementById('price-result').classList.add('show');
+  calcCache={seaTotal:sea,airTotal:air};
+  if(priceMode==='sea'){document.getElementById('price-thb').value=sea;autoDeposit();}
+  if(priceMode==='air'){document.getElementById('price-thb').value=air;autoDeposit();}
+}
+function selectPriceType(type){
+  priceType=type;
+  document.getElementById('pr-card-sea').classList.toggle('selected',type==='sea');
+  document.getElementById('pr-card-air').classList.toggle('selected',type==='air');
+  document.getElementById('price-type-hint').textContent=type==='sea'?'✅ เลือกราคาเรือแล้ว':'✅ เลือกราคาแอร์แล้ว';
+  var btns=document.querySelectorAll('#price-mode-toggle .mt-btn');
+  setPriceMode(type,btns[type==='sea'?1:2]);
+}
+function setPriceMode(mode,btn){
+  priceMode=mode;
+  document.querySelectorAll('#price-mode-toggle .mt-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  if(mode==='sea'||mode==='air')calcBoth();
+}
+function autoDeposit(){
+  var p=parseFloat(document.getElementById('price-thb').value)||0;
+  if(p>0)document.getElementById('deposit-thb').value=floorTen(p*0.3);
+  calcRemain();
+}
+function calcRemain(){
+  var p=parseFloat(document.getElementById('price-thb').value)||0;
+  var d=parseFloat(document.getElementById('deposit-thb').value)||0;
+  document.getElementById('remain-hint').textContent=(p>0&&d>0)?'ยอดที่เหลือ: '+(p-d).toFixed(0)+'฿':'';
+}
+function calcJpShip(){
+  var y=parseFloat(document.getElementById('jp-ship-yen').value)||0;
+  document.getElementById('jp-ship-thb').value=y>0?floorTen(y*0.25)+'฿':'';
+}
+
+// ─── VALIDATE ─────────────────────────────
+function validate(){
+  var errors=[];
+  if(!document.getElementById('product-name').value.trim())errors.push('ชื่อสินค้า');
+  var jpy=document.getElementById('price-jpy').value.trim();
+  if(!jpy||parseFloat(jpy)<=0)errors.push('ราคาสินค้า (¥)');
+  if(!document.getElementById('price-thb').value.trim())errors.push('ราคาเต็ม (฿)');
+  var imgUrl=imgMode==='url'?document.getElementById('img-url-inp').value.trim():imgPublicUrl;
+  if(!imgUrl)errors.push('รูปภาพ (URL หรืออัปโหลด)');
+  var errEl=document.getElementById('val-error');
+  if(errors.length>0){
+    errEl.innerHTML='⚠️ กรุณากรอกข้อมูลที่จำเป็น:<br>• '+errors.join('<br>• ');
+    errEl.classList.add('show');errEl.scrollIntoView({behavior:'smooth',block:'nearest'});return false;
+  }
+  errEl.classList.remove('show');return true;
+}
+
+// ─── GENERATE ─────────────────────────────
+function getAllActivePills(id){return Array.from(document.querySelectorAll('#'+id+' .opt-pill.active')).map(function(p){return p.textContent.trim();});}
+function getActivePill(id){var a=document.querySelector('#'+id+' .opt-pill.active');return a?a.textContent.trim():'';}
+
+function generatePost(){
+  if(!validate())return;
+  var animeTitle=selectedAnime?selectedAnime.name:document.getElementById('anime-search-inp').value.trim();
+  var hashtags=document.getElementById('hashtags').value.trim();
+  var productName=document.getElementById('product-name').value.trim();
+  var choices=getAllActivePills('choice-pills');
+  var cc=document.getElementById('choice-custom').value.trim();
+  if(cc&&!choices.includes(cc))choices.push(cc);
+  var priceTHB=document.getElementById('price-thb').value.trim();
+  var deposit=document.getElementById('deposit-thb').value.trim();
+  var releaseTba=document.getElementById('release-tba').checked;
+  var paymentTba=document.getElementById('payment-tba').checked;
+  var release=fmtMonth(document.getElementById('release-month').value,releaseTba);
+  var payInp=document.getElementById('payment-month');
+  var paymentLate=(!paymentTba)&&payInp.dataset.late==='1';
+  var payment=paymentTba?'TBA':(paymentLate?null:fmtMonth(payInp.value,false));
+  var jpYen=parseFloat(document.getElementById('jp-ship-yen').value)||0;
+  var shipType=getActivePill('ship-pills');
+  var detailActive=getAllActivePills('detail-pills');
+  var detailCustom=document.getElementById('detail-custom').value.trim();
+  var jpAmt=document.getElementById('detail-jp-amt').value.trim();
+  var closeType=getActivePill('close-pills');
+  var closeFull=getCloseDateFull();
+  var closeShort=getCloseDateShort();
+
+  var L=[];
+  var topLine='⋆｡ ꒰ #เชอพรีสตอรี่ ꒱';
+  if(hashtags)topLine+=' '+hashtags;
+  L.push(topLine);L.push('');
+  if(productName)L.push(productName);
+  choices.forEach(function(ch){L.push((ch.startsWith('—')||ch.startsWith('\u2014'))?ch:'— '+ch);});
+  L.push('');
+  if(priceTHB)L.push('ꔛ ราคา '+priceTHB+'฿');
+  if(deposit)L.push('ꔛ มัดจำ '+deposit+'฿');
+
+  if(paymentTba&&releaseTba){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน TBA (เว็บจัดส่งเดือน TBA)');}
+  else if(paymentTba){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน TBA'+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
+  else if(paymentLate){L.push('🔖 จ่ายส่วนที่เหลือตอนสินค้าถึงไทย'+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
+  else if(payment||release){L.push('🔖 จ่ายส่วนที่เหลือภายในเดือน '+(payment||'—')+(release?' (เว็บจัดส่งเดือน '+release+')':''));}
+
+  if(shipType)L.push('꒰ 🚢 ꒱ '+shipType);
+  var jpBaht=jpYen>0?String(floorTen(jpYen*0.25)):'';if(jpAmt)jpBaht=jpAmt;
+  var detailLines=[];
+  detailActive.forEach(function(d){
+    if(d.startsWith('✶ หารค่าส่งในญป'))detailLines.push('✶ หารค่าส่งในญป '+(jpBaht||'—')+'฿');
+    else detailLines.push(d);
+  });
+  if(detailCustom)detailLines.push(detailCustom);
+  if(detailLines.length>0){L.push('');detailLines.forEach(function(d){L.push(d);});}
+
+  L.push('');
+  L.push('🛒 สั่งซื้อ : DM หรือ LINE');
+  L.push("📦 พื้นที่ห่างไกล +20฿ 'แจ้งตอนสั่งซื้อ'");
+
+  if(closeType){
+    L.push('');
+    var cl=closeType;
+    if(CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);})){cl=cl.replace('(วันที่แน่นอน)',closeShort||'');cl=cl.trim();}
+    L.push('彡 '+cl);
+  }
+
+  document.getElementById('post-output').textContent=L.join('\n');
+  var pi=document.getElementById('post-img');
+  var src=imgMode==='url'?(document.getElementById('img-url-inp').value.trim()||null):imgDataUrl;
+  if(src){pi.src=src;pi.style.display='block';}else{pi.style.display='none';}
+  document.getElementById('output-section').classList.add('show');
+  setTimeout(function(){document.getElementById('output-section').scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+
+  var isOpenDate=closeType&&closeType.includes('เปิดให้กด');
+  window._lastPost={
+    action:'saveOrder',
+    productName:productName,animeTitle:animeTitle,hashtags:hashtags,
+    priceJPY:document.getElementById('price-jpy').value||'',
+    weightKg:document.getElementById('weight-kg').value||'',
+    priceSea:calcCache.seaTotal||'',priceAir:calcCache.airTotal||'',
+    priceTHB:priceTHB,priceType:priceMode==='manual'?'manual':(priceMode==='sea'?'เรือ':'แอร์'),
+    deposit:deposit,
+    releaseMonth:releaseTba?'TBA':(release||''),
+    paymentMonth:paymentTba?'TBA':(payment||''),
+    shipping:shipType,closeType:closeType,
+    closeDate:isOpenDate?'':(closeFull||''),
+    openDate:isOpenDate?(closeFull||''):'',
+    productUrl:document.getElementById('product-url').value.trim(),
+    imgUrl:imgPublicUrl||''
+  };
+}
+
+// ─── COPY / SHARE ─────────────────────────
+function copyPost(){
+  navigator.clipboard.writeText(document.getElementById('post-output').textContent).then(function(){
+    var btn=document.getElementById('copy-btn');
+    btn.classList.add('copied');btn.textContent='✅ คัดลอกแล้ว!';
+    setTimeout(function(){btn.classList.remove('copied');btn.textContent='📋 คัดลอก';},2500);
+  });
+}
+function shareToX(){
+  var text=document.getElementById('post-output').textContent;
+  var imgUrl=imgPublicUrl||(imgMode==='url'?document.getElementById('img-url-inp').value.trim():'');
+  navigator.clipboard.writeText(text).then(function(){
+    window.open('https://x.com/compose/post','_blank');
+    setTimeout(function(){
+      var msg='📋 คัดลอกข้อความแล้ว วาง Ctrl+V/Cmd+V ในกล่องโพสต์';
+      if(imgUrl)msg+='\n\n📎 ลิงก์รูป:\n'+imgUrl;
+      alert(msg);
+    },600);
+  }).catch(function(){window.open('https://x.com/compose/post','_blank');});
+}
+function shareToIG(){
+  var text=document.getElementById('post-output').textContent;
+  var imgUrl=imgPublicUrl||(imgMode==='url'?document.getElementById('img-url-inp').value.trim():'');
+  navigator.clipboard.writeText(text).then(function(){
+    var msg='📋 คัดลอกข้อความแล้ว\n\n1. เปิด IG หรือ FB\n2. สร้างโพสต์ใหม่\n3. วางข้อความ (Ctrl+V/Cmd+V)\n4. เพิ่มรูปภาพ';
+    if(imgUrl)msg+='\n\nลิงก์รูป:\n'+imgUrl;
+    alert(msg);window.open('https://www.instagram.com/','_blank');
+  });
+}
+
+// ─── SHEET: ORDERS ────────────────────────
+function sheetOk(){return SHEET_URL&&SHEET_URL.indexOf('http')===0;}
+function saveToSheet(){
+  var st=document.getElementById('sheet-status-calc');
+  if(!sheetOk()){st.style.color='#b45309';st.textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL';return;}
+  if(!window._lastPost){st.textContent='⚠️ กรุณาสร้างโพสต์ก่อน';return;}
+  st.style.color='var(--ok-t)';st.textContent='⏳ กำลังบันทึก...';
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){st.textContent=d.status==='ok'?'✅ บันทึกสำเร็จ!':'❌ Error';})
+    .catch(function(){st.style.color='var(--err)';st.textContent='❌ บันทึกไม่สำเร็จ';});
+}
+function loadSheetData(){
+  if(!sheetOk()){document.getElementById('data-status').textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL';return;}
+  var st=document.getElementById('data-status');st.textContent='⏳ กำลังโหลด...';
+  fetch(SHEET_URL+'?action=getOrders')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='ok'&&d.rows){
+        allSheetRows=d.rows.slice(1);
+        st.textContent='✅ '+allSheetRows.length+' รายการ';
+        renderTable(allSheetRows);
+      } else {st.textContent='❌ ข้อมูลไม่ถูกต้อง';}
+    })
+    .catch(function(){st.textContent='❌ โหลดไม่สำเร็จ';});
+}
+function filterTable(){
+  var q=document.getElementById('data-search').value.toLowerCase();
+  renderOrderCards(allSheetRows.filter(function(row){return row.some(function(v){return String(v).toLowerCase().includes(q);});}));
+}
+function renderTable(rows){renderOrderCards(rows);}
+function renderOrderCards(rows){
+  var wrap=document.getElementById('order-cards-wrap');
+  if(!rows||rows.length===0){
+    wrap.innerHTML='<div class="no-data" style="padding:30px;text-align:center;color:var(--hint);font-size:13px">ไม่พบข้อมูล</div>';
+    return;
+  }
+  wrap.innerHTML='<div class="order-grid" id="order-grid"></div>';
+  var grid=document.getElementById('order-grid');
+  // cols: 0=Date,1=Name,2=Anime,3=Hashtags,4=¥,5=kg,6=Sea,7=Air,8=Post฿,9=PriceType,10=Deposit,11=Release,12=Payment,13=Shipping,14=Close,15=CloseDate,16=OpenDate,17=URL,18=ImgURL
+  rows.forEach(function(row){
+    var date='',name=row[1]||'',anime=row[2]||'',hashtags=row[3]||'';
+    var priceJpy=row[4]||'',sea=row[6]||'',air=row[7]||'',post=row[8]||'',ptype=row[9]||'';
+    var deposit=row[10]||'',release=row[11]||'',payment=row[12]||'';
+    var shipping=row[13]||'',closeType=row[14]||'',closeDate=row[15]||'',openDate=row[16]||'';
+    var url=row[17]||'',imgUrl=row[18]||'';
+    if(row[0]){var d=new Date(row[0]);date=isNaN(d)?String(row[0]):d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();}
+
+    var typeCls=ptype==='เรือ'?'oc-type-sea':ptype==='แอร์'?'oc-type-air':'oc-type-manual';
+    var typeLabel=ptype==='เรือ'?'🚢 เรือ':ptype==='แอร์'?'✈️ แอร์':'manual';
+
+    var card=document.createElement('div');card.className='order-card';
+    var imgHtml=imgUrl
+      ?'<img class="oc-img" src="'+escH(imgUrl)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+       +'<div class="oc-img-ph" style="display:none">📦</div>'
+      :'<div class="oc-img-ph">📦</div>';
+
+    var metaHtml='';
+    if(release)metaHtml+='<div class="oc-meta-item">🗓️ ออก <strong>'+escH(release)+'</strong></div>';
+    if(payment)metaHtml+='<div class="oc-meta-item">💳 จ่าย <strong>'+escH(payment)+'</strong></div>';
+    if(priceJpy)metaHtml+='<div class="oc-meta-item">💴 <strong>'+escH(String(priceJpy))+'¥</strong></div>';
+    if(sea)metaHtml+='<div class="oc-meta-item">🚢 <strong>'+escH(String(sea))+'฿</strong></div>';
+    if(air)metaHtml+='<div class="oc-meta-item">✈️ <strong>'+escH(String(air))+'฿</strong></div>';
+
+    var tagHtml='';
+    if(shipping)tagHtml+='<div>꒰🚢꒱ '+escH(shipping)+'</div>';
+    if(closeType){var cd=closeDate||openDate;tagHtml+='<div>彡 '+escH(closeType)+(cd?' ('+escH(cd)+')':'')+'</div>';}
+
+    var actHtml='';
+    if(url)actHtml+='<a class="oc-btn" href="'+escH(url)+'" target="_blank">🔗 ลิงก์สินค้า</a>';
+    if(imgUrl)actHtml+='<a class="oc-btn" href="'+escH(imgUrl)+'" target="_blank">🖼️ รูป</a>';
+
+    card.innerHTML=imgHtml
+      +'<div class="oc-body">'
+        +'<div class="oc-top"><div class="oc-name">'+escH(name)+'</div><div class="oc-date">'+escH(date)+'</div></div>'
+        +(anime?'<div class="oc-anime">'+escH(anime)+'</div>':'')
+        +'<div class="oc-price-row">'
+          +'<div class="oc-price">'+(post?escH(String(post))+'฿':'—')+'</div>'
+          +(deposit?'<div class="oc-deposit">มัดจำ '+escH(String(deposit))+'฿</div>':'')
+          +(ptype?'<div class="oc-type-pill '+typeCls+'">'+typeLabel+'</div>':'')
+        +'</div>'
+        +(metaHtml?'<div class="oc-divider"></div><div class="oc-meta">'+metaHtml+'</div>':'')
+        +(tagHtml?'<div class="oc-tag">'+tagHtml+'</div>':'')
+        +(actHtml?'<div class="oc-actions">'+actHtml+'</div>':'')
+      +'</div>';
+    grid.appendChild(card);
+  });
+}
 </script>
 </body>
 </html>
