@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌸 Preorder Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#364189;--navy-dark:#242d63;--navy-mid:#4a5699;--navy-light:#eceffe;
+  --nb:rgba(54,65,137,0.18);--nbs:rgba(54,65,137,0.30);
+  --bg:#f5f6fc;--surface:#fff;--text:#1a1f3d;--muted:#5a6299;--hint:#9ca3cc;
+  --ok-bg:#edfaf3;--ok-b:#7ecfa5;--ok-t:#166a3d;
+  --r:12px;--rs:8px;
+}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;font-size:14px}
+
+/* NAV */
+.navbar{background:var(--navy);padding:0 20px;height:58px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(54,65,137,0.3)}
+.nav-logo{font-size:20px}.nav-title{font-size:16px;font-weight:700;color:#fff;flex:1}
+.nav-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px}
+.tab-bar{background:var(--navy-dark);display:flex;padding:0 16px;position:sticky;top:58px;z-index:199;border-bottom:2px solid rgba(255,255,255,0.08)}
+.tab-btn{height:44px;padding:0 18px;font-family:inherit;font-size:13px;font-weight:600;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:rgba(255,255,255,0.85)}.tab-btn.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* LAYOUT */
+.container{max-width:680px;margin:0 auto;padding:16px 16px 0}
+.card{background:var(--surface);border:1px solid var(--nb);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--nb)}
+.step-badge{width:22px;height:22px;background:var(--navy);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-title{font-size:14px;font-weight:700;color:var(--text)}.card-sub{font-size:11px;color:var(--hint);margin-top:1px}
+.field{margin-bottom:13px}.field:last-child{margin-bottom:0}
+label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:0.02em}
+input[type=text],input[type=number],input[type=url],textarea{width:100%;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;transition:border-color 0.15s,box-shadow 0.15s}
+input[type=text],input[type=number],input[type=url]{height:40px}
+textarea{padding:10px 12px;resize:vertical;min-height:68px;line-height:1.6}
+input:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+input::placeholder,textarea::placeholder{color:var(--hint)}
+input[readonly]{background:#f8f9ff;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:11.5px;color:var(--hint);margin-top:5px;line-height:1.5}
+
+/* IMAGE */
+.img-upload-area{border:2px dashed var(--nbs);border-radius:var(--rs);padding:22px 16px;text-align:center;cursor:pointer;transition:all 0.15s;position:relative;background:var(--navy-light)}
+.img-upload-area:hover{border-color:var(--navy);background:#e4e8fd}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-ph{font-size:13px;color:var(--muted);pointer-events:none}
+.img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:var(--rs);display:none;margin-top:10px}
+
+/* SEARCHABLE DROPDOWN */
+.dropdown-wrap{position:relative}
+.dropdown-input{width:100%;height:40px;padding:0 36px 0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.dropdown-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+.dropdown-input::placeholder{color:var(--hint)}
+.dropdown-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--hint);pointer-events:none;font-size:11px}
+.dropdown-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--nbs);border-radius:var(--rs);box-shadow:0 4px 20px rgba(54,65,137,0.15);z-index:300;max-height:220px;overflow-y:auto;display:none}
+.dropdown-list.open{display:block}
+.dl-item{padding:9px 14px;font-size:13px;cursor:pointer;transition:background 0.1s;color:var(--text)}
+.dl-item:hover,.dl-item.active{background:var(--navy-light);color:var(--navy)}
+.dl-item-sub{font-size:11px;color:var(--hint);margin-top:1px}
+.dl-empty{padding:10px 14px;font-size:13px;color:var(--hint)}
+
+/* MODE TOGGLE */
+.mode-toggle{display:flex;border:1.5px solid var(--nbs);border-radius:var(--rs);overflow:hidden;margin-bottom:14px}
+.mt-btn{flex:1;height:36px;font-family:inherit;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;border-right:1px solid var(--nb)}
+.mt-btn:last-child{border-right:none}.mt-btn.active{background:var(--navy);color:#fff}
+
+/* PRICE RESULT */
+.price-result{display:none;margin-top:10px}
+.price-result.show{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pr-card{border-radius:var(--rs);padding:13px 14px;border:1px solid}
+.pr-sea{background:#eef6ff;border-color:#b8d9f8}.pr-air{background:#fff7ee;border-color:#f8d9b8}
+.pr-icon{font-size:16px;margin-bottom:3px}
+.pr-label{font-size:10.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.pr-val{font-size:20px;font-weight:700;letter-spacing:-0.02em}
+.pr-sea .pr-val{color:#185fa5}.pr-air .pr-val{color:#b85e00}
+.pr-breakdown{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6}
+
+/* PILLS */
+.opt-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.opt-pill{padding:6px 13px;border:1.5px solid var(--nbs);border-radius:20px;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);cursor:pointer;transition:all 0.15s;white-space:nowrap;line-height:1.4}
+.opt-pill:hover{border-color:var(--navy-mid);color:var(--navy)}
+.opt-pill.active{border-color:var(--navy);background:var(--navy);color:#fff}
+
+/* JP SHIP AMOUNT INPUT (inline in detail) */
+.detail-jp-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
+.detail-jp-row label{margin:0;white-space:nowrap;font-size:12px}
+.detail-jp-row input{width:100px;height:32px;font-size:13px}
+
+/* DATE MONTH FIELD */
+.month-field{position:relative}
+.month-field input{padding-right:36px}
+.month-field-icon{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--hint);font-size:14px;pointer-events:none}
+input[type=month]{height:40px;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
+input[type=month]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+input[type=date]{height:40px;padding:0 12px;border:1px solid var(--nbs);border-radius:var(--rs);font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);outline:none;width:100%;transition:border-color 0.15s,box-shadow 0.15s;cursor:pointer}
+input[type=date]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(54,65,137,0.12)}
+
+/* CLOSE DATE PICKER */
+.close-date-row{margin-top:10px;display:none;padding:10px 12px;background:var(--navy-light);border-radius:var(--rs);border:1px solid var(--nb)}
+.close-date-row label{margin-bottom:6px}
+
+/* GEN BUTTON */
+.gen-btn{width:100%;height:50px;font-size:15px;font-weight:700;font-family:inherit;background:var(--navy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.15s,transform 0.1s;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:var(--navy-dark)}.gen-btn:active{transform:scale(0.99)}
+
+/* OUTPUT */
+.output-section{display:none}.output-section.show{display:block}
+.output-card{background:var(--surface);border:2px solid var(--navy);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.out-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px}
+.post-text{white-space:pre-wrap;font-size:14px;line-height:1.9;color:var(--text);border:1px solid var(--nb);border-radius:var(--rs);padding:14px;background:var(--bg);font-family:'Noto Sans Thai',sans-serif}
+.action-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.copy-btn{height:38px;padding:0 18px;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid var(--navy);border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s}
+.copy-btn:hover{background:var(--navy-dark)}.copy-btn.copied{background:var(--ok-bg);color:var(--ok-t);border-color:var(--ok-b)}
+.sheet-send-btn{height:38px;padding:0 16px;font-size:13px;font-weight:600;font-family:inherit;border:1.5px solid #16a34a;border-radius:var(--rs);background:var(--ok-bg);color:#166534;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s}
+.sheet-send-btn:hover{background:#16a34a;color:#fff}
+.post-img-preview{width:100%;max-height:200px;object-fit:contain;border-radius:var(--rs);margin-bottom:12px;display:none}
+
+/* SETTINGS */
+.settings-stitle{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.settings-stitle::after{content:'';flex:1;height:1px;background:var(--nb)}
+.settings-stitle:first-child{margin-top:0}
+.list-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--nb);margin-bottom:6px}
+.list-item-main{flex:1;min-width:0}
+.li-name{font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li-sub{font-size:11px;color:var(--hint);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.del-btn{width:28px;height:28px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.del-btn:hover{background:#fee2e2;color:#dc2626}
+.add-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.add-row input{flex:1;min-width:0;height:36px}
+.add-btn{height:36px;padding:0 14px;font-family:inherit;font-size:12px;font-weight:700;border:none;border-radius:var(--rs);background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
+.add-btn:hover{background:var(--navy-dark)}
+.rate-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--nb);border-radius:var(--rs);margin-bottom:8px}
+.rate-item-info{flex:1}.rate-item-label{font-size:13px;font-weight:600;color:var(--text)}.rate-item-sub{font-size:11px;color:var(--hint);margin-top:1px}
+.rate-item-inp{width:80px;height:32px;padding:0 8px;font-size:13px;font-family:inherit;border:1px solid var(--nbs);border-radius:6px;color:var(--text);background:var(--surface);outline:none;text-align:center;flex-shrink:0}
+.rate-item-inp:focus{border-color:var(--navy)}.rate-item-unit{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.sheet-config{background:#f0fdf4;border:1px solid #86efac;border-radius:var(--r);padding:16px;margin-bottom:12px}
+.sheet-title{font-size:12px;font-weight:700;color:#166534;margin-bottom:10px}
+.sheet-inp-row{display:flex;gap:8px}
+.sheet-inp-row input{flex:1;height:38px}
+.save-url-btn{height:38px;padding:0 16px;font-size:12px;font-weight:700;font-family:inherit;border:none;border-radius:var(--rs);background:#16a34a;color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s}
+.save-url-btn:hover{background:#15803d}
+.s-status{font-size:12px;margin-top:6px;min-height:18px}
+.code-block{background:#1e293b;color:#94a3b8;border-radius:var(--rs);padding:12px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.7;white-space:pre;overflow-x:auto;margin-top:8px}
+
+@media(max-width:480px){
+  .row2{grid-template-columns:1fr}
+  .price-result.show{grid-template-columns:1fr}
+  .container{padding:12px 12px 0}.card{padding:16px}
+  .tab-btn{padding:0 12px;font-size:12px}
+  .action-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="nav-logo">🌸</div>
+  <div>
+    <div class="nav-title">Preorder Calculator</div>
+    <div class="nav-sub">คำนวณราคา · สร้างโพสต์ · บันทึกข้อมูล</div>
+  </div>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('calc',this)">🧮 คำนวณ / โพสต์</button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ ตั้งค่า</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB: CALC
+══════════════════════════════════════ -->
+<div id="tab-calc" class="tab-content active">
+<div class="container">
+
+<!-- รูปภาพ -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">1</div><div><div class="card-title">รูปภาพสินค้า</div></div></div>
+
+  <!-- MODE TOGGLE -->
+  <div class="mode-toggle" style="margin-bottom:14px">
+    <button class="mt-btn active" id="img-mode-url-btn" onclick="setImgMode('url',this)">🔗 ใส่ลิงก์รูป</button>
+    <button class="mt-btn" id="img-mode-upload-btn" onclick="setImgMode('upload',this)">📤 อัปโหลดรูป → ImgBB</button>
+  </div>
+
+  <!-- MODE: URL -->
+  <div id="img-mode-url">
+    <div class="field" style="margin-bottom:0">
+      <label>🔗 Public URL ของรูป</label>
+      <input type="url" id="img-url-inp" placeholder="https://i.ibb.co/..." oninput="onImgUrlChange()">
+    </div>
+    <img class="img-preview" id="img-preview-url" src="" alt="" style="margin-top:10px">
+    <div class="hint">วาง URL รูปที่เป็น public อยู่แล้ว เช่น จาก ImgBB, Google Drive, Discord</div>
+  </div>
+
+  <!-- MODE: UPLOAD -->
+  <div id="img-mode-upload" style="display:none">
+    <div class="img-upload-area">
+      <input type="file" accept="image/*" id="img-input" onchange="onImgChange(this)">
+      <div class="img-ph" id="img-ph">📷 คลิกหรือลากรูปมาวาง</div>
+      <img class="img-preview" id="img-preview" src="" alt="">
+    </div>
+    <div class="hint" id="img-hint" style="margin-top:6px"></div>
+    <div id="imgbb-status" style="display:none;margin-top:8px;padding:8px 12px;border-radius:var(--rs);font-size:12px;font-weight:600"></div>
+    <div style="margin-top:6px;font-size:11.5px;color:var(--hint)">รูปจะถูกอัปโหลดไป ImgBB อัตโนมัติ เพื่อได้ public link บันทึกลง Google Sheet</div>
+  </div>
+</div>
+
+<!-- ข้อมูลสินค้า -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">2</div><div><div class="card-title">ข้อมูลสินค้า</div></div></div>
+  <div class="field">
+    <label>🔗 ลิงก์สินค้า</label>
+    <input type="url" id="product-url" placeholder="https://...">
+  </div>
+  <div class="field">
+    <label>📦 ชื่อสินค้า</label>
+    <input type="text" id="product-name" placeholder="ชื่อสินค้า (อังกฤษ/ญี่ปุ่น)">
+  </div>
+
+  <!-- SEARCHABLE DROPDOWN: Anime -->
+  <div class="field">
+    <label>🎌 Anime Title / หมวดหมู่</label>
+    <div class="dropdown-wrap" id="anime-dropdown-wrap">
+      <input type="text" class="dropdown-input" id="anime-search-inp"
+        placeholder="ค้นหาหรือเลือกชื่อเรื่อง..."
+        autocomplete="off"
+        oninput="filterAnimeList()"
+        onfocus="openAnimeDropdown()"
+        onblur="closeAnimeDropdownDelayed()">
+      <div class="dropdown-arrow">▼</div>
+      <div class="dropdown-list" id="anime-dropdown-list"></div>
+    </div>
+    <div class="hint" id="hashtag-hint"></div>
+  </div>
+
+  <div class="field">
+    <label>🏷️ Hashtag (อัตโนมัติเมื่อเลือกชื่อเรื่อง)</label>
+    <input type="text" id="hashtags" placeholder="#ตลาดนัด...">
+  </div>
+
+  <!-- CHOICE: multi-select pills -->
+  <div class="field">
+    <label>✨ Choice / ตัวเลือก (เลือกได้หลายข้อ)</label>
+    <div class="opt-pills" id="choice-pills"></div>
+    <input type="text" id="choice-custom" placeholder="หรือพิมพ์ตัวเลือกเอง..." style="margin-top:8px">
+  </div>
+</div>
+
+<!-- คำนวณราคา -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">3</div><div><div class="card-title">คำนวณราคา</div><div class="card-sub">แสดงทั้งราคาเรือและแอร์</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>💴 ราคาสินค้า (¥)</label>
+      <input type="number" id="price-jpy" placeholder="เช่น 1650" step="1" min="0" oninput="calcBoth()">
+    </div>
+    <div class="field">
+      <label>⚖️ น้ำหนัก (กก.)</label>
+      <input type="number" id="weight-kg" placeholder="เช่น 0.1" step="0.01" min="0" oninput="calcBoth()">
+    </div>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>💰 กำไร (฿)</label>
+      <input type="number" id="profit-inp" placeholder="30" step="5" min="0" oninput="calcBoth()">
+    </div>
+    <div class="field">
+      <label>💴 เรทเงิน (฿/¥) <span id="rate-from-settings" style="font-size:10px;color:var(--ok-t);font-weight:500"></span></label>
+      <input type="number" id="rate-jpy-inp" placeholder="0.24" step="0.001" min="0.001" oninput="calcBoth()">
+    </div>
+  </div>
+  <div class="price-result" id="price-result">
+    <div class="pr-card pr-sea">
+      <div class="pr-icon">🚢</div>
+      <div class="pr-label">ราคาแนะนำ (เรือ)</div>
+      <div class="pr-val" id="pr-sea">—</div>
+      <div class="pr-breakdown" id="pr-sea-bd"></div>
+    </div>
+    <div class="pr-card pr-air">
+      <div class="pr-icon">✈️</div>
+      <div class="pr-label">ราคาแนะนำ (แอร์)</div>
+      <div class="pr-val" id="pr-air">—</div>
+      <div class="pr-breakdown" id="pr-air-bd"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ราคาโพสต์ -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">4</div><div><div class="card-title">ราคาที่ใช้ในโพสต์</div></div></div>
+  <div class="mode-toggle">
+    <button class="mt-btn active" onclick="setPriceMode('manual',this)">✏️ ใส่เอง</button>
+    <button class="mt-btn" onclick="setPriceMode('sea',this)">🚢 ราคาเรือ</button>
+    <button class="mt-btn" onclick="setPriceMode('air',this)">✈️ ราคาแอร์</button>
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>💰 ราคาเต็ม (฿)</label>
+      <input type="number" id="price-thb" placeholder="เช่น 440" step="10" min="0" oninput="autoDeposit()">
+    </div>
+    <div class="field">
+      <label>📌 มัดจำ (฿) <span style="font-size:10px;color:var(--hint);font-weight:400">อัตโนมัติ 30% ↓10</span></label>
+      <input type="number" id="deposit-thb" placeholder="คำนวณอัตโนมัติ" step="10" min="0">
+    </div>
+  </div>
+  <div class="hint" id="remain-hint"></div>
+</div>
+
+<!-- กำหนดการ -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">5</div><div><div class="card-title">กำหนดการ</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>🗓️ เดือนสินค้าออก</label>
+      <input type="month" id="release-month" oninput="autoPaymentMonth()">
+    </div>
+    <div class="field">
+      <label>💳 เดือนจ่ายส่วนที่เหลือ</label>
+      <input type="month" id="payment-month">
+    </div>
+  </div>
+</div>
+
+<!-- ค่าส่งญี่ปุ่น -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">6</div><div><div class="card-title">ค่าส่งในญี่ปุ่น (ถ้ามี)</div></div></div>
+  <div class="row2">
+    <div class="field">
+      <label>💴 ค่าส่งญี่ปุ่น (¥)</label>
+      <input type="number" id="jp-ship-yen" placeholder="0 = ฟรี" step="1" min="0" oninput="calcJpShip()">
+    </div>
+    <div class="field">
+      <label>🇹🇭 คิดเป็นบาท (¥ × 0.25 ↓10)</label>
+      <input type="text" id="jp-ship-thb" placeholder="อัตโนมัติ" readonly>
+    </div>
+  </div>
+</div>
+
+<!-- Shipping Type -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">7</div><div><div class="card-title">Shipping Type</div></div></div>
+  <div class="opt-pills" id="ship-pills"></div>
+</div>
+
+<!-- Detail -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">8</div><div><div class="card-title">Detail</div></div></div>
+  <div class="opt-pills" id="detail-pills"></div>
+  <!-- JP ship amount — shows only when "หารค่าส่งในญป" is selected -->
+  <div class="detail-jp-row" id="detail-jp-row" style="display:none">
+    <label>✶ หารค่าส่งในญป</label>
+    <input type="number" id="detail-jp-amt" placeholder="0" step="1" min="0" style="width:90px;height:32px">
+    <span style="font-size:13px;color:var(--muted)">฿</span>
+  </div>
+  <textarea id="detail-custom" placeholder="รายละเอียดเพิ่มเติม..." style="margin-top:10px"></textarea>
+</div>
+
+<!-- Closed -->
+<div class="card">
+  <div class="card-header"><div class="step-badge">9</div><div><div class="card-title">Closed</div></div></div>
+  <div class="opt-pills" id="close-pills"></div>
+  <div class="close-date-row" id="close-date-row">
+    <label id="close-date-label">📅 วันที่</label>
+    <input type="date" id="close-date" oninput="updateCloseDateDisplay()">
+    <div class="hint" id="close-date-display" style="margin-top:4px"></div>
+  </div>
+</div>
+
+<!-- Generate -->
+<button class="gen-btn" onclick="generatePost()">✨ สร้างโพสต์</button>
+
+<!-- Output -->
+<div class="output-section" id="output-section">
+  <div class="output-card">
+    <div class="out-title">📋 โพสต์สำเร็จรูป</div>
+    <img class="post-img-preview" id="post-img" src="" alt="">
+    <div class="post-text" id="post-output"></div>
+    <div class="action-row">
+      <button class="copy-btn" id="copy-btn" onclick="copyPost()">📋 คัดลอกโพสต์</button>
+      <button class="sheet-send-btn" onclick="saveToSheet()">📊 บันทึกลง Google Sheet</button>
+    </div>
+    <div class="s-status" id="sheet-status-calc" style="color:var(--ok-t)"></div>
+  </div>
+</div>
+
+</div><!-- /container calc -->
+</div><!-- /tab-calc -->
+
+
+<!-- ══════════════════════════════════════
+     TAB: SETTINGS
+══════════════════════════════════════ -->
+<div id="tab-settings" class="tab-content">
+<div class="container">
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">💴</div><div><div class="card-title">เรทราคา</div><div class="card-sub">ปรับค่าแล้วจะซิงค์ไปที่แท็บคำนวณอัตโนมัติ</div></div></div>
+  <div class="settings-stitle">ค่าจัดส่ง (฿/กก.)</div>
+  <div class="rate-item">
+    <div class="rate-item-info"><div class="rate-item-label">🚢 เรือ</div><div class="rate-item-sub">ช้า · ถูก</div></div>
+    <input class="rate-item-inp" type="number" id="rate-sea" value="130" step="5" min="1" oninput="saveSettings()">
+    <div class="rate-item-unit">฿/กก.</div>
+  </div>
+  <div class="rate-item">
+    <div class="rate-item-info"><div class="rate-item-label">✈️ แอร์</div><div class="rate-item-sub">เร็ว · แพง</div></div>
+    <input class="rate-item-inp" type="number" id="rate-air" value="400" step="10" min="1" oninput="saveSettings()">
+    <div class="rate-item-unit">฿/กก.</div>
+  </div>
+  <div class="settings-stitle">ค่าเงิน</div>
+  <div class="rate-item">
+    <div class="rate-item-info"><div class="rate-item-label">💴 เรทเยน</div><div class="rate-item-sub">Default ในแท็บคำนวณ</div></div>
+    <input class="rate-item-inp" type="number" id="rate-jpy-s" value="0.24" step="0.001" min="0.001" oninput="saveSettings()">
+    <div class="rate-item-unit">฿/¥</div>
+  </div>
+  <div class="settings-stitle">กำไร</div>
+  <div class="rate-item">
+    <div class="rate-item-info"><div class="rate-item-label">💰 กำไรพื้นฐาน</div><div class="rate-item-sub">ค่า Default</div></div>
+    <input class="rate-item-inp" type="number" id="rate-profit" value="30" step="5" min="0" oninput="saveSettings()">
+    <div class="rate-item-unit">฿</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">🎌</div><div><div class="card-title">ชื่อเรื่อง & Hashtag</div><div class="card-sub">เลือกชื่อเรื่อง → ขึ้น hashtag อัตโนมัติ</div></div></div>
+  <div id="anime-list"></div>
+  <div class="add-row">
+    <input type="text" id="add-anime-name" placeholder="ชื่อเรื่อง (เช่น Jujutsu Kaisen)">
+    <input type="text" id="add-anime-hash" placeholder="#hashtag ที่ใช้">
+    <button class="add-btn" onclick="addItem('anime')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">✨</div><div><div class="card-title">Choice / ตัวเลือก</div></div></div>
+  <div id="choice-list"></div>
+  <div class="add-row">
+    <input type="text" id="add-choice" placeholder="เช่น — เลือกตัวละคร">
+    <button class="add-btn" onclick="addItem('choice')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">🚢</div><div><div class="card-title">Shipping Type</div></div></div>
+  <div id="ship-list"></div>
+  <div class="add-row">
+    <input type="text" id="add-ship" placeholder="เช่น ✅ รวมค่าส่งมาไทย">
+    <button class="add-btn" onclick="addItem('ship')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">📝</div><div><div class="card-title">Detail</div></div></div>
+  <div id="detail-list"></div>
+  <div class="add-row">
+    <input type="text" id="add-detail" placeholder="เช่น ✶ หารค่าส่งในญป ฿">
+    <button class="add-btn" onclick="addItem('detail')">+ เพิ่ม</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div style="font-size:18px">🔒</div><div><div class="card-title">Closed</div></div></div>
+  <div id="close-list"></div>
+  <div class="add-row">
+    <input type="text" id="add-close" placeholder="เช่น ปิดรับตอนกดสินค้าไม่ได้">
+    <button class="add-btn" onclick="addItem('close')">+ เพิ่ม</button>
+  </div>
+</div>
+
+
+
+<div style="height:20px"></div>
+</div></div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+// ─── CONFIG (แก้ได้ที่นี่) ────────────────
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyL5fzKOmsXY1yD8H1Y33EwjArWo228_ZUaxq26tJiPH5bYIsJLtUIQj-MPIjB1-Trn/exec';
+
+// ─── STATE ───────────────────────────────
+var S = {
+  rateSea:130, rateAir:400, rateJpy:0.24, rateProfit:30,
+  animes:[
+    {name:'Jujutsu Kaisen', hash:'#ตลาดนัดjjk #ตลาดนัดจจส'},
+    {name:'Demon Slayer', hash:'#ตลาดนัดds #ตลาดนัดkny'},
+    {name:'Haikyuu!!', hash:'#ตลาดนัดhq #ตลาดนัดไฮคิว'}
+  ],
+  choices:['— เลือกตัวละคร','— เลือกตัวแถม','— เลือกของแถม','— ล็อตลดราคา','— มีของแถม'],
+  ships:['✅ รวมค่าส่งมาไทย','❌ ไม่รวมค่าส่งมาไทย 🚢 "ขีดละ 25฿"'],
+  details:['✶ หารค่าส่งในญป ฿','📩 รายการอื่น ๆ สอบถามราคาเพิ่มเติมทาง DM'],
+  closes:['ปิดรับตอนกดสินค้าไม่ได้','กดทุก ๆ ยอดส่งฟรี','คาดว่าเป็นสินค้าแย่งกด เปิดให้กด (วันที่แน่นอน)','ปิดรับ (วันที่แน่นอน)']
+};
+var priceMode='manual', calcCache={};
+var selectedAnime=null; // {name, hash}
+
+// ─── INIT ────────────────────────────────
+function loadSettings(){
+  try{var st=localStorage.getItem('po-v3');if(st)S=JSON.parse(st);}catch(e){}
+  syncFormFromS(); renderAll();
+}
+function saveSettings(){
+  S.rateSea=parseFloat(document.getElementById('rate-sea').value)||130;
+  S.rateAir=parseFloat(document.getElementById('rate-air').value)||400;
+  S.rateJpy=parseFloat(document.getElementById('rate-jpy-s').value)||0.24;
+  S.rateProfit=parseFloat(document.getElementById('rate-profit').value)||30;
+  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
+  syncCalcDefaults(); calcBoth();
+}
+function syncFormFromS(){
+  document.getElementById('rate-sea').value=S.rateSea;
+  document.getElementById('rate-air').value=S.rateAir;
+  document.getElementById('rate-jpy-s').value=S.rateJpy;
+  document.getElementById('rate-profit').value=S.rateProfit;
+  syncCalcDefaults();
+}
+function syncCalcDefaults(){
+  document.getElementById('rate-jpy-inp').value=S.rateJpy;
+  document.getElementById('profit-inp').value=S.rateProfit;
+  document.getElementById('rate-from-settings').textContent='(จากตั้งค่า: '+S.rateJpy+')';
+}
+
+// ─── TABS ─────────────────────────────────
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── RENDER ───────────────────────────────
+function renderAll(){
+  renderAnimeList();
+  renderList('choice-list',S.choices,'choice');
+  renderList('ship-list',S.ships,'ship');
+  renderList('detail-list',S.details,'detail');
+  renderList('close-list',S.closes,'close');
+  renderChoicePills();
+  renderShipPills();
+  renderDetailPills();
+  renderClosePills();
+  renderAnimeDropdownList('');
+}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderList(elId,arr,type){
+  var c=document.getElementById(elId);if(!c)return;c.innerHTML='';
+  arr.forEach(function(item,i){
+    var row=document.createElement('div');row.className='list-item';
+    row.innerHTML='<div class="list-item-main"><div class="li-name">'+escH(item)+'</div></div>'
+      +'<button class="del-btn" onclick="delItem(\''+type+'\','+i+')">✕</button>';
+    c.appendChild(row);
+  });
+}
+function renderAnimeList(){
+  var c=document.getElementById('anime-list');if(!c)return;c.innerHTML='';
+  S.animes.forEach(function(a,i){
+    var row=document.createElement('div');row.className='list-item';
+    row.innerHTML='<div class="list-item-main"><div class="li-name">'+escH(a.name)+'</div><div class="li-sub">'+escH(a.hash)+'</div></div>'
+      +'<button class="del-btn" onclick="delItem(\'anime\','+i+')">✕</button>';
+    c.appendChild(row);
+  });
+}
+
+// ─── ANIME SEARCHABLE DROPDOWN ────────────
+function renderAnimeDropdownList(q){
+  var list=document.getElementById('anime-dropdown-list');
+  if(!list)return;
+  list.innerHTML='';
+  var filtered=q.trim()===''?S.animes:S.animes.filter(function(a){
+    return a.name.toLowerCase().includes(q.toLowerCase());
+  });
+  if(filtered.length===0){
+    list.innerHTML='<div class="dl-empty">ไม่พบชื่อเรื่อง</div>';
+    return;
+  }
+  filtered.forEach(function(a){
+    var item=document.createElement('div');item.className='dl-item';
+    item.innerHTML='<div>'+escH(a.name)+'</div><div class="dl-item-sub">'+escH(a.hash)+'</div>';
+    item.onmousedown=function(){selectAnime(a);}; // mousedown fires before blur
+    list.appendChild(item);
+  });
+}
+function openAnimeDropdown(){
+  renderAnimeDropdownList(document.getElementById('anime-search-inp').value);
+  document.getElementById('anime-dropdown-list').classList.add('open');
+}
+function closeAnimeDropdownDelayed(){
+  setTimeout(function(){
+    document.getElementById('anime-dropdown-list').classList.remove('open');
+  },200);
+}
+function filterAnimeList(){
+  var q=document.getElementById('anime-search-inp').value;
+  renderAnimeDropdownList(q);
+  document.getElementById('anime-dropdown-list').classList.add('open');
+  // Clear selection if user is typing freely
+  if(selectedAnime&&q!==selectedAnime.name){
+    selectedAnime=null;
+    document.getElementById('hashtags').value='';
+    document.getElementById('hashtag-hint').textContent='';
+  }
+}
+function selectAnime(a){
+  selectedAnime=a;
+  document.getElementById('anime-search-inp').value=a.name;
+  document.getElementById('hashtags').value=a.hash;
+  document.getElementById('hashtag-hint').textContent='✅ hashtag: '+a.hash;
+  document.getElementById('anime-dropdown-list').classList.remove('open');
+}
+
+// ─── CHOICE PILLS (multi-select) ──────────
+function renderChoicePills(){
+  var c=document.getElementById('choice-pills');if(!c)return;c.innerHTML='';
+  S.choices.forEach(function(ch){
+    var b=document.createElement('button');b.className='opt-pill';
+    b.textContent=ch;
+    b.onclick=function(){b.classList.toggle('active');};
+    c.appendChild(b);
+  });
+}
+
+// ─── SHIP PILLS (single) ──────────────────
+function renderShipPills(){
+  var c=document.getElementById('ship-pills');if(!c)return;c.innerHTML='';
+  S.ships.forEach(function(sh,i){
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');
+    b.textContent=sh;
+    b.onclick=function(){
+      c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
+      b.classList.add('active');
+    };
+    c.appendChild(b);
+  });
+}
+
+// ─── DETAIL PILLS (multi, jp-ship special) ─
+var JP_SHIP_DETAIL='✶ หารค่าส่งในญป ฿';
+function renderDetailPills(){
+  var c=document.getElementById('detail-pills');if(!c)return;c.innerHTML='';
+  S.details.forEach(function(d){
+    var isJp=d===JP_SHIP_DETAIL||d.startsWith('✶ หารค่าส่งในญป');
+    var b=document.createElement('button');b.className='opt-pill';
+    b.textContent=d;
+    b.onclick=function(){
+      b.classList.toggle('active');
+      if(isJp) document.getElementById('detail-jp-row').style.display=b.classList.contains('active')?'flex':'none';
+    };
+    c.appendChild(b);
+  });
+}
+
+// ─── CLOSE PILLS ──────────────────────────
+var CLOSE_DATE_KEYWORDS=['วันที่แน่นอน'];
+function renderClosePills(){
+  var c=document.getElementById('close-pills');if(!c)return;c.innerHTML='';
+  S.closes.forEach(function(cl,i){
+    var needsDate=CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);});
+    var b=document.createElement('button');b.className='opt-pill'+(i===0?' active':'');
+    b.textContent=cl;
+    b.dataset.needsDate=needsDate?'1':'0';
+    b.onclick=function(){
+      c.querySelectorAll('.opt-pill').forEach(function(p){p.classList.remove('active');});
+      b.classList.add('active');
+      var row=document.getElementById('close-date-row');
+      row.style.display=needsDate?'block':'none';
+      if(needsDate){
+        var label=document.getElementById('close-date-label');
+        if(cl.includes('เปิดให้กด'))label.textContent='📅 วันที่เปิดให้กด';
+        else label.textContent='📅 วันที่ปิดรับ';
+      }
+    };
+    c.appendChild(b);
+  });
+}
+function updateCloseDateDisplay(){
+  var val=document.getElementById('close-date').value;
+  if(!val){document.getElementById('close-date-display').textContent='';return;}
+  var d=new Date(val+'T00:00:00');
+  var dd=String(d.getDate()).padStart(2,'0');
+  var mm=String(d.getMonth()+1).padStart(2,'0');
+  var yyyy=d.getFullYear();
+  document.getElementById('close-date-display').textContent='รูปแบบในโพสต์: '+dd+'/'+mm+'/'+yyyy;
+}
+function getCloseDateFormatted(){
+  var val=document.getElementById('close-date').value;
+  if(!val)return null;
+  var d=new Date(val+'T00:00:00');
+  var dd=String(d.getDate()).padStart(2,'0');
+  var mm=String(d.getMonth()+1).padStart(2,'0');
+  var yyyy=d.getFullYear();
+  return dd+'/'+mm+'/'+yyyy;
+}
+
+// ─── MONTH FORMAT ─────────────────────────
+function fmtMonth(val){
+  if(!val)return null;
+  var p=val.split('-');
+  return p[1]+'/'+p[0]; // MM/YYYY
+}
+
+// auto-calculate payment month = release - 1 month
+// if result < 2 months from now → use special text flag
+function autoPaymentMonth(){
+  var rel=document.getElementById('release-month').value;
+  if(!rel)return;
+  var p=rel.split('-');
+  var y=parseInt(p[0]); var m=parseInt(p[1]);
+  // subtract 1 month
+  m-=1; if(m<1){m=12;y-=1;}
+  var payVal=y+'-'+String(m).padStart(2,'0');
+  // check if payVal is < 2 months from now
+  var now=new Date(); var nowY=now.getFullYear(); var nowM=now.getMonth()+1;
+  var diffMonths=(y-nowY)*12+(m-nowM);
+  if(diffMonths<2){
+    // mark with special sentinel so generatePost knows to use the text instead
+    document.getElementById('payment-month').value='';
+    document.getElementById('payment-month').dataset.late='1';
+  } else {
+    document.getElementById('payment-month').value=payVal;
+    document.getElementById('payment-month').dataset.late='';
+  }
+}
+
+// ─── ADD / DEL ────────────────────────────
+function addItem(type){
+  if(type==='anime'){
+    var n=document.getElementById('add-anime-name').value.trim();
+    var h=document.getElementById('add-anime-hash').value.trim();
+    if(!n)return;
+    S.animes.push({name:n,hash:h});
+    document.getElementById('add-anime-name').value='';
+    document.getElementById('add-anime-hash').value='';
+  } else {
+    var inp=document.getElementById('add-'+type);
+    var v=inp.value.trim();if(!v)return;
+    if(type==='choice')S.choices.push(v);
+    else if(type==='ship')S.ships.push(v);
+    else if(type==='detail')S.details.push(v);
+    else if(type==='close')S.closes.push(v);
+    inp.value='';
+  }
+  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
+  renderAll();
+}
+function delItem(type,i){
+  if(type==='anime')S.animes.splice(i,1);
+  else if(type==='choice')S.choices.splice(i,1);
+  else if(type==='ship')S.ships.splice(i,1);
+  else if(type==='detail')S.details.splice(i,1);
+  else if(type==='close')S.closes.splice(i,1);
+  try{localStorage.setItem('po-v3',JSON.stringify(S));}catch(e){}
+  renderAll();
+}
+
+// ─── IMAGE MODE ───────────────────────────
+var IMGBB_KEY='a356d17feea0dd610d21b0e6fc4d96ed';
+var imgDataUrl=null;
+var imgPublicUrl=null;
+var imgMode='url'; // 'url' | 'upload'
+
+function setImgMode(mode, btn){
+  imgMode=mode;
+  document.querySelectorAll('.mt-btn').forEach(function(b){
+    if(b.id&&b.id.startsWith('img-mode'))b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  document.getElementById('img-mode-url').style.display=mode==='url'?'block':'none';
+  document.getElementById('img-mode-upload').style.display=mode==='upload'?'block':'none';
+}
+
+function onImgUrlChange(){
+  var url=document.getElementById('img-url-inp').value.trim();
+  imgPublicUrl=url||null;
+  var prev=document.getElementById('img-preview-url');
+  if(url){prev.src=url;prev.style.display='block';imgDataUrl=null;}
+  else{prev.src='';prev.style.display='none';}
+}
+
+function onImgChange(inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0];
+  document.getElementById('img-hint').textContent='✅ '+f.name;
+  var r=new FileReader();
+  r.onload=function(e){
+    imgDataUrl=e.target.result;
+    imgPublicUrl=null;
+    var p=document.getElementById('img-preview');
+    p.src=e.target.result;p.style.display='block';
+    document.getElementById('img-ph').style.display='none';
+    uploadToImgBB(f);
+  };
+  r.readAsDataURL(f);
+}
+
+function uploadToImgBB(file){
+  var st=document.getElementById('imgbb-status');
+  st.style.display='block';
+  st.style.background='#fef9c3';st.style.color='#854d0e';st.style.border='1px solid #fde047';
+  st.textContent='⏳ กำลังอัปโหลดรูปไป ImgBB...';
+  imgPublicUrl=null;
+  var b64=imgDataUrl.split(',')[1];
+  var form=new FormData();
+  form.append('key',IMGBB_KEY);
+  form.append('image',b64);
+  fetch('https://api.imgbb.com/1/upload',{method:'POST',body:form})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){
+        imgPublicUrl=d.data.url;
+        st.style.background='var(--ok-bg)';st.style.color='var(--ok-t)';st.style.border='1px solid var(--ok-b)';
+        st.textContent='✅ อัปโหลดสำเร็จ · public link พร้อมแล้ว';
+      } else {
+        st.style.background='#fee2e2';st.style.color='#dc2626';st.style.border='1px solid #fca5a5';
+        st.textContent='❌ อัปโหลดไม่สำเร็จ: '+(d.error&&d.error.message||'unknown error');
+      }
+    })
+    .catch(function(){
+      st.style.background='#fee2e2';st.style.color='#dc2626';st.style.border='1px solid #fca5a5';
+      st.textContent='❌ อัปโหลดไม่สำเร็จ · ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
+    });
+}
+
+// ─── CALC ─────────────────────────────────
+function roundTen(n){return Math.ceil(n/10)*10;}
+function floorTen(n){return Math.floor(n/10)*10;}
+
+function calcBoth(){
+  var jpy=parseFloat(document.getElementById('price-jpy').value)||0;
+  var kg=parseFloat(document.getElementById('weight-kg').value)||0;
+  var rate=parseFloat(document.getElementById('rate-jpy-inp').value)||S.rateJpy;
+  var profit=parseFloat(document.getElementById('profit-inp').value)||S.rateProfit;
+  if(jpy<=0&&kg<=0){document.getElementById('price-result').classList.remove('show');return;}
+  var prod=jpy*rate;
+  var seaShip=kg*S.rateSea; var airShip=kg*S.rateAir;
+  var seaTotal=roundTen((prod+seaShip+profit)*1.07);
+  var airTotal=roundTen((prod+airShip+profit)*1.07);
+  document.getElementById('pr-sea').textContent=seaTotal+'฿';
+  document.getElementById('pr-air').textContent=airTotal+'฿';
+  document.getElementById('pr-sea-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+seaShip.toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  document.getElementById('pr-air-bd').textContent='สินค้า '+prod.toFixed(0)+'฿ + ส่ง '+airShip.toFixed(0)+'฿ + กำไร '+profit+'฿ + VAT 7%';
+  document.getElementById('price-result').classList.add('show');
+  calcCache={jpy:jpy,kg:kg,prod:prod.toFixed(0),seaTotal:seaTotal,airTotal:airTotal};
+  if(priceMode==='sea'){document.getElementById('price-thb').value=seaTotal;autoDeposit();}
+  if(priceMode==='air'){document.getElementById('price-thb').value=airTotal;autoDeposit();}
+}
+function setPriceMode(mode,btn){
+  priceMode=mode;
+  document.querySelectorAll('.mt-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  if(mode==='sea'||mode==='air')calcBoth();
+}
+function autoDeposit(){
+  var p=parseFloat(document.getElementById('price-thb').value)||0;
+  if(p>0){
+    var dep=floorTen(p*0.3);
+    document.getElementById('deposit-thb').value=dep;
+  }
+  calcRemain();
+}
+function calcRemain(){
+  var p=parseFloat(document.getElementById('price-thb').value)||0;
+  var d=parseFloat(document.getElementById('deposit-thb').value)||0;
+  document.getElementById('remain-hint').textContent=(p>0&&d>0)?'ยอดที่เหลือ: '+(p-d).toFixed(0)+'฿':'';
+}
+function calcJpShip(){
+  var y=parseFloat(document.getElementById('jp-ship-yen').value)||0;
+  document.getElementById('jp-ship-thb').value=y>0?floorTen(y*0.25)+'฿':'';
+}
+
+// ─── GENERATE POST ────────────────────────
+function getAllActivePills(id){
+  return Array.from(document.querySelectorAll('#'+id+' .opt-pill.active')).map(function(p){return p.textContent.trim();});
+}
+function getActivePill(id){
+  var a=document.querySelector('#'+id+' .opt-pill.active');return a?a.textContent.trim():'';
+}
+
+function generatePost(){
+  // Collect values
+  var animeTitle=selectedAnime?selectedAnime.name:document.getElementById('anime-search-inp').value.trim();
+  var hashtags=document.getElementById('hashtags').value.trim();
+  var productName=document.getElementById('product-name').value.trim();
+  var choices=getAllActivePills('choice-pills');
+  var choiceCustom=document.getElementById('choice-custom').value.trim();
+  if(choiceCustom&&!choices.includes(choiceCustom))choices.push(choiceCustom);
+
+  var priceTHB=document.getElementById('price-thb').value.trim();
+  var deposit=document.getElementById('deposit-thb').value.trim();
+  var release=fmtMonth(document.getElementById('release-month').value);
+  var payInp=document.getElementById('payment-month');
+  var paymentLate=payInp.dataset.late==='1';
+  var payment=paymentLate?null:fmtMonth(payInp.value);
+
+  var jpYen=parseFloat(document.getElementById('jp-ship-yen').value)||0;
+  var shipType=getActivePill('ship-pills');
+
+  var detailActive=getAllActivePills('detail-pills');
+  var detailCustom=document.getElementById('detail-custom').value.trim();
+  var jpAmt=document.getElementById('detail-jp-amt').value.trim();
+
+  var closeType=getActivePill('close-pills');
+  var closeDate=getCloseDateFormatted();
+
+  // ─── BUILD POST ───
+  var L=[];
+
+  // Line 1: ⋆｡ ꒰ #เชอพรีสตอรี่ ꒱ + hashtags
+  var topLine='⋆｡ ꒰ #เชอพรีสตอรี่ ꒱';
+  if(hashtags)topLine+=' '+hashtags;
+  L.push(topLine);
+  L.push('');
+
+  // Product name
+  if(productName)L.push(productName);
+
+  // Choices (each on its own line, "—" prefix always)
+  choices.forEach(function(ch){
+    // ensure "—" at front (settings items already have it, custom might not)
+    if(ch.startsWith('—')||ch.startsWith('\u2014'))L.push(ch);
+    else L.push('— '+ch);
+  });
+
+  L.push('');
+
+  // Price
+  if(priceTHB)L.push('ꔛ ราคา '+priceTHB+'฿');
+  if(deposit)L.push('ꔛ มัดจำ '+deposit+'฿');
+
+  // Payment line
+  if(paymentLate){
+    var relDisp=release||'—';
+    L.push('🔖 จ่ายส่วนที่เหลือตอนสินค้าถึงไทย (เว็บจัดส่งเดือน '+relDisp+')');
+  } else if(payment||release){
+    var pl='🔖 จ่ายส่วนที่เหลือภายในเดือน '+(payment||'—');
+    if(release)pl+=' (เว็บจัดส่งเดือน '+release+')';
+    L.push(pl);
+  }
+
+  // Shipping type
+  if(shipType)L.push('꒰ 🚢 ꒱ '+shipType);
+
+  // Detail items — auto-fill jp ship baht from jp-ship-thb field
+  var jpShipBaht='';
+  if(jpYen>0)jpShipBaht=String(floorTen(jpYen*0.25));
+  if(jpAmt)jpShipBaht=jpAmt; // manual override takes priority
+  var detailLines=[];
+  detailActive.forEach(function(d){
+    var isJp=d.startsWith('✶ หารค่าส่งในญป');
+    if(isJp){
+      var amt=jpShipBaht||'—';
+      detailLines.push('✶ หารค่าส่งในญป '+amt+'฿');
+    } else {
+      detailLines.push(d);
+    }
+  });
+  if(detailCustom)detailLines.push(detailCustom);
+  if(detailLines.length>0){L.push('');detailLines.forEach(function(d){L.push(d);});}
+
+  // Fixed order section
+  L.push('');
+  L.push('🛒 สั่งซื้อ : DM หรือ LINE');
+  L.push("📦 พื้นที่ห่างไกล +20฿ 'แจ้งตอนสั่งซื้อ");
+
+  // Close
+  if(closeType){
+    L.push('');
+    var cl=closeType;
+    if(CLOSE_DATE_KEYWORDS.some(function(k){return cl.includes(k);})){
+      var dateStr='';
+      if(closeDate){
+        // show only dd/mm (drop year)
+        var parts=closeDate.split('/');
+        dateStr=parts[0]+'/'+parts[1];
+      }
+      cl=cl.replace('(วันที่แน่นอน)',dateStr?dateStr:'');
+      cl=cl.trim();
+    }
+    L.push('彡 '+cl);
+  }
+
+  document.getElementById('post-output').textContent=L.join('\n');
+
+  var pi=document.getElementById('post-img');
+  var previewSrc=imgMode==='url'
+    ?(document.getElementById('img-url-inp').value.trim()||null)
+    :imgDataUrl;
+  if(previewSrc){pi.src=previewSrc;pi.style.display='block';}
+  else{pi.style.display='none';}
+
+  var out=document.getElementById('output-section');
+  out.classList.add('show');
+  setTimeout(function(){out.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+
+  window._lastPost={
+    productName:productName,animeTitle:animeTitle,hashtags:hashtags,
+    priceJPY:document.getElementById('price-jpy').value||'',
+    weightKg:document.getElementById('weight-kg').value||'',
+    priceSea:calcCache.seaTotal||'',priceAir:calcCache.airTotal||'',
+    priceTHB:priceTHB,deposit:deposit,
+    releaseMonth:release||'',paymentMonth:payment||'',
+    shipping:shipType,closeType:closeType,
+    productUrl:document.getElementById('product-url').value.trim(),
+    imgUrl:imgPublicUrl||''
+  };
+}
+
+// ─── COPY ─────────────────────────────────
+function copyPost(){
+  var text=document.getElementById('post-output').textContent;
+  var btn=document.getElementById('copy-btn');
+  navigator.clipboard.writeText(text).then(function(){
+    btn.classList.add('copied');btn.textContent='✅ คัดลอกแล้ว!';
+    setTimeout(function(){btn.classList.remove('copied');btn.textContent='📋 คัดลอกโพสต์';},2500);
+  });
+}
+
+// ─── GOOGLE SHEET ─────────────────────────
+function saveToSheet(){
+  var url=SHEET_URL;
+  var st=document.getElementById('sheet-status-calc');
+  if(!url||url.indexOf('http')!==0){st.style.color='#b45309';st.textContent='⚠️ ยังไม่ได้ตั้งค่า SHEET_URL ในโค้ด';return;}
+  if(!window._lastPost){st.textContent='⚠️ กรุณาสร้างโพสต์ก่อน';return;}
+  st.style.color='var(--ok-t)';st.textContent='⏳ กำลังบันทึก...';
+  fetch(url,{method:'POST',body:JSON.stringify(window._lastPost),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(d){st.textContent=d.status==='ok'?'✅ บันทึกสำเร็จ!':'❌ Error: '+JSON.stringify(d);})
+    .catch(function(){st.style.color='#dc2626';st.textContent='❌ บันทึกไม่สำเร็จ · ตรวจสอบ URL';});
+}
+
+// ─── BOOT ─────────────────────────────────
+window.onload=function(){loadSettings();};
+</script>
+</body>
+</html>
